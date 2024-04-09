@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaCartPlus } from 'react-icons/fa';
 import { IoIosStar, IoIosStarOutline } from 'react-icons/io';
+import { useRouter } from 'next/router';
+import { DetailProductData } from '@/pages/api/api';
 
 const DetailProduct = () => {
     const [images, setImages] = useState({
@@ -13,13 +15,33 @@ const DetailProduct = () => {
     const [activeImg, setActiveImage] = useState(images.img1);
     const [rating, setRating] = useState(0);
     const [hover, setHover] = useState(0);
+    const router = useRouter();
+    const { id } = router.query; // Assuming your product ID query param is named 'id'
+
+    const [productDetail, setProductDetail] = useState(null);
+
+    useEffect(() => {
+        if (id) {
+            DetailProductData(id)
+                .then((productDetail) => {
+                    setProductDetail(productDetail);
+                    if (productDetail && productDetail.images && productDetail.images.length > 0) {
+                        setActiveImage('data:image/png;base64,' + productDetail.images[0].imgData); // Set the first image as active
+                    }
+                })
+                .catch((error) => console.error(error.message));
+        }
+    }, [id]);
+
+    // Make sure to handle loading state or check if productDetail is null before trying to render details
+    if (!productDetail) return <div>Loading...</div>;
 
     return (
         <div className="rounded-lg overflow-hidden">
             <div className="max-w-8xl mx-auto px-28 py-10">
                 <div className="flex flex-col lg:flex-row gap-5 shadow-2xl ">
                     <div className="flex flex-col gap-4 lg:w-2/4 p-10 bg-[#FFFFFF] rounded-l-xl">
-                        <h1 className="text-[#000000] text-3xl font-bold">NinjaZX 10R 2022</h1>
+                        <h1 className="text-[#000000] text-3xl font-bold">{productDetail.name}</h1>
                         <h6 className="text-[#D3D3D3] text-xl font-semibold">Bảo hành tại Motorbike</h6>
                         <div className="flex ">
                             {[...Array(5)].map((star, index) => {
@@ -47,24 +69,24 @@ const DetailProduct = () => {
                             <div className="max-w-2xl max-h-96 mt-10 flex justify-center items-center bg-gray-100 rounded-xl overflow-hidden">
                                 <img
                                     src={activeImg}
-                                    alt=""
+                                    alt="Active product image"
                                     className="max-w-full max-h-full object-contain rounded-xl mix-blend-multiply"
                                 />
                             </div>
                         </div>
 
                         <div className="flex justify-center items-center mt-5">
-                            <div className="flex flex-row gap-4 h-24 max-w-xl justify-center p-2 rounded-lg">
-                                {[images.img1, images.img2, images.img3, images.img4].map((imgSrc, index) => (
+                            <div className="flex flex-row gap-4 h-32 max-w-xl justify-center p-2 rounded-lg">
+                                {productDetail.images.map((image, index) => (
                                     <div
                                         key={index}
-                                        className={`flex justify-center w-40 h-24 overflow-hidden rounded-md cursor-pointer mix-blend-multiply ${
-                                            activeImg === imgSrc ? 'shadow-2xl' : ''
+                                        className={`flex justify-center w-40 h-24 overflow-hidden rounded-md cursor-pointer ${
+                                            'data:image/png;base64,' + image.imgData === activeImg ? 'shadow-2xl' : ''
                                         } bg-[#D9D9D9]`}
-                                        onClick={() => setActiveImage(imgSrc)}
+                                        onClick={() => setActiveImage('data:image/png;base64,' + image.imgData)}
                                     >
                                         <img
-                                            src={imgSrc}
+                                            src={'data:image/png;base64,' + image.imgData}
                                             alt={`Hình ảnh ${index + 1}`}
                                             className="object-contain mix-blend-multiply"
                                         />
@@ -77,30 +99,25 @@ const DetailProduct = () => {
                     <div className="flex flex-col gap-6 lg:w-2/4 p-10 bg-[#D9D9D9] rounded-r-lg">
                         <div className="flex items-center bg-[#D9D9D9">
                             {/* New Price */}
-                            <h6 className="text-3xl text-[#FF5E22] font-bold">37.000.000 đ</h6>
+                            <h6 className="text-3xl text-[#FF5E22] font-bold">
+                                {productDetail.newPrice.toLocaleString('vi-VN')} <span>&#8363;</span>
+                            </h6>
                             {/* Old Price */}
-                            <span className="text-xl font-medium text-[#777777] line-through ml-5">65.000.000 VNĐ</span>
+                            <span className="text-xl font-medium text-[#777777] line-through ml-5">
+                                {productDetail.originalPrice.toLocaleString('vi-VN')} <span>&#8363;</span>
+                            </span>
                             {/* Discount */}
                             <div className="ml-5 bg-[#FF5E22] px-3 flex items-center justify-center rounded-md">
-                                <span className="text-md font-medium text-black">-13%</span>
+                                <span className="text-md font-medium text-black">-{productDetail.discount}%</span>
                             </div>
                         </div>
 
+                        {/* Quantity */}
+                        <h6 className="text-2xl font-bold">Số lượng: {productDetail.quantity}</h6>
+
                         <h6 className="text-[#000000] text-2xl font-bold">Mô tả sản phẩm:</h6>
                         {/* Product Description */}
-                        <p className="text-gray-700 text-xl py-10">
-                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
-                            been the industry's standard dummy text ever since the 1500s, when an unknown printer took a
-                            galley of type and scrambled it to make a type specimen book. Lorem Ipsum is simply dummy
-                            text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
-                            dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled
-                            it to make a type specimen book. Lorem Ipsum is simply dummy text of the printing and
-                            typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the
-                            1500s, when an unknown printer took a galley of type and scrambled it to make a type
-                            specimen book. Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                            Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an
-                            unknown printer took a galley of type and scrambled it to make a type specimen book.
-                        </p>
+                        <p className="text-gray-700 text-xl py-10">{productDetail.describe}</p>
 
                         {/* Add to Cart Button */}
                         <div className="flex justify-center mt-10">

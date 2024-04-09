@@ -99,13 +99,6 @@ export const MotorbikeData = async () => {
         const data = response.data;
         const products = data.productSomeReponseDtos;
 
-        // Check Are There Any Products
-        // products.forEach((product) => {
-        //     console.log(product.name);
-        //     console.log(product.newPrice);
-        //     console.log(product.originalPrice);
-        //     console.log(product.images[0].imgData);
-        // });
         return products;
     } catch (error) {
         console.error('Error:', error);
@@ -124,16 +117,18 @@ export const AccessoriesData = async () => {
         const data = response.data;
         const products = data.productSomeReponseDtos;
 
-        // Check Are There Any Products
-        // products.forEach((product) => {
-        //     console.log(product.name);
-        //     console.log(product.newPrice);
-        //     console.log(product.originalPrice);
-        //     console.log(product.images[0].imgData);
-        // });
         return products;
     } catch (error) {
         console.error('Error:', error);
         return [];
+    }
+};
+
+export const DetailProductData = async (id) => {
+    try {
+        const response = await axios.get(`http://192.168.199.241:8080/product/getDetail/${id}`);
+        return response.data;
+    } catch (error) {
+        throw new Error('Failed to fetch product details: ' + error.message);
     }
 };

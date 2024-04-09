@@ -5,15 +5,13 @@ const ProductCard = ({ product }) => {
     return (
         <div className="relative flex justify-center m-10">
             <div className=" w-80 bg-[#f9f9f9] rounded-lg shadow-md relative">
-                {/* <a href="#"> */}
-                {product && product.images && (
+                {product && product.images && product.images.length > 0 && (
                     <img
                         className="p-5 rounded-t-lg mix-blend-multiply w-full h-48 object-contain"
                         src={'data:image/png;base64,' + product.images[0].imgData}
                         alt={product.name}
                     />
                 )}
-                {/* </a> */}
                 {product.discount && (
                     <div className="absolute top-0 right-0 bg-[#FF5E22] text-black font-medium px-2 rounded">
                         -{product.discount}%
@@ -23,9 +21,7 @@ const ProductCard = ({ product }) => {
                 <div className="px-7 pb-5 text-center">
                     {/* Products Name */}
                     {product && product.name && (
-                        // <a href="#">
                         <h5 className="text-xl font-bold tracking-tight text-black">{product.name}</h5>
-                        // </a>
                     )}
                     {/* Price */}
                     {product && product.originalPrice && (
