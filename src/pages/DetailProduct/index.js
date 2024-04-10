@@ -84,30 +84,30 @@ const DetailProduct = () => {
                                 </h3>
                             </div>
                         </div>
-                        <div className="flex flex-col justify-center items-center max-w-2xl max-h-96">
-                            <div className="max-w-2xl max-h-96 mt-10 flex justify-center items-center bg-gray-100 rounded-xl overflow-hidden">
+                        <div className="flex flex-col justify-center items-center">
+                            <div className="mt-10 flex justify-center items-center bg-gray-100 rounded-xl overflow-hidden">
                                 <img
                                     src={activeImg}
                                     alt="Active product image"
-                                    className="max-w-full max-h-full object-contain rounded-xl mix-blend-multiply"
+                                    className="max-w-full h-64 object-contain rounded-xl mix-blend-multiply"
                                 />
                             </div>
                         </div>
 
                         <div className="flex justify-center items-center mt-5">
-                            <div className="flex flex-row gap-4 h-32 max-w-xl justify-center p-2 rounded-lg">
+                            <div className="flex flex-row gap-4 h-32 max-w-xl justify-center p-5 rounded-lg overflow-hidden">
                                 {productDetail.images.map((image, index) => (
                                     <div
                                         key={index}
                                         className={`flex justify-center w-40 h-24 overflow-hidden rounded-md cursor-pointer ${
-                                            'data:image/png;base64,' + image.imgData === activeImg ? 'shadow-2xl' : ''
-                                        } bg-[#D9D9D9]`}
+                                            'data:image/png;base64,' + image.imgData === activeImg ? 'shadow-xl' : ''
+                                        } bg-[#D9D9D9] m-2`} // Thêm một chút margin xung quanh để shadow có chỗ hiển thị
                                         onClick={() => setActiveImage('data:image/png;base64,' + image.imgData)}
                                     >
                                         <img
                                             src={'data:image/png;base64,' + image.imgData}
                                             alt={`Hình ảnh ${index + 1}`}
-                                            className="object-contain mix-blend-multiply"
+                                            className="object-contain mix-blend-multiply bg-cover"
                                         />
                                     </div>
                                 ))}
