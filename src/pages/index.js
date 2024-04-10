@@ -40,11 +40,11 @@ export default function Home() {
                 <div>
                     <div className="text-center align-middle p-5">
                         <div className="flex justify-between items-center mx-auto">
-                            <h1 className="font-bold text-3xl text-[#FF5E22] rounded-lg transition-colors">
+                            <h1 className="font-bold text-3xl text-black rounded-lg transition-colors">
                                 Top những xe máy bán chạy nhất
                             </h1>
                             <Link href="/ProductPage">
-                                <button className="text-blue-500 text-lg font-semibold rounded-lg">Xem thêm</button>
+                                <button className="text-black text-lg font-semibold rounded-lg">Xem thêm</button>
                             </Link>
                         </div>
                     </div>
@@ -52,9 +52,7 @@ export default function Home() {
                         <div className="w-full h-auto bg-white shadow-2xl rounded-lg p-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 justify-items-center">
                             {motorbikeProducts &&
                                 motorbikeProducts.map((product, index) => (
-                                    <Link key={index} href={`/DetailProduct?id=${product.id}`}>
-                                        <ProductCard product={product} />
-                                    </Link>
+                                    <ProductCard key={index} product={product} />
                                 ))}
                         </div>
                     </div>
@@ -64,21 +62,19 @@ export default function Home() {
                 <div>
                     <div className="text-center align-middle p-5">
                         <div className="flex justify-between items-center mx-auto">
-                            <h1 className="font-bold text-3xl text-[#FF5E22] rounded-lg transition-colors">
+                            <h1 className="font-bold text-3xl text-black rounded-lg transition-colors">
                                 Top những phụ tùng bán chạy nhất
                             </h1>
                             <Link href="/ProductPage">
-                                <button className="text-blue-500 text-lg font-semibold rounded-lg">Xem thêm</button>
+                                <button className="text-black text-lg font-semibold rounded-lg">Xem thêm</button>
                             </Link>
                         </div>
                     </div>
-                    <div className="p-5 pb-10">
+                    <div className="p-5 mb-10">
                         <div className="w-full h-auto bg-white shadow-2xl rounded-lg p-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 justify-items-center">
                             {accessoriesProducts &&
                                 accessoriesProducts.map((product, index) => (
-                                    <Link key={index} href={`/DetailProduct?id=${product.id}`}>
-                                        <ProductCard product={product} />
-                                    </Link>
+                                    <ProductCard key={index} product={product} />
                                 ))}
                         </div>
                     </div>
