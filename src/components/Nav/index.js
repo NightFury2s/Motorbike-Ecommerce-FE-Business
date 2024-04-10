@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { FaShoppingCart, FaUserCircle } from 'react-icons/fa';
 import { AuthContext } from '@/context/AuthContext';
 import { useContext, useEffect, useState, useRef } from 'react';
+import { FaCaretDown, FaCaretRight } from 'react-icons/fa';
 
 export default function Nav({ setShowLoginModal, setShowRegisterModal }) {
     const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
@@ -97,13 +98,31 @@ export default function Nav({ setShowLoginModal, setShowRegisterModal }) {
                                     {/* Login */}
                                     {isAuthenticated ? (
                                         // Render FaUserCircle button if authenticated
-                                        <div ref={dropdownRef} className="relative">
+                                        <div ref={dropdownRef} className="relative flex items-center">
                                             <FaUserCircle
-                                                className="cursor-pointer text-4xl text-[#949393]"
+                                                className="cursor-pointer text-4xl text-[#FFFFFF]"
                                                 onClick={() => setShowDropdown(!showDropdown)}
                                             />
+                                            <span
+                                                className="ml-2 font-bold text-white cursor-pointer"
+                                                onClick={() => setShowDropdown(!showDropdown)}
+                                            >
+                                                {userInfo?.username}
+                                            </span>
+                                            {showDropdown ? (
+                                                <FaCaretDown
+                                                    className="ml-2 text-xl text-white cursor-pointer"
+                                                    onClick={() => setShowDropdown(!showDropdown)}
+                                                />
+                                            ) : (
+                                                <FaCaretRight
+                                                    className="ml-2 text-xl text-white cursor-pointer"
+                                                    onClick={() => setShowDropdown(!showDropdown)}
+                                                />
+                                            )}
+
                                             {showDropdown && (
-                                                <div className="absolute right-0 mt-4 w-48 py-5 bg-white shadow-xl rounded-md overflow-hidden">
+                                                <div className="absolute right-0 mt-72 w-48 py-5 bg-white shadow-xl rounded-md overflow-hidden">
                                                     <div className="flex flex-col justify-center items-center p-2">
                                                         <FaUserCircle className="text-4xl text-[#949393]" />
                                                         <h3 className="font-bold text-xl text-black mt-3">
@@ -140,7 +159,7 @@ export default function Nav({ setShowLoginModal, setShowRegisterModal }) {
                                                 Đăng nhập
                                             </button>
                                             <button
-                                                className="hidden px-4 py-3 font-sans text-xs font-bold text-center text-white uppercase align-middle transition-all rounded-lg select-none hover:bg-gray-900/10 active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none lg:inline-block"
+                                                className="hidden px-4 py-3 font-sans text-xs font-bold text-center text-white bg-black uppercase align-middle transition-all rounded-lg select-none hover:bg-black/30 active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none lg:inline-block"
                                                 onClick={() => setShowRegisterModal(true)}
                                             >
                                                 Đăng ký

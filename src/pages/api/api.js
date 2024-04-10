@@ -11,14 +11,8 @@ export const auth_login = async (username, password) => {
         if (response.status === 200) {
             localStorage.setItem('token', data.token);
             localStorage.setItem('userInfo', JSON.stringify(data.userDTO));
-
-            // console.log(userInfo.id);
-            // console.log(userInfo.fullName);
-            // console.log(userInfo.username);
-            // console.log(userInfo.email);
-            // console.log(userInfo.phoneNumber);
-            // console.log(userInfo.address);
-            // console.log(userInfo.role);
+            // Reload page after login success
+            window.location.reload();
 
             return { success: true, data };
         } else {
@@ -124,6 +118,7 @@ export const AccessoriesData = async () => {
     }
 };
 
+// Detail Product API
 export const DetailProductData = async (id) => {
     try {
         const response = await axios.get(`http://192.168.199.241:8080/product/getDetail/${id}`);
