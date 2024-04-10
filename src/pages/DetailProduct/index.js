@@ -139,13 +139,13 @@ const DetailProduct = () => {
                         <p className="text-gray-700 text-xl py-10">{productDetail.describe}</p>
 
                         {/* Add to Cart Button */}
-                        <div className="flex justify-center mt-10">
+                        <div className="flex justify-center mt-10 space-x-4">
                             {/* Add to Cart Button */}
-                            <button className="flex items-center justify-center bg-[#FF9700] text-white text-2xl rounded-l-lg px-3 py-3 text-center w-1/3 hover:shadow-lg transition-shadow duration-200 ease-in-out">
+                            <button className="flex items-center justify-center bg-[#2B92E4] text-white text-2xl rounded-lg px-3 py-3 text-center w-1/3 hover:shadow-lg transition-shadow duration-200 ease-in-out">
                                 <FaCartPlus className="text-white mr-2" />
                             </button>
                             {/* Buy now Button */}
-                            <button className="bg-[#FF5E22] text-white font-bold rounded-r-lg text-[15px] px-5 py-1.5 text-center w-2/3 hover:shadow-lg transition-shadow duration-200 ease-in-out">
+                            <button className="bg-[#2B92E4] text-white font-bold rounded-lg text-[15px] px-5 py-1.5 text-center w-2/3 hover:shadow-lg transition-shadow duration-200 ease-in-out">
                                 Mua ngay
                             </button>
                         </div>
