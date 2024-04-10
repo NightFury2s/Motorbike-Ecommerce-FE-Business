@@ -5,16 +5,7 @@ import { useRouter } from 'next/router';
 import { DetailProductData, ReviewsData } from '@/pages/api/api';
 
 const DetailProduct = () => {
-    const [images, setImages] = useState({
-        img1: '/assets/images/NinjaZX_10R_2022.png',
-        img2: 'assets/images/Honda_CBR_650.png',
-        img3: '/assets/images/BWM_s1000r.png',
-        img4: '/assets/images/BMW_S1000RR_2020.jpg',
-    });
-
-    const [activeImg, setActiveImage] = useState(images.img1);
-    const [rating, setRating] = useState(0);
-    const [hover, setHover] = useState(0);
+    const [activeImg, setActiveImage] = useState('');
     const router = useRouter();
     const { id } = router.query;
     const [reviewData, setReviewData] = useState({
@@ -26,31 +17,31 @@ const DetailProduct = () => {
     const [productDetail, setProductDetail] = useState(null);
 
     useEffect(() => {
+        // Fetch product details with id
         if (id) {
             DetailProductData(id)
                 .then((productDetail) => {
                     setProductDetail(productDetail);
                     if (productDetail && productDetail.images && productDetail.images.length > 0) {
-                        setActiveImage('data:image/png;base64,' + productDetail.images[0].imgData); // Set the first image as active
+                        setActiveImage('data:image/png;base64,' + productDetail.images[0].imgData);
                     }
                 })
                 .catch((error) => console.error(error.message));
-        }
 
-        const fetchReviews = async () => {
-            try {
-                const response = await fetch('http://192.168.199.241:8080/reviews/get/30');
-                const data = await response.json();
-                setReviewData({
-                    ...data,
-                    averageRating: isNaN(parseFloat(data.averageRating)) ? 0 : parseFloat(data.averageRating),
+            // Fetch reviews for the product
+            ReviewsData(id)
+                .then((data) => {
+                    if (data) {
+                        setReviewData({
+                            ...data,
+                            averageRating: isNaN(parseFloat(data.averageRating)) ? 0 : parseFloat(data.averageRating),
+                        });
+                    }
+                })
+                .catch((error) => {
+                    console.error('Failed to fetch reviews:', error);
                 });
-            } catch (error) {
-                console.error('Failed to fetch reviews:', error);
-            }
-        };
-
-        fetchReviews();
+        }
     }, [id]);
 
     // Make sure to handle loading state or check if productDetail is null before trying to render details
@@ -93,7 +84,7 @@ const DetailProduct = () => {
                                 </h3>
                             </div>
                         </div>
-                        <div className="flex flex-col justify-center items-center">
+                        <div className="flex flex-col justify-center items-center max-w-2xl max-h-96">
                             <div className="max-w-2xl max-h-96 mt-10 flex justify-center items-center bg-gray-100 rounded-xl overflow-hidden">
                                 <img
                                     src={activeImg}

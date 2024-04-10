@@ -121,17 +121,17 @@ export const AccessoriesData = async () => {
 // Detail Product API
 export const DetailProductData = async (id) => {
     try {
-        const response = await axios.get(`http://192.168.199.241:8080/product/getDetail/${id}`);
+        const response = await axios.get(`/product/getDetail/${id}`);
         return response.data;
     } catch (error) {
         throw new Error('Failed to fetch product details: ' + error.message);
     }
 };
 
-// Get Reviews Data
-export const ReviewsData = async () => {
+// Get Reviews Data by Product ID
+export const ReviewsData = async (productId) => {
     try {
-        const response = await axios.get('http://192.168.199.241:8080/reviews/get/30');
+        const response = await axios.get(`/reviews/get/${productId}`);
         return response.data;
     } catch (error) {
         console.error('Error fetching reviews:', error);
