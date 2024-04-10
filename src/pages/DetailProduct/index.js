@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { FaCartPlus } from 'react-icons/fa';
 import { IoIosStar, IoIosStarOutline } from 'react-icons/io';
 import { useRouter } from 'next/router';
-import { DetailProductData } from '@/pages/api/api';
+import { DetailProductData, ReviewsData } from '@/pages/api/api';
 
 const DetailProduct = () => {
     const [images, setImages] = useState({
@@ -16,7 +16,12 @@ const DetailProduct = () => {
     const [rating, setRating] = useState(0);
     const [hover, setHover] = useState(0);
     const router = useRouter();
-    const { id } = router.query; // Assuming your product ID query param is named 'id'
+    const { id } = router.query;
+    const [reviewData, setReviewData] = useState({
+        comments: [],
+        quantityReviews: 0,
+        averageRating: 0,
+    });
 
     const [productDetail, setProductDetail] = useState(null);
 
@@ -31,6 +36,21 @@ const DetailProduct = () => {
                 })
                 .catch((error) => console.error(error.message));
         }
+
+        const fetchReviews = async () => {
+            try {
+                const response = await fetch('http://192.168.199.241:8080/reviews/get/30');
+                const data = await response.json();
+                setReviewData({
+                    ...data,
+                    averageRating: isNaN(parseFloat(data.averageRating)) ? 0 : parseFloat(data.averageRating),
+                });
+            } catch (error) {
+                console.error('Failed to fetch reviews:', error);
+            }
+        };
+
+        fetchReviews();
     }, [id]);
 
     // Make sure to handle loading state or check if productDetail is null before trying to render details
@@ -50,19 +70,27 @@ const DetailProduct = () => {
                                     <button
                                         type="button"
                                         key={index}
-                                        className={index <= (hover || rating) ? 'text-yellow-500' : 'text-gray-400'}
-                                        onClick={() => setRating(index)}
-                                        onMouseEnter={() => setHover(index)}
-                                        onMouseLeave={() => setHover(rating)}
+                                        className={
+                                            index <= Math.round(reviewData.averageRating)
+                                                ? 'text-yellow-500'
+                                                : 'text-gray-400'
+                                        }
+                                        style={{ cursor: 'default' }}
                                     >
                                         <div className="text-2xl">
-                                            {index <= rating ? <IoIosStar /> : <IoIosStarOutline />}
+                                            {index <= Math.round(reviewData.averageRating) ? (
+                                                <IoIosStar />
+                                            ) : (
+                                                <IoIosStarOutline />
+                                            )}
                                         </div>
                                     </button>
                                 );
                             })}
                             <div>
-                                <h3 className="text-xl font-bold text-[#777777] ml-4">4 (4 đánh giá)</h3>
+                                <h3 className="text-xl font-bold text-[#777777] ml-4">
+                                    {reviewData.averageRating} ({reviewData.quantityReviews} đánh giá)
+                                </h3>
                             </div>
                         </div>
                         <div className="flex flex-col justify-center items-center">

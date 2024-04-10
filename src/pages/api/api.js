@@ -127,3 +127,14 @@ export const DetailProductData = async (id) => {
         throw new Error('Failed to fetch product details: ' + error.message);
     }
 };
+
+// Get Reviews Data
+export const ReviewsData = async () => {
+    try {
+        const response = await axios.get('http://192.168.199.241:8080/reviews/get/30');
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching reviews:', error);
+        return null;
+    }
+};
