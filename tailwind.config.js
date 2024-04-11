@@ -1,17 +1,11 @@
-<<<<<<< HEAD
-=======
 const { nextui } = require("@nextui-org/react");
->>>>>>> Front-end
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
-<<<<<<< HEAD
-=======
     "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}"
->>>>>>> Front-end
   ],
   theme: {
     extend: {
@@ -22,10 +16,6 @@ module.exports = {
       },
     },
   },
-<<<<<<< HEAD
-  plugins: [],
-=======
   darkMode: "class",
   plugins: [nextui()],
->>>>>>> Front-end
 };
