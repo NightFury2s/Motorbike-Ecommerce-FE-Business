@@ -1,14 +1,19 @@
 import React, { useState } from 'react';
-import { FaFacebookF, FaGoogle, FaUser } from 'react-icons/fa';
+import { FaUser } from 'react-icons/fa';
 import { MdLockOutline, MdEmail } from 'react-icons/md';
 import { BsFillTelephoneFill } from 'react-icons/bs';
 import { ImLocation } from 'react-icons/im';
-import { useForm } from 'react-hook-form';
-import InputComponent from '@/components/constants/Input';
+import { useForm, watch } from 'react-hook-form';
+import InputComponent from '../constants/Input';
 import { setRegisterData } from '@/pages/api/api';
 import { IoCloseCircleSharp } from 'react-icons/io5';
 
 const RegisterModal = ({ setShowModal, setShowLoginModal }) => {
+    const [severErorEmail, setSeverErorEmail] = useState(false);
+    const [severErorPhone, setSeverErorPhone] = useState(false);
+    const [severErorUser, setSeverErorUser] = useState(false);
+    const [passwordsMatch, setPasswordsMatch] = useState(false);
+
     // Close Modal Event
     const handleClose = (e) => {
         if (e.target.id === 'modal-wrapper') {
@@ -16,7 +21,12 @@ const RegisterModal = ({ setShowModal, setShowLoginModal }) => {
         }
     };
 
-    const [passwordsMatch, setPasswordsMatch] = useState(false);
+    const handleReset = (e) => {
+        setSeverErorEmail(false);
+        setSeverErorPhone(false);
+        setSeverErorUser(false);
+        setPasswordsMatch(false);
+    };
 
     const {
         register,
@@ -31,19 +41,34 @@ const RegisterModal = ({ setShowModal, setShowLoginModal }) => {
             setPasswordsMatch(false);
             try {
                 // Giả sử setRegisterData trả về một Promise
-                await setRegisterData(data);
-                alert('Đăng ký thành công!');
-                // Đặt thời gian chờ để chuyển sang modal đăng nhập sau khi hiển thị thông báo
-                setTimeout(() => {
-                    setShowModal(false);
-                    setShowLoginModal(true);
-                }, 1000); // Chờ 1 giây để người dùng kịp đọc thông báo
+                setRegisterData(data)
+                    .then((response) => {
+                        if (response.messenger == 'Số điện thoại đã tồn tại') {
+                            setSeverErorPhone(true);
+                        } else if (response.messenger == 'Email đã tồn tại') {
+                            setSeverErorEmail(true);
+                        } else if (response.messenger == 'Tên đăng nhập đã tồn tại') {
+                            setSeverErorUser(true);
+                        } else {
+                            setSeverErorEmail(false);
+                            setSeverErorUser(false);
+                            setSeverErorPhone(false);
+                            alert('Đăng ký thành công!');
+                            // Đặt thời gian chờ để chuyển sang modal đăng nhập sau khi hiển thị thông báo
+                            setTimeout(() => {
+                                setShowModal(false);
+                                setShowLoginModal(true);
+                            }, 1000); //
+                        }
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
             } catch (error) {
                 alert('Đăng ký không thành công. Vui lòng thử lại!');
             }
         } else {
             setPasswordsMatch(true);
-            alert('Mật khẩu và xác nhận mật khẩu không khớp.');
         }
     };
 
@@ -55,7 +80,7 @@ const RegisterModal = ({ setShowModal, setShowLoginModal }) => {
         >
             <div id="modal-content" className="flex flex-col rounded-2xl items-center text-center">
                 <div className="bg-white rounded-2xl shadow-2xl flex w-[850px]">
-                    {/* Register Section */}
+                    {/* {/ Register Section /} */}
                     <div className="w-2/4 py-36 px-12 bg-[#2B92E4] text-white rounded-tl-2xl rounded-bl-2xl flex flex-col justify-center items-center align-middle">
                         <h2 className="font-bold text-3xl mb-2">Đăng nhập</h2>
                         <div className="border-2 w-10 border-white inline-block mb-2"></div>
@@ -71,9 +96,9 @@ const RegisterModal = ({ setShowModal, setShowLoginModal }) => {
                         </button>
                     </div>
 
-                    {/* Login Section */}
+                    {/* {/ Login Section /} */}
                     <div className="w-3/4 p-5 relative">
-                        {/* Close Button */}
+                        {/* {/ Close Button /} */}
                         <button
                             onClick={() => setShowModal(false)}
                             className="absolute top-0 right-0 mt-2 mr-3 text-red text-xl text-black"
@@ -83,102 +108,144 @@ const RegisterModal = ({ setShowModal, setShowLoginModal }) => {
                         <div className="text-left font-bold">
                             <span className="text-[#2B92E4]">Motorbike</span> Ecommerce
                         </div>
-                        <form onSubmit={handleSubmit(dataSubmit)} className="py-10">
+                        <form onSubmit={handleSubmit(dataSubmit)} className="py-10" style={{ padding: '0' }}>
                             <h2 className="text-3xl font-bold text-gray-600 mb-2">Đăng ký</h2>
                             <div className="border-2 w-10 border-gray-600 inline-block mb-2"></div>
-                            <p className="text-gray-400 my-3">Tạo tài khoản</p>
+                            <p className=" my-3 text-gray-400 ">Tạo tài khoản</p>
 
                             <div style={{ display: 'grid', gap: '3px' }} className="flex flex-col">
-                                {/* Username Field */}
+                                {/* {/ Username Field /} */}
                                 <InputComponent
-                                    icon={<FaUser className="text-gray-400 m-2" />}
+                                    icon={<FaUser className=" m-2" />}
                                     placeholder="Họ và tên(*)"
-                                    textMessage="Vui lòng nhập tên của bạn"
+                                    textMessage="Vui lòng nhập họ và tên "
                                     register={register}
                                     name="fullName"
                                     errors={errors}
-                                    // setValue={setValue}
+                                    setValue={setValue}
+                                    minLength={{ value: 6, message: 'Tên đăng nhập ít nhất 6 ký tự' }}
+                                    pattern={{
+                                        value: /^[^0-9!@#$%^&*()_+|~=`{}\[\]:";'<>?,.\/].*$/,
+                                        message: 'Chỉ được phép nhập chữ cái',
+                                    }}
+                                    handleReset={handleReset}
                                 />
-                                {/*     email */}
+                                {/* {/     email /} */}
                                 <InputComponent
-                                    icon={<MdEmail className="text-gray-400 m-2" />}
+                                    icon={<MdEmail className=" m-2" />}
                                     placeholder="Email(*)"
-                                    textMessage="Vui lòng nhập Email của bạn"
+                                    textMessage="Vui lòng nhập Email "
                                     register={register}
                                     name="email"
                                     errors={errors}
-                                    // setValue={setValue}
+                                    setValue={setValue}
+                                    handleReset={handleReset}
                                     pattern={{
                                         value: /^\S+@\S+$/i,
-                                        message: 'Địa chỉ email không hợp lệ',
+                                        message: 'Email không hợp lệ',
                                     }}
+                                    severErorEmail={severErorEmail}
                                 />
-                                {/* Telephone */}
+                                {/* {/ Telephone /} */}
                                 <InputComponent
-                                    icon={<BsFillTelephoneFill className="text-gray-400 m-2" />}
+                                    icon={<BsFillTelephoneFill className=" m-2" />}
                                     placeholder="Số điện thoại(*)"
-                                    textMessage="Vui lòng nhập số điện thoại của bạn"
+                                    textMessage="Vui lòng nhập số điện thoại "
                                     register={register}
                                     name="phoneNumber"
                                     errors={errors}
-                                    // setValue={setValue}
+                                    setValue={setValue}
+                                    handleReset={handleReset}
                                     pattern={{
                                         value: /^[0-9]*$/,
-                                        message: 'Vui lòng nhập số',
+                                        message: 'Số điện thoại không hợp lệ',
                                     }}
+                                    minLength={{ value: 10, message: ' Số điện thoại phải 10 số' }}
+                                    severErorPhone={severErorPhone}
                                 />
-                                {/* Username */}
+                                {/* {/ Username /} */}
                                 <InputComponent
-                                    icon={<FaUser className="text-gray-400 m-2" />}
+                                    icon={<FaUser className=" m-2" />}
                                     placeholder="Tên đăng nhập(*)"
-                                    textMessage="Vui lòng nhập tên đăng nhập của bạn"
+                                    textMessage="Vui lòng nhập tên đăng nhập "
                                     register={register}
                                     name="username"
-                                    // setValue={setValue}
+                                    setValue={setValue}
+                                    handleReset={handleReset}
                                     errors={errors}
+                                    minLength={{ value: 6, message: ' Tên đăng nhập 6 ký tự' }}
+                                    pattern={{
+                                        value: /^(?![\d@!#$%^&*()_+|~=`{}\[\]:";'<>?,.\/])[a-zA-Z@!#$%^&*()_+|~=`{}\[\]:";'<>?,.\/\d]{6,}$/,
+                                        message: 'Tên đăng nhập không được bắt đầu ký tự đặc biệt hoặc số',
+                                    }}
+                                    severErorUser={severErorUser}
                                 />
-                                {/* Password Field */}
+                                {/* {/ Password Field /} */}
                                 <InputComponent
-                                    icon={<MdLockOutline className="text-gray-400 m-2" />}
+                                    icon={<MdLockOutline className=" m-2" />}
                                     placeholder="Mật khẩu(*)"
-                                    textMessage="Vui lòng nhập mật khẩu của bạn"
+                                    textMessage="Vui lòng nhập mật khẩu "
                                     register={register}
                                     name="password"
+                                    handleReset={handleReset}
                                     errors={errors}
-                                    // type='password'
+                                    type="password"
+                                    typePassword={true}
+                                    setValue={setValue}
+                                    minLength={{ value: 6, message: ' Tài khoản hoặc mật khẩu ít nhất 6 kí tự ' }}
+                                    pattern={{
+                                        value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/,
+                                        message: 'Mật khẩu bắt buộc gồm số, chữ cái thường, chữ cái hoa, ký hiệu',
+                                    }}
                                 />
 
-                                {/* Confirm password Field */}
+                                {/* {/ Confirm password Field /} */}
 
                                 <InputComponent
-                                    icon={<MdLockOutline className="text-gray-400 m-2" />}
+                                    icon={<MdLockOutline className=" m-2" />}
                                     placeholder="Nhập lại mật khẩu(*)"
-                                    textMessage="Vui lòng nhập mật khẩu của bạn"
+                                    textMessage="Vui lòng nhập mật khẩu "
                                     register={register}
                                     name="ConfirmPassword"
-                                    // setValue={setValue}
+                                    setValue={setValue}
                                     errors={errors}
                                     passwordsMatch={passwordsMatch}
-                                    // type='password'
+                                    type="password"
+                                    typePassword={true}
+                                    handleReset={handleReset}
+                                    minLength={{ value: 6, message: 'Tài khoản hoặc mật khẩu ít nhất 6 kí tự ' }}
+                                    pattern={{
+                                        value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/,
+                                        message: 'Mật khẩu bắt buộc gồm số, chữ cái thường, chữ cái hoa, ký hiệu',
+                                    }}
                                 />
 
-                                {/* Địa chỉ Field */}
+                                {/* {/ Địa chỉ Field /} */}
 
                                 <InputComponent
-                                    icon={<ImLocation className="text-gray-400 m-2" />}
+                                    icon={<ImLocation className=" m-2" />}
                                     placeholder="Địa chỉ(*)"
-                                    textMessage="Vui lòng nhập địa chỉ của bạn"
+                                    textMessage="Vui lòng nhập địa chỉ "
                                     register={register}
+                                    handleReset={handleReset}
                                     name="address"
                                     errors={errors}
-                                    // setValue={setValue}
+                                    setValue={setValue}
                                 />
 
-                                <div>
-                                    <button className="w-40 flex-row items-center justify-center border-2 border-[#2B92E4] text-[#2B92E4] rounded-full px-12 py-2 inline-block font-semibold hover:bg-[#2B92E4] hover:text-white">
-                                        Đăng ký
-                                    </button>
-                                </div>
+                                <button
+                                    style={{
+                                        width: '180px',
+                                        marginLeft: '50%',
+                                        transform: 'translateX(-50%)',
+                                        marginTop: '5px',
+                                        color: 'black',
+                                        border: '2px solid black',
+                                    }}
+                                    className="border-2 border-[#2B92E4] text-[#2B92E4] rounded-full px-12 py-2 inline-block font-semibold hover:bg-[#2B92E4] hover:text-white"
+                                >
+                                    Đăng ký
+                                </button>
                             </div>
                         </form>
                     </div>

@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
+import { IoEyeOff } from 'react-icons/io5';
 import { useState, useRef } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-
 function InputComponent({
     type,
     placeholder,
@@ -13,31 +13,66 @@ function InputComponent({
     pattern,
     passwordsMatch,
     minLength,
+    typePassword,
+    severErorEmail,
+    severErorPhone,
+    severErorUser,
+    handleReset,
     ...props
 }) {
+    const [eye, SetEye] = useState(false);
+
+    const checkErr = () => {
+        if (errors[name] || severErorEmail || severErorUser || severErorUser || passwordsMatch) {
+            return 'red';
+        } else {
+            return 'transparent';
+        }
+    };
+
+    const handleEye = () => {
+        SetEye(!eye);
+    };
+
     return (
         <>
-            <div className="bg-gray-100 p-2 flex">
+            <div style={{ alignItems: 'center', border: `0.5px solid ${checkErr()}` }} className="bg-gray-100 p-2 flex">
                 {icon}
                 <input
+                    id="input"
                     name={name}
-                    type={type}
+                    type={typePassword ? (eye ? 'text' : 'password') : 'text'}
                     placeholder={placeholder}
+                    onInput={() => {
+                        handleReset ? handleReset() : null;
+                    }}
                     className="w_64 bg_transparent bg-gray-100 outline-none text-sm ml-2 flex-1"
                     {...register(name, { required: textMessage, pattern, minLength })}
                     {...props}
                 />
+                {typePassword ? <span onClick={handleEye}>{eye ? <FaEye /> : <IoEyeOff />} </span> : ''}
             </div>
             <div
                 style={{
                     textAlign: 'start',
                 }}
             >
-                {errors[name] && <p style={{ fontSize: '14px', color: 'red' }}>{errors[name].message}</p>}
+                {errors[name] && <p style={{ fontSize: '12px', color: 'red' }}>{errors[name].message}</p>}
                 {passwordsMatch && (
-                    <p style={{ fontSize: '14px', color: 'red' }}>
+                    <p style={{ fontSize: '12px', color: 'red' }}>
                         {errors[name] ? null : 'Mật khẩu không trùng khớp '}
                     </p>
+                )}
+                {severErorEmail && (
+                    <p style={{ fontSize: '12px', color: 'red' }}>{errors[name] ? null : `Email đã tồn tại `}</p>
+                )}
+                {severErorPhone && (
+                    <p style={{ fontSize: '12px', color: 'red' }}>
+                        {errors[name] ? null : `Số điện thoại đã tồn tại `}
+                    </p>
+                )}
+                {severErorUser && (
+                    <p style={{ fontSize: '12px', color: 'red' }}>{errors[name] ? null : `User đã tồn tại `}</p>
                 )}
             </div>
         </>

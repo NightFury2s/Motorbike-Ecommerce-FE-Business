@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FaCartPlus } from 'react-icons/fa';
-import { IoIosStar, IoIosStarOutline, IoIosStarHalf } from 'react-icons/io'; // Giả sử có sẵn IoIosStarHalf
+import { IoIosStar, IoIosStarOutline } from 'react-icons/io';
 import { useRouter } from 'next/router';
 import { DetailProductData, ReviewsData } from '@/pages/api/api';
 
@@ -47,24 +47,6 @@ const DetailProduct = () => {
     // Make sure to handle loading state or check if productDetail is null before trying to render details
     if (!productDetail) return <div>Loading...</div>;
 
-    const renderStars = (rating) => {
-        const fullStars = Math.floor(rating); // Số sao đầy đủ
-        const halfStar = rating % 1 > 0; // Kiểm tra xem có sao bán phần không
-        const emptyStars = 5 - fullStars - (halfStar ? 1 : 0); // Số sao rỗng
-
-        return (
-            <>
-                {[...Array(fullStars)].map((_, index) => (
-                    <IoIosStar key={`full-${index}`} className="text-yellow-500 text-2xl" />
-                ))}
-                {halfStar && <IoIosStarHalf className="text-yellow-500 text-2xl" />}
-                {[...Array(emptyStars)].map((_, index) => (
-                    <IoIosStarOutline key={`empty-${index}`} className="text-yellow-500 text-2xl" />
-                ))}
-            </>
-        );
-    };
-
     return (
         <div className="rounded-lg overflow-hidden">
             <div className="max-w-8xl mx-auto px-28 py-10">
@@ -72,40 +54,60 @@ const DetailProduct = () => {
                     <div className="flex flex-col gap-4 lg:w-2/4 p-10 bg-[#FFFFFF] rounded-l-xl">
                         <h1 className="text-[#000000] text-3xl font-bold">{productDetail.name}</h1>
                         <h6 className="text-[#D3D3D3] text-xl font-semibold">Bảo hành tại Motorbike</h6>
-                        <div className="flex">
-                            <div className="flex ">
-                                {renderStars(reviewData.averageRating)}
-                                <div>
-                                    <h3 className="text-xl font-bold text-[#777777] ml-4">
-                                        {reviewData.averageRating} ({reviewData.quantityReviews} đánh giá)
-                                    </h3>
-                                </div>
+                        <div className="flex ">
+                            {[...Array(5)].map((star, index) => {
+                                index += 1;
+                                return (
+                                    <button
+                                        type="button"
+                                        key={index}
+                                        className={
+                                            index <= Math.round(reviewData.averageRating)
+                                                ? 'text-yellow-500'
+                                                : 'text-gray-400'
+                                        }
+                                        style={{ cursor: 'default' }}
+                                    >
+                                        <div className="text-2xl">
+                                            {index <= Math.round(reviewData.averageRating) ? (
+                                                <IoIosStar />
+                                            ) : (
+                                                <IoIosStarOutline />
+                                            )}
+                                        </div>
+                                    </button>
+                                );
+                            })}
+                            <div>
+                                <h3 className="text-xl font-bold text-[#777777] ml-4">
+                                    {reviewData.averageRating} ({reviewData.quantityReviews} đánh giá)
+                                </h3>
                             </div>
                         </div>
-                        <div className="flex flex-col justify-center items-center">
-                            <div className="mt-10 flex justify-center items-center bg-gray-100 rounded-xl overflow-hidden">
+                        <div className="flex flex-col justify-center items-center max-w-2xl max-h-96">
+                            <div className="max-w-2xl max-h-96 mt-10 flex justify-center items-center bg-gray-100 rounded-xl overflow-hidden">
                                 <img
                                     src={activeImg}
                                     alt="Active product image"
-                                    className="max-w-full h-64 object-contain rounded-xl mix-blend-multiply"
+                                    className="max-w-full max-h-full object-contain rounded-xl mix-blend-multiply"
                                 />
                             </div>
                         </div>
 
                         <div className="flex justify-center items-center mt-5">
-                            <div className="flex flex-row gap-4 h-32 max-w-xl justify-center p-5 rounded-lg overflow-hidden">
+                            <div className="flex flex-row gap-4 h-32 max-w-xl justify-center p-2 rounded-lg">
                                 {productDetail.images.map((image, index) => (
                                     <div
                                         key={index}
                                         className={`flex justify-center w-40 h-24 overflow-hidden rounded-md cursor-pointer ${
-                                            'data:image/png;base64,' + image.imgData === activeImg ? 'shadow-xl' : ''
-                                        } bg-[#D9D9D9] m-2`} // Thêm một chút margin xung quanh để shadow có chỗ hiển thị
+                                            'data:image/png;base64,' + image.imgData === activeImg ? 'shadow-2xl' : ''
+                                        } bg-[#D9D9D9]`}
                                         onClick={() => setActiveImage('data:image/png;base64,' + image.imgData)}
                                     >
                                         <img
                                             src={'data:image/png;base64,' + image.imgData}
                                             alt={`Hình ảnh ${index + 1}`}
-                                            className="object-contain mix-blend-multiply bg-cover"
+                                            className="object-contain mix-blend-multiply"
                                         />
                                     </div>
                                 ))}
@@ -137,13 +139,13 @@ const DetailProduct = () => {
                         <p className="text-gray-700 text-xl py-10">{productDetail.describe}</p>
 
                         {/* Add to Cart Button */}
-                        <div className="flex justify-center mt-10 space-x-4">
+                        <div className="flex justify-center mt-10">
                             {/* Add to Cart Button */}
-                            <button className="flex items-center justify-center bg-[#2B92E4] text-white text-2xl rounded-lg px-3 py-3 text-center w-1/3 hover:shadow-lg transition-shadow duration-200 ease-in-out">
+                            <button className="flex items-center justify-center bg-[#FF9700] text-white text-2xl rounded-l-lg px-3 py-3 text-center w-1/3 hover:shadow-lg transition-shadow duration-200 ease-in-out">
                                 <FaCartPlus className="text-white mr-2" />
                             </button>
                             {/* Buy now Button */}
-                            <button className="bg-[#2B92E4] text-white font-bold rounded-lg text-[15px] px-5 py-1.5 text-center w-2/3 hover:shadow-lg transition-shadow duration-200 ease-in-out">
+                            <button className="bg-[#FF5E22] text-white font-bold rounded-r-lg text-[15px] px-5 py-1.5 text-center w-2/3 hover:shadow-lg transition-shadow duration-200 ease-in-out">
                                 Mua ngay
                             </button>
                         </div>

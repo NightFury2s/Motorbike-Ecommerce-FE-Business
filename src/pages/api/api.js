@@ -28,12 +28,14 @@ export const auth_login = async (username, password) => {
 
 // Handle Register
 export const setRegisterData = async (data) => {
-    console.log(data);
     try {
         const response = await axios.post('/register', data);
-        return response.data;
+        return response;
     } catch (error) {
-        console.log(error.response, 'error');
+        return {
+            success: false,
+            messenger: error.response ? error.response.data.messenger : error.messenger,
+        };
     }
 };
 
@@ -136,5 +138,18 @@ export const ReviewsData = async (productId) => {
     } catch (error) {
         console.error('Error fetching reviews:', error);
         return null;
+    }
+};
+// data page product
+export const dataPageProduct = async (link, currentPage, type) => {
+    try {
+        const response = await axios.get(`${link}/${currentPage}/${12}/${type}`);
+        const data = response.data;
+        // const products = data.productSomeReponseDtos;
+        // return products;
+        return data;
+    } catch (error) {
+        console.error('Error:', error);
+        return [];
     }
 };
