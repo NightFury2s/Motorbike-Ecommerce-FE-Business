@@ -24,7 +24,7 @@ const CartPage = () => {
         });
     };
     return (
-        <div className="min-h-screen p-5">
+        <div className="p-5 mb-14">
             <div className="max-w-6xl mx-auto">
                 {/* Title with lines */}
                 <div className="flex items-center text-center my-8">
