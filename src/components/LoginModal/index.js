@@ -64,11 +64,11 @@ const LoginModal = ({ setShowModal, setShowRegisterModal }) => {
                 <div className="bg-white rounded-2xl shadow-2xl flex w-[850px]">
                     <div className="w-3/4 p-5">
                         <div className="text-left font-bold">
-                            <span className="text-[#2B92E4]">Motorbike</span> Ecommerce
+                            <span className="text-[#4B5563]">Motorbike</span> Ecommerce
                         </div>
                         <div className="py-10">
-                            <h2 className="text-3xl font-bold text-[#2B92E4] mb-2">Đăng nhập</h2>
-                            <div className="border-2 w-10 border-[#2B92E4] inline-block mb-2"></div>
+                            <h2 className="text-3xl font-bold text-black mb-2">Đăng nhập</h2>
+                            <div className="border-2 w-10 border-black inline-block mb-2"></div>
                             <p className="text-gray-400 my-3">Đăng nhập vào tài khoản của bạn</p>
                             <div className="flex flex-col items-center">
                                 {/* Username input */}
@@ -114,7 +114,7 @@ const LoginModal = ({ setShowModal, setShowRegisterModal }) => {
                                 <button
                                     type="submit"
                                     onClick={handleLogin}
-                                    className="border-2 border-[#2B92E4] text-[#2B92E4] rounded-full px-12 py-2 inline-block font-semibold hover:bg-[#2B92E4] hover:text-white disabled:bg-[#2B92E4] disabled:text-gray-200"
+                                    className="border-2 border-black text-black rounded-full px-12 py-2 inline-block font-semibold hover:bg-[#2B92E4] hover:text-white disabled:bg-[#2B92E4] disabled:text-gray-200"
                                     disabled={isLoading}
                                 >
                                     {isLoading ? 'Đang đăng nhập...' : 'Đăng nhập'}

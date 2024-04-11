@@ -106,7 +106,7 @@ InputComponent.propTypes = {
   pattern: PropTypes.object,
 };
 
-
+// Input Login Field
 export const InputLoginField = ({ Icon, type = 'text', placeholder, value, onChange, error }) => {
   const [showPassword, setShowPassword] = useState(false);
   const inputRef = useRef(null);
@@ -121,7 +121,7 @@ export const InputLoginField = ({ Icon, type = 'text', placeholder, value, onCha
 
   return (
       <div className={`bg-gray-100 w-[80%] p-2 flex items-center mb-3 ${error ? 'border-red-500 border' : ''}`}>
-          <Icon className="text-gray-400 m-2" onClick={handleClick} />
+          <Icon className="text-black m-2" onClick={handleClick} />
           <input
               type={type === 'password' ? (showPassword ? 'text' : 'password') : type}
               placeholder={placeholder}
@@ -132,7 +132,7 @@ export const InputLoginField = ({ Icon, type = 'text', placeholder, value, onCha
           />
           {type === 'password' && (
               <div onClick={togglePasswordVisibility} className="cursor-pointer p-2">
-                  {showPassword ? <FaEye className="text-gray-400" /> : <FaEyeSlash className="text-gray-400" />}
+                  {showPassword ? <FaEye className="text-black" /> : <FaEyeSlash className="text-black" />}
               </div>
           )}
       </div>

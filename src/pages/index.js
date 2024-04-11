@@ -40,11 +40,11 @@ export default function Home() {
                 <div>
                     <div className="text-center align-middle p-5">
                         <div className="flex justify-between items-center mx-auto">
-                            <h1 className="font-bold text-3xl text-[#FF5E22] rounded-lg transition-colors">
+                            <h1 className="font-bold text-3xl text-black rounded-lg transition-colors">
                                 Top những xe máy bán chạy nhất
                             </h1>
                             <Link href="/ProductPage">
-                                <button className="text-blue-500 text-lg font-semibold rounded-lg">Xem thêm</button>
+                                <button className="text-black text-lg font-semibold rounded-lg">Xem thêm</button>
                             </Link>
                         </div>
                     </div>
@@ -64,11 +64,11 @@ export default function Home() {
                 <div>
                     <div className="text-center align-middle p-5">
                         <div className="flex justify-between items-center mx-auto">
-                            <h1 className="font-bold text-3xl text-[#FF5E22] rounded-lg transition-colors">
+                            <h1 className="font-bold text-3xl text-black  rounded-lg transition-colors">
                                 Top những phụ tùng bán chạy nhất
                             </h1>
                             <Link href="/ProductPage">
-                                <button className="text-blue-500 text-lg font-semibold rounded-lg">Xem thêm</button>
+                                <button className="text-black text-lg font-semibold rounded-lg">Xem thêm</button>
                             </Link>
                         </div>
                     </div>

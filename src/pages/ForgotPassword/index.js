@@ -4,6 +4,7 @@ import { InputLoginField } from '@/components/constants/Input';
 import { ForgotPassword, ConfirmOTP } from '@/pages/api/api';
 import { IoArrowBackCircle } from 'react-icons/io5';
 import { CiCircleCheck } from 'react-icons/ci';
+import { GoKey } from "react-icons/go";
 
 export default function ForgotPasswordForm() {
     const [email, setEmail] = useState('');
@@ -104,7 +105,7 @@ export default function ForgotPasswordForm() {
                                         type="submit"
                                         className="px-20 py-3 leading-5 text-lg text-white transition-colors duration-200 transform bg-[#0F3187] rounded-full hover:bg-blue-700 focus:outline-none"
                                     >
-                                        Lấy lại mật khẩu
+                                        Gửi Email
                                     </button>
                                 </div>
                             </div>
@@ -130,7 +131,7 @@ export default function ForgotPasswordForm() {
                             <div className="text-2xl">
                                 <div className="mt-4 flex flex-col justify-center items-center">
                                     <InputLoginField
-                                        Icon={FaEnvelope}
+                                        Icon={GoKey}
                                         type="text"
                                         placeholder="Nhập mã xác nhận"
                                         value={code}
