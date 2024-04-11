@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FaCartPlus } from 'react-icons/fa';
-import { IoIosStar, IoIosStarOutline } from 'react-icons/io';
+import { IoIosStar, IoIosStarOutline, IoIosStarHalf } from 'react-icons/io'; // Giả sử có sẵn IoIosStarHalf
 import { useRouter } from 'next/router';
 import { DetailProductData, ReviewsData } from '@/pages/api/api';
 
@@ -47,6 +47,24 @@ const DetailProduct = () => {
     // Make sure to handle loading state or check if productDetail is null before trying to render details
     if (!productDetail) return <div>Loading...</div>;
 
+    const renderStars = (rating) => {
+        const fullStars = Math.floor(rating); // Số sao đầy đủ
+        const halfStar = rating % 1 > 0; // Kiểm tra xem có sao bán phần không
+        const emptyStars = 5 - fullStars - (halfStar ? 1 : 0); // Số sao rỗng
+
+        return (
+            <>
+                {[...Array(fullStars)].map((_, index) => (
+                    <IoIosStar key={`full-${index}`} className="text-yellow-500 text-2xl" />
+                ))}
+                {halfStar && <IoIosStarHalf className="text-yellow-500 text-2xl" />}
+                {[...Array(emptyStars)].map((_, index) => (
+                    <IoIosStarOutline key={`empty-${index}`} className="text-yellow-500 text-2xl" />
+                ))}
+            </>
+        );
+    };
+
     return (
         <div className="rounded-lg overflow-hidden">
             <div className="max-w-8xl mx-auto px-28 py-10">
@@ -54,34 +72,14 @@ const DetailProduct = () => {
                     <div className="flex flex-col gap-4 lg:w-2/4 p-10 bg-[#FFFFFF] rounded-l-xl">
                         <h1 className="text-[#000000] text-3xl font-bold">{productDetail.name}</h1>
                         <h6 className="text-[#D3D3D3] text-xl font-semibold">Bảo hành tại Motorbike</h6>
-                        <div className="flex ">
-                            {[...Array(5)].map((star, index) => {
-                                index += 1;
-                                return (
-                                    <button
-                                        type="button"
-                                        key={index}
-                                        className={
-                                            index <= Math.round(reviewData.averageRating)
-                                                ? 'text-yellow-500'
-                                                : 'text-gray-400'
-                                        }
-                                        style={{ cursor: 'default' }}
-                                    >
-                                        <div className="text-2xl">
-                                            {index <= Math.round(reviewData.averageRating) ? (
-                                                <IoIosStar />
-                                            ) : (
-                                                <IoIosStarOutline />
-                                            )}
-                                        </div>
-                                    </button>
-                                );
-                            })}
-                            <div>
-                                <h3 className="text-xl font-bold text-[#777777] ml-4">
-                                    {reviewData.averageRating} ({reviewData.quantityReviews} đánh giá)
-                                </h3>
+                        <div className="flex">
+                            <div className="flex ">
+                                {renderStars(reviewData.averageRating)}
+                                <div>
+                                    <h3 className="text-xl font-bold text-[#777777] ml-4">
+                                        {reviewData.averageRating} ({reviewData.quantityReviews} đánh giá)
+                                    </h3>
+                                </div>
                             </div>
                         </div>
                         <div className="flex flex-col justify-center items-center">
