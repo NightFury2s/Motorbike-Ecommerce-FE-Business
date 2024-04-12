@@ -32,10 +32,10 @@ export const setRegisterData = async (data) => {
         const response = await axios.post('/register', data);
         return response;
     } catch (error) {
-       return {
-        success: false,
-        messenger: error.response ? error.response.data.messenger : error.messenger,
-        }
+        return {
+            success: false,
+            messenger: error.response ? error.response.data.messenger : error.messenger,
+        };
     }
 };
 
@@ -141,7 +141,7 @@ export const ReviewsData = async (productId) => {
     }
 };
 // data page product
-export const dataPageProduct = async (link,currentPage,type) => {
+export const dataPageProduct = async (link, currentPage, type) => {
     try {
         const response = await axios.get(`${link}/${currentPage}/${12}/${type}`);
         const data = response.data;
@@ -152,4 +152,4 @@ export const dataPageProduct = async (link,currentPage,type) => {
         console.error('Error:', error);
         return [];
     }
-}
+};

@@ -23,6 +23,7 @@ const CartPage = () => {
             return prevQty - 1;
         });
     };
+
     return (
         <div className="p-5 mb-14">
             <div className="max-w-6xl mx-auto">
