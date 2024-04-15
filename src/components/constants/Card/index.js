@@ -3,12 +3,10 @@ import { FaCartPlus } from 'react-icons/fa';
 
 const ProductCard = ({ product, style }) => {
     const edit = style ? `style={{width:'100%',margin:'0 3px '}}` : null;
-    // style={{width:'100%',margin:'0 3px '}}
     return (
         <div style={style} className="relative flex justify-center m-10">
             <div
-                style={{ width: '100%', margin: '0 3px ' }}
-                className=" w-80 bg-[#f9f9f9] rounded-lg shadow-md relative"
+                className="w-80 bg-[#f9f9f9] rounded-lg shadow-2xl relative"
             >
                 {product && product.images && product.images.length > 0 && (
                     <img

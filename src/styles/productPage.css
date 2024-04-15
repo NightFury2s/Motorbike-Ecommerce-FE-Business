@@ -1,5 +1,5 @@
 .ProductPage-container {
-    padding: 50px 70px;
+    padding: 50px 140px;
     max-height: 100%;
     background-color: #d9d9d9;
 }
@@ -16,7 +16,7 @@
     margin-left: auto;
     display: flex;
     justify-content: space-between;
-    width: 80%;
+    width: 79%;
     margin-top: 70px;
 }
 /* .ProductPage-total {

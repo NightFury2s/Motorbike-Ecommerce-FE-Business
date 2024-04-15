@@ -72,7 +72,7 @@ export const ConfirmOTP = async (email, otp) => {
 
     try {
         // Send request
-        const response = await axios.post('/otp/resetPassword', formData, {
+        const response = await axios.post('/otp/reset-password', formData, {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
             },

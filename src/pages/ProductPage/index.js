@@ -82,8 +82,7 @@ function ProductPage() {
         <div className="ProductPage-container">
             <div className="ProductPage-name">
                 <h6 style={{ position: 'absolute', zIndex: '1', backgroundColor: '#d9d9d9', padding: '0px 20px' }}>
-                    {' '}
-                    Xe Máy{' '}
+                    Xe Máy
                 </h6>
                 <div className="ProductPage-line"></div>
             </div>

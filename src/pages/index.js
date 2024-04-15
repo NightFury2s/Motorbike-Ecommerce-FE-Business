@@ -44,12 +44,12 @@ export default function Home() {
                                 Top những xe máy bán chạy nhất
                             </h1>
                             <Link href="/ProductPage">
-                                <button className="text-black text-lg font-semibold rounded-lg">Xem thêm</button>
+                                <button className="text-[#2B92E4] text-lg font-semibold rounded-lg">Xem thêm</button>
                             </Link>
                         </div>
                     </div>
                     <div className="p-5">
-                        <div className="w-full h-auto bg-white shadow-2xl rounded-lg p-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 justify-items-center">
+                        <div className="w-full h-auto bg-white rounded-lg p-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 justify-items-center">
                             {motorbikeProducts &&
                                 motorbikeProducts.map((product, index) => (
                                     <Link key={index} href={`/DetailProduct?id=${product.id}`}>
@@ -68,7 +68,7 @@ export default function Home() {
                                 Top những phụ tùng bán chạy nhất
                             </h1>
                             <Link href="/ProductPage">
-                                <button className="text-black text-lg font-semibold rounded-lg">Xem thêm</button>
+                                <button className="text-[#2B92E4] text-lg font-semibold rounded-lg">Xem thêm</button>
                             </Link>
                         </div>
                     </div>
