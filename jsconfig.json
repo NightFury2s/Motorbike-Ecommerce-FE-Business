@@ -1,7 +1,8 @@
 {
-  "compilerOptions": {
-    "paths": {
-      "@/*": ["./src/*"]
+    "compilerOptions": {
+        "typeRoots": ["./node_modules/@types", "./types"],
+        "paths": {
+            "@/*": ["./src/*"]
+        }
     }
-  }
 }

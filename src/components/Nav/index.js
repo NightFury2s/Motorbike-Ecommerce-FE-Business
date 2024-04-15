@@ -133,9 +133,11 @@ export default function Nav({ setShowLoginModal, setShowRegisterModal }) {
                                                         <hr className="w-3/4 border-gray-300" />
                                                     </div>
                                                     <ul className="text-gray-700">
-                                                        <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                                                            Xem hồ sơ
-                                                        </li>
+                                                        <Link href={'/ProfilePage'}>
+                                                            <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                                                                Xem hồ sơ
+                                                            </li>
+                                                        </Link>
                                                         <li
                                                             className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-red-500"
                                                             onClick={() => {
