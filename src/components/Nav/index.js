@@ -56,18 +56,18 @@ export default function Nav({ setShowLoginModal, setShowRegisterModal }) {
                             </Link>
 
                             {/* Search bar */}
-                            <div class="relative flex w-full gap-2 md:w-max">
-                                <div class="relative h-10 w-full min-w-[30rem]">
+                            <div className="relative flex w-full gap-2 md:w-max">
+                                <div className="relative h-10 w-full min-w-[30rem]">
                                     <input
                                         type="search"
-                                        class="h-full w-full rounded-[7px] border bg-[#D9D9D9] px-3 py-3.5 pr-20 font-sans text-sm font-normal !text-black transition-all focus:outline-none disabled:bg-blue-gray-50"
+                                        className="h-full w-full rounded-[7px] border bg-[#D9D9D9] px-3 py-3.5 pr-20 font-sans text-sm font-normal !text-black transition-all focus:outline-none disabled:bg-blue-gray-50"
                                         placeholder="Tìm kiếm sản phẩm..."
                                     />
                                     <button
-                                        class="absolute right-1 top-1/2 transform -translate-y-1/2 py-2 px-2 text-center align-middle font-sans font-bold uppercase transition-all hover:shadow-lg hover:shadow-blue-gray-500/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                                        className="absolute right-1 top-1/2 transform -translate-y-1/2 py-2 px-2 text-center align-middle font-sans font-bold uppercase transition-all hover:shadow-lg hover:shadow-blue-gray-500/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                                         type="button"
                                     >
-                                        <FaSearch class="text-xl text-black" />
+                                        <FaSearch className="text-xl text-black" />
                                     </button>
                                 </div>
                             </div>
@@ -166,11 +166,11 @@ export default function Nav({ setShowLoginModal, setShowRegisterModal }) {
                                         </>
                                     )}
                                     {/* Cart */}
-                                    <div className="hidden px-5 py-3 cursor-pointer font-sans text-xs font-bold text-center text-white uppercase align-middle transition-all rounded-lg select-none hover:bg-gray-900/10 active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none lg:inline-block">
-                                        <Link href={'/CartPage'}>
+                                    <Link href={'/CartPage'}>
+                                        <div className="hidden px-5 py-3 cursor-pointer font-sans text-xs font-bold text-center text-white uppercase align-middle transition-all rounded-lg select-none hover:bg-gray-900/10 active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none lg:inline-block">
                                             <FaShoppingCart className="text-2xl" />
-                                        </Link>
-                                    </div>
+                                        </div>
+                                    </Link>
                                 </div>
                             </div>
                         </div>

@@ -52,9 +52,7 @@ export default function Home() {
                         <div className="w-full h-auto bg-white rounded-lg p-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 justify-items-center">
                             {motorbikeProducts &&
                                 motorbikeProducts.map((product, index) => (
-                                    <Link key={index} href={`/DetailProduct?id=${product.id}`}>
-                                        <ProductCard product={product} />
-                                    </Link>
+                                    <ProductCard key={index} product={product} />
                                 ))}
                         </div>
                     </div>
@@ -76,9 +74,7 @@ export default function Home() {
                         <div className="w-full h-auto bg-white shadow-2xl rounded-lg p-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 justify-items-center">
                             {accessoriesProducts &&
                                 accessoriesProducts.map((product, index) => (
-                                    <Link key={index} href={`/DetailProduct?id=${product.id}`}>
-                                        <ProductCard product={product} />
-                                    </Link>
+                                    <ProductCard key={index} product={product} />
                                 ))}
                         </div>
                     </div>

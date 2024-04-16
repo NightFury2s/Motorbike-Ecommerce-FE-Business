@@ -1,11 +1,12 @@
-import axios from './axios';
+import axiosInstance from './axios';
+import axios from 'axios';
 
 // Handle Login
 export const auth_login = async (username, password) => {
     const loginInfo = { username, password };
 
     try {
-        const response = await axios.post('/authenticate', loginInfo);
+        const response = await axiosInstance.post('/authenticate', loginInfo);
         const data = response.data;
 
         if (response.status === 200) {
@@ -29,7 +30,7 @@ export const auth_login = async (username, password) => {
 // Handle Register
 export const setRegisterData = async (data) => {
     try {
-        const response = await axios.post('/register', data);
+        const response = await axiosInstance.post('/register', data);
         return response;
     } catch (error) {
         return {
@@ -46,7 +47,7 @@ export const ForgotPassword = async (email) => {
     formData.append('email', email);
 
     try {
-        const response = await axios.post('/otp/otp', formData, {
+        const response = await axiosInstance.post('/otp/otp', formData, {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
             },
@@ -72,7 +73,7 @@ export const ConfirmOTP = async (email, otp) => {
 
     try {
         // Send request
-        const response = await axios.post('/otp/reset-password', formData, {
+        const response = await axiosInstance.post('/otp/reset-password', formData, {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
             },
@@ -91,7 +92,7 @@ export const MotorbikeData = async () => {
     const sortBy = 1;
 
     try {
-        const response = await axios.get(`/productcar/getsome/${pageNumber}/${pageSize}/${sortBy}`);
+        const response = await axiosInstance.get(`/productcar/getsome/${pageNumber}/${pageSize}/${sortBy}`);
         const data = response.data;
         const products = data.productSomeReponseDtos;
 
@@ -109,7 +110,7 @@ export const AccessoriesData = async () => {
     const sortBy = 2;
 
     try {
-        const response = await axios.get(`/productcar/getsome/${pageNumber}/${pageSize}/${sortBy}`);
+        const response = await axiosInstance.get(`/productcar/getsome/${pageNumber}/${pageSize}/${sortBy}`);
         const data = response.data;
         const products = data.productSomeReponseDtos;
 
@@ -123,7 +124,7 @@ export const AccessoriesData = async () => {
 // Detail Product API
 export const DetailProductData = async (id) => {
     try {
-        const response = await axios.get(`/product/getDetail/${id}`);
+        const response = await axiosInstance.get(`/product/getDetail/${id}`);
         return response.data;
     } catch (error) {
         throw new Error('Failed to fetch product details: ' + error.message);
@@ -133,7 +134,7 @@ export const DetailProductData = async (id) => {
 // Get Reviews Data by Product ID
 export const ReviewsData = async (productId) => {
     try {
-        const response = await axios.get(`/reviews/get/${productId}`);
+        const response = await axiosInstance.get(`/reviews/get/${productId}`);
         return response.data;
     } catch (error) {
         console.error('Error fetching reviews:', error);
@@ -143,7 +144,7 @@ export const ReviewsData = async (productId) => {
 // data page product
 export const dataPageProduct = async (link, currentPage, type) => {
     try {
-        const response = await axios.get(`${link}/${currentPage}/${12}/${type}`);
+        const response = await axiosInstance.get(`${link}/${currentPage}/${12}/${type}`);
         const data = response.data;
         // const products = data.productSomeReponseDtos;
         // return products;
@@ -151,5 +152,44 @@ export const dataPageProduct = async (link, currentPage, type) => {
     } catch (error) {
         console.error('Error:', error);
         return [];
+    }
+};
+
+// Add product to user's cart
+export const addToCart = async (productId, quantity) => {
+    const cartData = {
+        idProduct: productId,
+        quantityCart: quantity,
+    };
+
+    try {
+        const response = await axiosInstance.post('/user/shoppingCart/addToCart', cartData, {});
+        return {
+            success: true,
+            data: response.data,
+        };
+    } catch (error) {
+        console.error('Error adding to cart:', error);
+        return {
+            success: false,
+            message: error.response ? error.response.data.message : 'An error occurred',
+        };
+    }
+};
+
+// Get the cart for the logged-in user
+export const getCartByUser = async () => {
+    try {
+        const response = await axiosInstance.post('/user/shoppingCart/getCartByUser', {});
+        return {
+            success: true,
+            cart: response.data,
+        };
+    } catch (error) {
+        console.error('Error fetching cart:', error);
+        return {
+            success: false,
+            message: error.response ? error.response.data.message : 'An error occurred',
+        };
     }
 };

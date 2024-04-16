@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { FaCartPlus } from 'react-icons/fa';
 import { IoIosStar, IoIosStarOutline, IoIosStarHalf } from 'react-icons/io';
 import { useRouter } from 'next/router';
 import { DetailProductData, ReviewsData } from '@/pages/api/api';
 import { FiPlus, FiMinus } from 'react-icons/fi';
+import { AuthContext } from '@/context/AuthContext';
+import { addToCart } from '@/pages/api/api';
 
 const DetailProduct = () => {
     const [activeImg, setActiveImage] = useState('');
@@ -14,22 +16,8 @@ const DetailProduct = () => {
         quantityReviews: 0,
         averageRating: 0,
     });
-
     const [productDetail, setProductDetail] = useState(null);
-
-    const [qty, setQty] = useState(1);
-    // Increase quantity
-    const increaseQty = () => {
-        setQty((prevQty) => prevQty + 1);
-    };
-
-    // Decrease quantity
-    const decreaseQty = () => {
-        setQty((prevQty) => {
-            if (prevQty - 1 < 1) return 1;
-            return prevQty - 1;
-        });
-    };
+    const { increaseQty, decreaseQty, qty, setQty } = useContext(AuthContext);
 
     // Quantity adjustment with validation
     const handleQuantityChange = (e) => {
@@ -68,10 +56,25 @@ const DetailProduct = () => {
         }
     }, [id]);
 
+    const handleAddToCart = async () => {
+        const result = await addToCart(productDetail.id, qty);
+        if (result.success) {
+            console.table('Product added to cart:', result, productDetail.id);
+            alert('Sản phẩm đã được thêm vào giỏ hàng!');
+        } else {
+            console.error('Error adding to cart:', result.message);
+            alert('Đã xảy ra lỗi khi thêm sản phẩm vào giỏ hàng.');
+        }
+    };
+
+    const handleBuyNow = async () => {
+        console.log('Buy now:', productDetail.id);
+    };
+
     const renderStars = (rating) => {
-        const fullStars = Math.floor(rating); // Số sao đầy đủ
-        const halfStar = rating % 1 > 0; // Kiểm tra xem có nên hiển thị sao bán phần không
-        const emptyStars = Math.floor(5 - rating); // Số sao rỗng
+        const fullStars = Math.floor(rating);
+        const halfStar = rating % 1 > 0;
+        const emptyStars = Math.floor(5 - rating);
 
         return (
             <>
@@ -179,11 +182,17 @@ const DetailProduct = () => {
                         {/* Add to Cart Button */}
                         <div className="flex justify-center space-x-4">
                             {/* Add to Cart Button */}
-                            <button className="flex items-center justify-center bg-[#2B92E4] text-white text-2xl rounded-lg px-3 py-3 text-center w-1/3 hover:shadow-lg transition-shadow duration-200 ease-in-out">
+                            <button
+                                className="flex items-center justify-center bg-[#2B92E4] text-white text-2xl rounded-lg px-3 py-3 text-center w-1/3 hover:shadow-lg transition-shadow duration-200 ease-in-out"
+                                onClick={handleAddToCart}
+                            >
                                 <FaCartPlus className="text-white mr-2" />
                             </button>
                             {/* Buy now Button */}
-                            <button className="bg-[#2B92E4] text-white font-bold rounded-lg text-[15px] px-5 py-1.5 text-center w-2/3 hover:shadow-lg transition-shadow duration-200 ease-in-out">
+                            <button
+                                className="bg-[#2B92E4] text-white font-bold rounded-lg text-[15px] px-5 py-1.5 text-center w-2/3 hover:shadow-lg transition-shadow duration-200 ease-in-out"
+                                onClick={handleBuyNow}
+                            >
                                 Mua ngay
                             </button>
                         </div>
