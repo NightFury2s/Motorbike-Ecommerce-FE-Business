@@ -24,14 +24,20 @@ const ProductCard = ({ product, style }) => {
     };
 
     // Buy now
-    const handleBuyNow = (e) => {
+    const handleBuyNow = async (e) => {
         e.stopPropagation();
-        console.log('Buy now:', product.id);
+        const result = await addToCart(product.id, 1);
+        if (result.success) {
+            alert('Sản phẩm đã được thêm vào giỏ hàng!');
+            router.push('/CartPage');
+        } else {
+            alert('Đã xảy ra lỗi khi thêm sản phẩm vào giỏ hàng.');
+        }
     };
 
     return (
         <div style={style} className="relative flex justify-center m-10 cursor-pointer" onClick={handleCardClick}>
-            <div className="w-80 bg-[#f9f9f9] rounded-lg shadow-2xl relative">
+            <div className="w-full bg-[#f9f9f9] rounded-lg shadow-2xl relative">
                 {product && product.images && product.images.length > 0 && (
                     <img
                         className="p-5 rounded-t-lg mix-blend-multiply w-full h-48 object-contain"
@@ -40,7 +46,7 @@ const ProductCard = ({ product, style }) => {
                     />
                 )}
                 {product.discount && (
-                    <div className="absolute top-0 right-0 bg-[#2B92E4] text-black font-medium px-2 rounded">
+                    <div className="absolute top-0 right-0 bg-[#2B92E4] text-white font-medium px-2 rounded">
                         -{product.discount}%
                     </div>
                 )}
@@ -52,12 +58,12 @@ const ProductCard = ({ product, style }) => {
                     )}
                     {/* Price */}
                     {product && product.originalPrice && (
-                        <div className="flex justify-between items-center my-3">
-                            <span className="text-[20px] font-bold text-[#FF0000]">
-                                {product.newPrice.toLocaleString('vi-VN')} <span>&#8363;</span>
+                        <div className="flex items-center justify-between my-3">
+                            <span className="text-[18px] font-bold text-[#FF0000] mr-3">
+                                {product.newPrice.toLocaleString('vi-VN')} VNĐ
                             </span>
-                            <span className="text-[15px] font-bold text-[#777777] line-through">
-                                {product.originalPrice.toLocaleString('vi-VN')} <span>&#8363;</span>
+                            <span className="text-[14px] font-bold text-[#777777] line-through">
+                                {product.originalPrice.toLocaleString('vi-VN')} VNĐ
                             </span>
                         </div>
                     )}

@@ -46,7 +46,7 @@ export default function Nav({ setShowLoginModal, setShowRegisterModal }) {
         <>
             <div className="grid w-full place-items-center rounded-lg p-6 pb-7 lg:overflow-visible">
                 <div className="-m-7 max-h-[768px] w-[calc(100%+48px)]">
-                    <nav className="sticky top-0 z-10 block w-full max-w-full px-4 py-3 text-white bg-[#0F3187] rounded-none shadow-md h-max border-white/80 bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200 lg:px-8 lg:py-4">
+                    <nav className="sticky top-0 z-10 block w-full max-w-full px-4 py-3 text-white bg-[#2B92E4] rounded-none shadow-md h-max border-white/80 bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200 lg:px-8 lg:py-4">
                         <div className="flex items-center justify-between text-blue-gray-900">
                             <Link
                                 href={'/'}
@@ -60,8 +60,8 @@ export default function Nav({ setShowLoginModal, setShowRegisterModal }) {
                                 <div className="relative h-10 w-full min-w-[30rem]">
                                     <input
                                         type="search"
-                                        className="h-full w-full rounded-[7px] border bg-[#D9D9D9] px-3 py-3.5 pr-20 font-sans text-sm font-normal !text-black transition-all focus:outline-none disabled:bg-blue-gray-50"
-                                        placeholder="Tìm kiếm sản phẩm..."
+                                        className="h-full w-full rounded-[7px] border bg-[#D9D9D9] px-3 py-3.5 pr-16 font-sans text-sm font-normal placeholder:italic !text-black transition-all focus:outline-none disabled:bg-blue-gray-50"
+                                        placeholder="Tìm kiếm tên sản phẩm"
                                     />
                                     <button
                                         className="absolute right-1 top-1/2 transform -translate-y-1/2 py-2 px-2 text-center align-middle font-sans font-bold uppercase transition-all hover:shadow-lg hover:shadow-blue-gray-500/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
