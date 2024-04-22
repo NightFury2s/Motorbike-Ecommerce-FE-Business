@@ -4,10 +4,12 @@ import { InputLoginField } from '@/components/constants/Input';
 import { ForgotPassword, ConfirmOTP } from '@/pages/api/api';
 import { IoArrowBackCircle } from 'react-icons/io5';
 import { CiCircleCheck } from 'react-icons/ci';
-import { GoKey } from "react-icons/go";
+import { GoKey } from 'react-icons/go';
 
 export default function ForgotPasswordForm() {
+    const [isSending, setIsSending] = useState(false);
     const [email, setEmail] = useState('');
+    const [isConfirming, setIsConfirming] = useState(false);
     const [showConfirmationForm, setShowConfirmationForm] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
     const [code, setCode] = useState('');
@@ -19,6 +21,7 @@ export default function ForgotPasswordForm() {
 
     const handleEmailSubmit = async (e) => {
         e.preventDefault();
+        setIsSending(true);
         setError('');
         try {
             const isSuccess = await ForgotPassword(email);
@@ -28,6 +31,7 @@ export default function ForgotPasswordForm() {
         } catch (error) {
             setError(error.message);
         }
+        setIsSending(false);
     };
 
     // Handle code change
@@ -36,35 +40,38 @@ export default function ForgotPasswordForm() {
     const handleSubmitCode = async (e) => {
         e.preventDefault();
         setError('');
+        setIsConfirming(true);
         try {
             await ConfirmOTP(email, code);
             setIsSuccess(true);
         } catch (error) {
             setError(error.message);
+        } finally {
+            setIsConfirming(false);
         }
     };
 
     // Resend OTP
     const resendOTP = async () => {
+        setIsSending(true);
         try {
             await ForgotPassword(email);
             setCounter(30);
         } catch (error) {
             setError('Có lỗi xảy ra khi gửi lại mã.');
         }
+        setIsSending(false);
     };
 
-    // Sử dụng useEffect để xử lý đếm ngược
+    // Count down timer
     useEffect(() => {
         let intervalId;
-
         if (counter > 0) {
             intervalId = setInterval(() => {
                 setCounter((prevCounter) => prevCounter - 1);
             }, 1000);
         }
-
-        return () => clearInterval(intervalId); // Cleanup khi component unmount
+        return () => clearInterval(intervalId);
     }, [counter]);
 
     return (
@@ -104,8 +111,9 @@ export default function ForgotPasswordForm() {
                                     <button
                                         type="submit"
                                         className="px-20 py-3 leading-5 text-lg text-white transition-colors duration-200 transform bg-[#0F3187] rounded-full hover:bg-blue-700 focus:outline-none"
+                                        disabled={isSending} // Thêm disabled khi đang gửi email
                                     >
-                                        Gửi Email
+                                        {isSending ? 'Đang gửi...' : 'Gửi Email'}
                                     </button>
                                 </div>
                             </div>
@@ -143,8 +151,9 @@ export default function ForgotPasswordForm() {
                                     <button
                                         type="submit"
                                         className="px-32 py-3 leading-5 text-lg text-white transition-colors duration-200 transform bg-[#0F3187] rounded-full hover:bg-blue-700 focus:outline-none"
+                                        disabled={isConfirming}
                                     >
-                                        Xác nhận
+                                        {isConfirming ? 'Đang xác nhận...' : 'Xác nhận'}
                                     </button>
                                 </div>
                                 <div>
