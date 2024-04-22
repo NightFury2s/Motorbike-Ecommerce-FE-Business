@@ -118,13 +118,9 @@ function ProductPage() {
                 <div className="ProductPage-content-main">
                     {motorbikeProducts &&
                         motorbikeProducts.map((product, index) => (
-                            <Link
-                                key={index}
-                                href={`/DetailProduct?id=${product.id}`}
-                                style={{ width: '24.5%', margin: '0 2px 7px', overflow: 'hidden' }}
-                            >
+                            <div key={index} style={{ width: '25.5%', margin: '0 2px 7px', overflow: 'hidden' }}>
                                 <ProductCard style={{ width: '100%', margin: '0 2px' }} product={product} />
-                            </Link>
+                            </div>
                         ))}
                     <div
                         style={{
