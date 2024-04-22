@@ -56,7 +56,6 @@ export const ForgotPassword = async (email) => {
         });
         // If success return true
         if (response.status === 200) {
-            alert('Vui bạn kiểm tra email của bạn để nhận mã xác nhận.');
             return true;
         }
         return false;
@@ -81,7 +80,6 @@ export const ConfirmOTP = async (email, otp) => {
             },
         });
         // Handle response
-        alert('Mã xác nhận đúng, bạn có thể thiết lập mật khẩu mới.');
     } catch (error) {
         console.error('Có lỗi xảy ra:', error.response ? error.response.data : error.messenger);
         throw new Error(error.response ? error.response.data.messenger : 'Có lỗi xảy ra, vui lòng thử lại sau.');
@@ -165,7 +163,7 @@ export const addToCart = async (productId, quantity) => {
     };
 
     try {
-        const response = await axiosInstance.post('/user/shoppingCart/addToCart', cartData, {});
+        const response = await axiosInstance.post('user/shopping-cart/add-to-cart', cartData, {});
         return {
             success: true,
             data: response.data,
