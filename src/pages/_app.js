@@ -5,6 +5,7 @@ import LoginModal from '@/components/LoginModal';
 import RegisterModal from '@/components/Register';
 import '@/styles/slide.css';
 import '@/styles/productPage.css';
+import '@/styles/infomationOder.css';
 import Footer from '@/components/Footer';
 import { AuthProvider } from '@/context/AuthContext';
 

@@ -124,7 +124,6 @@ const CartPage = () => {
         setErrors(errors);
 
         if (Object.keys(errors).length === 0) {
-            alert('Đặt hàng thành công!');
         }
     };
 
