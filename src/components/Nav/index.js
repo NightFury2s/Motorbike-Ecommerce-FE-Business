@@ -60,7 +60,7 @@ export default function Nav({ setShowLoginModal, setShowRegisterModal }) {
                                 <div className="relative h-10 w-full min-w-[30rem]">
                                     <input
                                         type="search"
-                                        className="h-full w-full rounded-[7px] border bg-[#D9D9D9] px-3 py-3.5 pr-16 font-sans text-sm font-normal placeholder:italic !text-black transition-all focus:outline-none disabled:bg-blue-gray-50"
+                                        className="h-full w-full rounded-[7px] border bg-white px-3 py-3.5 pr-16 font-sans text-sm font-normal placeholder:italic !text-black transition-all focus:outline-none disabled:bg-blue-gray-50"
                                         placeholder="Tìm kiếm tên sản phẩm"
                                     />
                                     <button

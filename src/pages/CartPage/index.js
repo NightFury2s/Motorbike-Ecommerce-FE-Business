@@ -7,6 +7,9 @@ import axiosInstance from '@/pages/api/axios';
 const CartPage = () => {
     const [cartProducts, setCartProducts] = useState([]);
     const [totalPrice, setTotalPrice] = useState(0);
+    const [fullName, setFullName] = useState('');
+    const [phoneNumber, setPhoneNumber] = useState('');
+    const [errors, setErrors] = useState({});
 
     // Fetch Cart Products
     useEffect(() => {
@@ -90,6 +93,41 @@ const CartPage = () => {
         } catch (error) {}
     };
 
+    const handleFullNameChange = (e) => {
+        setFullName(e.target.value);
+        if (errors.fullName) {
+            setErrors({ ...errors, fullName: '' });
+        }
+    };
+
+    const handlePhoneNumberChange = (e) => {
+        setPhoneNumber(e.target.value);
+        if (errors.phoneNumber) {
+            setErrors({ ...errors, phoneNumber: '' });
+        }
+    };
+
+    const handleSubmit = () => {
+        const errors = {};
+
+        if (!fullName.trim()) {
+            errors.fullName = 'Bạn phải nhập họ và tên';
+        }
+
+        // Thêm kiểm tra cho số điện thoại
+        if (!phoneNumber.trim()) {
+            errors.phoneNumber = 'Bạn phải nhập số điện thoại';
+        } else if (phoneNumber.trim().length !== 10) {
+            errors.phoneNumber = 'Số điện thoại phải 10 số';
+        }
+
+        setErrors(errors);
+
+        if (Object.keys(errors).length === 0) {
+            alert('Đặt hàng thành công!');
+        }
+    };
+
     return (
         <div className="p-5 mb-14">
             <div className="max-w-7xl mx-auto">
@@ -117,7 +155,16 @@ const CartPage = () => {
                                     <label className="block text-sm font-medium text-gray-700">
                                         Họ và tên <span className="text-red-500">*</span>
                                     </label>
-                                    <input type="text" placeholder="Họ và tên" className="w-full p-2 border rounded" />
+                                    <input
+                                        type="text"
+                                        placeholder="Họ và tên"
+                                        value={fullName}
+                                        onChange={handleFullNameChange}
+                                        className={`w-full p-2 border rounded ${
+                                            errors.fullName ? 'border-red-500' : ''
+                                        }`}
+                                    />
+                                    {errors.fullName && <p className="text-red-500 text-sm">{errors.fullName}</p>}
                                 </div>
 
                                 {/* PhoneNumber Field */}
@@ -128,8 +175,13 @@ const CartPage = () => {
                                     <input
                                         type="text"
                                         placeholder="Số điện thoại"
-                                        className="w-full p-2 border rounded"
+                                        value={phoneNumber}
+                                        onChange={handlePhoneNumberChange}
+                                        className={`w-full p-2 border rounded ${
+                                            errors.phoneNumber ? 'border-red-500' : ''
+                                        }`}
                                     />
+                                    {errors.phoneNumber && <p className="text-red-500 text-sm">{errors.phoneNumber}</p>}
                                 </div>
                             </div>
 
@@ -289,7 +341,10 @@ const CartPage = () => {
 
                                 {/* Order Button */}
                                 <div className="flex justify-center mt-4">
-                                    <button className="bg-blue-500 hover:bg-blue-700 text-white text-xl font-bold py-3 px-16 rounded-lg mt-5">
+                                    <button
+                                        className="bg-blue-500 hover:bg-blue-700 text-white text-xl font-bold py-3 px-16 rounded-lg mt-5"
+                                        onClick={handleSubmit}
+                                    >
                                         Đặt hàng
                                     </button>
                                 </div>
