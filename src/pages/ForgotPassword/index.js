@@ -4,7 +4,7 @@ import { InputLoginField } from '@/components/constants/Input';
 import { ForgotPassword, ConfirmOTP } from '@/pages/api/api';
 import { IoArrowBackCircle } from 'react-icons/io5';
 import { CiCircleCheck } from 'react-icons/ci';
-import { GoKey } from "react-icons/go";
+import { GoKey } from 'react-icons/go';
 
 export default function ForgotPasswordForm() {
     const [email, setEmail] = useState('');

@@ -135,7 +135,11 @@ const RegisterModal = ({ setShowModal, setShowLoginModal }) => {
                   name="fullName"
                   errors={errors}
                   setValue={setValue}
+<<<<<<< HEAD
                   minLength={{ value: 6, message: "Tên đăng nhập ít nhất 6 ký tự" }}
+=======
+                  minLength={{ value: 6, message: "Họ và tên phải ít nhất 6 ký tự" }}
+>>>>>>> 10d45e3ec34cef71acee64cbd3f98be8a43410eb
                   pattern={{
                     value: /^[^0-9!@#$%^&*()_+|~=`{}\[\]:";'<>?,.\/].*$/,
                     message: "Chỉ được phép nhập chữ cái",
@@ -153,7 +157,11 @@ const RegisterModal = ({ setShowModal, setShowLoginModal }) => {
                   setValue={setValue}
                   handleReset={handleReset}
                   pattern={{
+<<<<<<< HEAD
                     value: /^\S+@\S+$/i,
+=======
+                    value: /^[a-zA-Z0-9._%+-]+@gmail\.com$/,
+>>>>>>> 10d45e3ec34cef71acee64cbd3f98be8a43410eb
                     message: "Email không hợp lệ",
                   }}
                   severErorEmail={severErorEmail}
@@ -169,9 +177,19 @@ const RegisterModal = ({ setShowModal, setShowLoginModal }) => {
                   setValue={setValue}
                   handleReset={handleReset}
                   pattern={{
+<<<<<<< HEAD
                     value: /^[0-9]*$/,
                     message: "Số điện thoại không hợp lệ",
                   }}
+=======
+                    value: /^0\d*$/,
+                    message: "Số điện thoại không hợp lệ",
+                  }}
+                  maxLength={{
+                    value: 10,
+                  message: 'Số điện thoại phải 10 số'
+                  }}
+>>>>>>> 10d45e3ec34cef71acee64cbd3f98be8a43410eb
                   minLength={{ value: 10, message: " Số điện thoại phải 10 số" }}
                   severErorPhone={severErorPhone}
                 />
@@ -185,7 +203,11 @@ const RegisterModal = ({ setShowModal, setShowLoginModal }) => {
                   setValue={setValue}
                   handleReset={handleReset}
                   errors={errors}
+<<<<<<< HEAD
                   minLength={{ value: 6, message: " Tên đăng nhập 6 ký tự" }}
+=======
+                  minLength={{ value: 6, message: " Tên đăng nhập phải ít nhất 6 kí tự" }}
+>>>>>>> 10d45e3ec34cef71acee64cbd3f98be8a43410eb
                   pattern={{
                     value:
                       /^(?![\d@!#$%^&*()_+|~=`{}\[\]:";'<>?,.\/])[a-zA-Z@!#$%^&*()_+|~=`{}\[\]:";'<>?,.\/\d]{6,}$/,
@@ -205,7 +227,11 @@ const RegisterModal = ({ setShowModal, setShowLoginModal }) => {
                   type="password"
                   typePassword={true}
                   setValue={setValue}
+<<<<<<< HEAD
                   minLength={{ value: 6, message: " Tài khoản hoặc mật khẩu ít nhất 6 kí tự " }}
+=======
+                  minLength={{ value: 6, message: " Mật khẩu phải ít nhất 6 kí tự " }}
+>>>>>>> 10d45e3ec34cef71acee64cbd3f98be8a43410eb
                   pattern={{
                     value:
                       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/,
@@ -228,7 +254,11 @@ const RegisterModal = ({ setShowModal, setShowLoginModal }) => {
                   type="password"
                   typePassword={true}
                   handleReset={handleReset}
+<<<<<<< HEAD
                   minLength={{ value: 6, message: "Tài khoản hoặc mật khẩu ít nhất 6 kí tự " }}
+=======
+                  minLength={{ value: 6, message: "Mật khẩu phải ít nhất 6 kí tự " }}
+>>>>>>> 10d45e3ec34cef71acee64cbd3f98be8a43410eb
                   pattern={{
                     value:
                       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/,

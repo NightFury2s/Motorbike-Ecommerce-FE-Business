@@ -2,8 +2,6 @@ import PropTypes from 'prop-types';
 import { IoEyeOff } from 'react-icons/io5';
 import { useState, useRef } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import { FaPencilAlt } from 'react-icons/fa';
-
 function InputComponent({
     type,
     placeholder,
@@ -20,6 +18,7 @@ function InputComponent({
     severErorPhone,
     severErorUser,
     handleReset,
+    maxLength,
     ...props
 }) {
     const [eye, SetEye] = useState(false);
@@ -49,7 +48,7 @@ function InputComponent({
                         handleReset ? handleReset() : null;
                     }}
                     className="w_64 bg_transparent bg-gray-100 outline-none text-sm ml-2 flex-1"
-                    {...register(name, { required: textMessage, pattern, minLength })}
+                    {...register(name, { required: textMessage, pattern, minLength, maxLength })}
                     {...props}
                 />
                 {typePassword ? <span onClick={handleEye}>{eye ? <FaEye /> : <IoEyeOff />} </span> : ''}
@@ -96,7 +95,6 @@ InputComponent.propTypes = {
     pattern: PropTypes.object,
 };
 
-// Input Login Field
 export const InputLoginField = ({ Icon, type = 'text', placeholder, value, onChange, error }) => {
     const [showPassword, setShowPassword] = useState(false);
     const inputRef = useRef(null);
@@ -111,7 +109,7 @@ export const InputLoginField = ({ Icon, type = 'text', placeholder, value, onCha
 
     return (
         <div className={`bg-gray-100 w-[80%] p-2 flex items-center mb-3 ${error ? 'border-red-500 border' : ''}`}>
-            <Icon className="text-black m-2" onClick={handleClick} />
+            <Icon className="text-gray-400 m-2" onClick={handleClick} />
             <input
                 type={type === 'password' ? (showPassword ? 'text' : 'password') : type}
                 placeholder={placeholder}
@@ -122,40 +120,9 @@ export const InputLoginField = ({ Icon, type = 'text', placeholder, value, onCha
             />
             {type === 'password' && (
                 <div onClick={togglePasswordVisibility} className="cursor-pointer p-2">
-                    {showPassword ? <FaEye className="text-black" /> : <FaEyeSlash className="text-black" />}
+                    {showPassword ? <FaEye className="text-gray-400" /> : <FaEyeSlash className="text-gray-400" />}
                 </div>
             )}
-        </div>
-    );
-};
-
-export const InpuProfileField = ({ label, id, value, isEditable, onChange, toggleEdit }) => {
-    return (
-        <div className="col-span-6 sm:col-span-3">
-            {label && (
-                <label htmlFor={id} className="block text-sm font-medium text-gray-700 mb-3">
-                    {label}
-                </label>
-            )}
-            <div className="relative w-full">
-                <input
-                    type="text"
-                    onChange={onChange}
-                    value={value}
-                    readOnly={!isEditable}
-                    id={id}
-                    className={`w-full px-3 py-2 pr-10 border rounded-md dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 ${
-                        !isEditable && 'bg-gray-100'
-                    }`}
-                />
-                <button
-                    type="button"
-                    onClick={toggleEdit}
-                    className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500"
-                >
-                    <FaPencilAlt />
-                </button>
-            </div>
         </div>
     );
 };

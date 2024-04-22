@@ -105,34 +105,37 @@ export const MotorbikeData = async () => {
 
 // Accessories Products API
 export const AccessoriesData = async () => {
-    const pageNumber = 0;
-    const pageSize = 4;
-    const sortBy = 2;
+  const pageNumber = 0;
+  const pageSize = 4;
+  const sortBy = 2;
 
-    try {
-        const response = await axiosInstance.get(`/productcar/getsome/${pageNumber}/${pageSize}/${sortBy}`);
-        const data = response.data;
-        const products = data.productSomeReponseDtos;
+  try {
+    const response = await axios.get(
+      `/productcar/getsome/${pageNumber}/${pageSize}/${sortBy}`
+    );
+    const data = response.data;
+    const products = data.productSomeReponseDtos;
 
-        return products;
-    } catch (error) {
-        console.error('Error:', error);
-        return [];
-    }
+    return products;
+  } catch (error) {
+    console.error("Error:", error);
+    return [];
+  }
 };
 
 // Detail Product API
 export const DetailProductData = async (id) => {
-    try {
-        const response = await axiosInstance.get(`/product/getDetail/${id}`);
-        return response.data;
-    } catch (error) {
-        throw new Error('Failed to fetch product details: ' + error.message);
-    }
+  try {
+    const response = await axios.get(`/product/getDetail/${id}`);
+    return response.data;
+  } catch (error) {
+    throw new Error("Failed to fetch product details: " + error.message);
+  }
 };
 
 // Get Reviews Data by Product ID
 export const ReviewsData = async (productId) => {
+<<<<<<< HEAD
     try {
         const response = await axiosInstance.get(`/reviews/get/${productId}`);
         return response.data;
@@ -193,3 +196,46 @@ export const getCartByUser = async () => {
         };
     }
 };
+=======
+  try {
+    const response = await axios.get(`/reviews/get/${productId}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching reviews:", error);
+    return null;
+  }
+};
+// data page product
+export const dataPageProduct = async (link, currentPage, type, sort) => {
+  try {
+    const response = await axios.get(
+      `${link}/${currentPage}/${12}/${type}${sort ? `/${sort}` : ""}`
+    );
+    const data = response.data;
+    return data;
+  } catch (error) {
+    console.error("Error:", error);
+    return [];
+  }
+};
+
+// send token to server
+export const sendToken = async (token) => {
+  try{
+    const config = {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json' // Loại nội dung của dữ liệu gửi đi
+      }
+    };
+  
+    const response = await axios.post('/user/shoppingCart/getCartByUser', {}, config)
+    
+    return response.data
+}
+catch (error) {
+  console.error("Error:", error);
+  return [];
+}
+}
+>>>>>>> 10d45e3ec34cef71acee64cbd3f98be8a43410eb
