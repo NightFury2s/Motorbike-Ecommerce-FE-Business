@@ -186,7 +186,26 @@ export const sendToken = async (token) => {
       }
     };
   
-    const response = await axios.post('/user/shoppingCart/getCartByUser', {}, config)
+    const response = await axios.post('/user/shopping-cart/get-cart-by-user', {}, config)
+    
+    return response.data
+}
+catch (error) {
+  console.error("Error:", error);
+  return [];
+}
+}
+
+export const sendTokenOderSuss = async (token) => {
+  try{
+    const config = {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json' // Loại nội dung của dữ liệu gửi đi
+      }
+    };
+  
+    const response = await axios.post('/user/shopping-cart/payment', {}, config)
     
     return response.data
 }
