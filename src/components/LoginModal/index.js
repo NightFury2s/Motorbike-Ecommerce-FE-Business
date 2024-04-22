@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { auth_login } from '@/pages/api/api';
 import { MdLockOutline } from 'react-icons/md';
 import { FaUser } from 'react-icons/fa';
@@ -14,6 +14,7 @@ const LoginModal = ({ setShowModal, setShowRegisterModal }) => {
     const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
     const [error, setError] = useState({ username: '', password: '' });
     const [isLoading, setIsLoading] = useState(false);
+    const [rememberMe, setRememberMe] = useState(false);
 
     // Close Modal Event
     const handleClose = (e) => {
@@ -48,11 +49,28 @@ const LoginModal = ({ setShowModal, setShowRegisterModal }) => {
             }
         }
         if (result.success) {
+            if (rememberMe) {
+                localStorage.setItem('username', username);
+                localStorage.setItem('password', password);
+            } else {
+                localStorage.removeItem('username');
+                localStorage.removeItem('password');
+            }
             alert('Đăng nhập thành công');
             setShowModal(false);
             setIsAuthenticated(true);
         }
     };
+
+    useEffect(() => {
+        const savedUsername = localStorage.getItem('username');
+        const savedPassword = localStorage.getItem('password');
+        if (savedUsername && savedPassword) {
+            setUsername(savedUsername);
+            setPassword(savedPassword);
+            setRememberMe(true);
+        }
+    }, []);
 
     return (
         <div
@@ -102,7 +120,13 @@ const LoginModal = ({ setShowModal, setShowRegisterModal }) => {
                                 {/* Remember me */}
                                 <div className="flex justify-between w-[80%] mb-5">
                                     <label className="flex items-center text-xs">
-                                        <input type="checkbox" name="Nhớ mật khẩu" className="mr-1" />
+                                        <input
+                                            type="checkbox"
+                                            checked={rememberMe}
+                                            onChange={() => setRememberMe(!rememberMe)}
+                                            name="Nhớ mật khẩu"
+                                            className="mr-1"
+                                        />
                                         Nhớ mật khẩu
                                     </label>
                                     <Link href="/ForgotPassword?" onClick={() => setShowModal(false)}>
