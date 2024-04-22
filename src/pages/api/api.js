@@ -29,15 +29,17 @@ export const auth_login = async (username, password) => {
 
 // Handle Register
 export const setRegisterData = async (data) => {
-    try {
-        const response = await axiosInstance.post('/register', data);
-        return response;
-    } catch (error) {
-        return {
-            success: false,
-            messenger: error.response ? error.response.data.messenger : error.messenger,
-        };
-    }
+  try {
+    const response = await axios.post("/register", data);
+    return response;
+  } catch (error) {
+    return {
+      success: false,
+      messenger: error.response
+        ? error.response.data.messenger
+        : error.messenger,
+    };
+  }
 };
 
 // Forgot Password
@@ -193,3 +195,23 @@ export const getCartByUser = async () => {
         };
     }
 };
+  
+  // send token to server
+  export const sendToken = async (token) => {
+    try{
+      const config = {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json' // Loại nội dung của dữ liệu gửi đi
+        }
+      };
+    
+      const response = await axios.post('/user/shoppingCart/getCartByUser', {}, config)
+      
+      return response.data
+  }
+  catch (error) {
+    console.error("Error:", error);
+    return [];
+  }
+  }

@@ -153,7 +153,7 @@ const RegisterModal = ({ setShowModal, setShowLoginModal }) => {
                   setValue={setValue}
                   handleReset={handleReset}
                   pattern={{
-                    value: /^\S+@\S+$/i,
+                    value: /^[a-zA-Z0-9._%+-]+@gmail\.com$/,
                     message: "Email không hợp lệ",
                   }}
                   severErorEmail={severErorEmail}
@@ -169,8 +169,12 @@ const RegisterModal = ({ setShowModal, setShowLoginModal }) => {
                   setValue={setValue}
                   handleReset={handleReset}
                   pattern={{
-                    value: /^[0-9]*$/,
+                    value: /^0\d*$/,
                     message: "Số điện thoại không hợp lệ",
+                  }}
+                  maxLength={{
+                    value: 10,
+                  message: 'Số điện thoại phải 10 số'
                   }}
                   minLength={{ value: 10, message: " Số điện thoại phải 10 số" }}
                   severErorPhone={severErorPhone}
@@ -185,7 +189,7 @@ const RegisterModal = ({ setShowModal, setShowLoginModal }) => {
                   setValue={setValue}
                   handleReset={handleReset}
                   errors={errors}
-                  minLength={{ value: 6, message: " Tên đăng nhập 6 ký tự" }}
+                  minLength={{ value: 6, message: " Tên đăng nhập phải ít nhất 6 kí tự" }}
                   pattern={{
                     value:
                       /^(?![\d@!#$%^&*()_+|~=`{}\[\]:";'<>?,.\/])[a-zA-Z@!#$%^&*()_+|~=`{}\[\]:";'<>?,.\/\d]{6,}$/,
@@ -205,7 +209,7 @@ const RegisterModal = ({ setShowModal, setShowLoginModal }) => {
                   type="password"
                   typePassword={true}
                   setValue={setValue}
-                  minLength={{ value: 6, message: " Tài khoản hoặc mật khẩu ít nhất 6 kí tự " }}
+                  minLength={{ value: 6, message: " Mật khẩu phải ít nhất 6 kí tự " }}
                   pattern={{
                     value:
                       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/,
@@ -228,7 +232,7 @@ const RegisterModal = ({ setShowModal, setShowLoginModal }) => {
                   type="password"
                   typePassword={true}
                   handleReset={handleReset}
-                  minLength={{ value: 6, message: "Tài khoản hoặc mật khẩu ít nhất 6 kí tự " }}
+                  minLength={{ value: 6, message: "Mật khẩu phải ít nhất 6 kí tự " }}
                   pattern={{
                     value:
                       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/,
