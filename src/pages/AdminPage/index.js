@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import React from 'react';
+import React, { useState } from 'react';
 import { FaUserCircle } from 'react-icons/fa';
 import ContentProducts from '@/components/ContentProducts';
 // import { getSession } from 'next-auth/react';
@@ -21,6 +21,12 @@ import ContentProducts from '@/components/ContentProducts';
 // }
 
 const AdminPage = () => {
+    const [showOptions, setShowOptions] = useState(false);
+
+    const handleToggleOptions = () => {
+        setShowOptions(!showOptions);
+    };
+
     return (
         <div className="min-h-screen flex flex-col">
             {/* Navbar */}
@@ -41,13 +47,21 @@ const AdminPage = () => {
             <div className="flex flex-1 bg-[#EAEAEA]">
                 {/* Sidebar */}
                 <div className="w-64 bg-[#2B92E4] p-4">
-                    <ul>
-                        <div className="w-full h-10">
-                            <li className="text-white text-lg font-semibold">Sản phẩm</li>
-                        </div>
-                        <div className="w-full h-10">
-                            <li className="text-white text-lg font-semibold">Đăng xuất</li>
-                        </div>
+                    <ul className="text-white">
+                        <li className="text-lg font-semibold cursor-pointer" onClick={handleToggleOptions}>
+                            Sản phẩm
+                            {showOptions && (
+                                <ul className="ml-4 mt-2 text-base">
+                                    <li className="mt-2 hover:text-gray-300">
+                                        <Link href="/products">Danh sách sản phẩm</Link>
+                                    </li>
+                                    <li className="mt-2 hover:text-gray-300">
+                                        <Link href="/products/new">Thêm sản phẩm</Link>
+                                    </li>
+                                </ul>
+                            )}
+                        </li>
+                        <li className="mt-4 text-lg font-semibold cursor-pointer">Đăng xuất</li>
                     </ul>
                 </div>
 
