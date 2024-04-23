@@ -75,7 +75,7 @@ export default function Nav({ setShowLoginModal, setShowRegisterModal }) {
                             <div className="flex items-center gap-4">
                                 <div className="flex items-center gap-x-5">
                                     {/* Motorcycle */}
-                                    <Link href={'/ProductPage'}>
+                                    <Link  href={'/ProductPage?typePage=1'}>
                                         <button
                                             className="hidden px-4 py-3 font-sans text-xs font-bold text-center text-white uppercase align-middle transition-all rounded-lg select-none hover:bg-gray-900/10 active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none lg:inline-block"
                                             type="button"
@@ -84,7 +84,7 @@ export default function Nav({ setShowLoginModal, setShowRegisterModal }) {
                                         </button>
                                     </Link>
                                     {/* Accessary */}
-                                    <Link href={'#'}>
+                                    <Link href={'/ProductPage?typePage=2'}>
                                         <button
                                             className="hidden px-4 py-3 font-sans text-xs font-bold text-center text-white uppercase align-middle transition-all rounded-lg select-none hover:bg-gray-900/10 active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none lg:inline-block"
                                             type="button"
@@ -166,11 +166,11 @@ export default function Nav({ setShowLoginModal, setShowRegisterModal }) {
                                         </>
                                     )}
                                     {/* Cart */}
-                                    <Link href={'/CartPage'}>
-                                        <div className="hidden px-5 py-3 cursor-pointer font-sans text-xs font-bold text-center text-white uppercase align-middle transition-all rounded-lg select-none hover:bg-gray-900/10 active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none lg:inline-block">
+                                    <div className="hidden px-5 py-3 cursor-pointer font-sans text-xs font-bold text-center text-white uppercase align-middle transition-all rounded-lg select-none hover:bg-gray-900/10 active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none lg:inline-block">
+                                        <Link href={'/CartPage'}>
                                             <FaShoppingCart className="text-2xl" />
-                                        </div>
-                                    </Link>
+                                        </Link>
+                                    </div>
                                 </div>
                             </div>
                         </div>

@@ -1,7 +1,7 @@
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 import { useState } from "react";
 
-function FilterProduct({ filter, setApiFiter, setLink,SetCurrentPage }) {
+function FilterProduct({name, filter, setApiFiter, setLink,SetCurrentPage , setType }) {
   const [openFilter, setOpenFilter] = useState(true);
 
   const handleFilter = () => {
@@ -11,7 +11,7 @@ function FilterProduct({ filter, setApiFiter, setLink,SetCurrentPage }) {
   return (
     <div className="ProductPage-content-filter-container">
       <h2 className="ProductPage-content-filter-items-name">
-        Xe máy
+        <div style={{fontWeight:'700'}} > {name}</div>
         {openFilter ? (
           <FaAngleUp
             onClick={handleFilter}
@@ -36,6 +36,7 @@ function FilterProduct({ filter, setApiFiter, setLink,SetCurrentPage }) {
               setApiFiter(e.link);
               setLink("/productcar/getTypeDetail");
               SetCurrentPage(0)
+              setType(e.type)
             }}
             className="ProductPage-content-filter-items"
           >
