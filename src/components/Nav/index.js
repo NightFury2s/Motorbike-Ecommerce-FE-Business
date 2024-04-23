@@ -75,7 +75,7 @@ export default function Nav({ setShowLoginModal, setShowRegisterModal }) {
                             <div className="flex items-center gap-4">
                                 <div className="flex items-center gap-x-5">
                                     {/* Motorcycle */}
-                                    <Link  href={'/ProductPage?typePage=1'}>
+                                    <Link href={'/ProductPage?typePage=1'}>
                                         <button
                                             className="hidden px-4 py-3 font-sans text-xs font-bold text-center text-white uppercase align-middle transition-all rounded-lg select-none hover:bg-gray-900/10 active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none lg:inline-block"
                                             type="button"
@@ -94,7 +94,6 @@ export default function Nav({ setShowLoginModal, setShowRegisterModal }) {
                                     </Link>
                                     {/* Login */}
                                     {isAuthenticated ? (
-                                        // Render FaUserCircle button if authenticated
                                         <div ref={dropdownRef} className="relative flex items-center">
                                             <FaUserCircle
                                                 className="cursor-pointer text-4xl text-[#FFFFFF]"
@@ -123,7 +122,7 @@ export default function Nav({ setShowLoginModal, setShowRegisterModal }) {
                                                     <div className="flex flex-col justify-center items-center p-2">
                                                         <FaUserCircle className="text-4xl text-[#949393]" />
                                                         <h3 className="font-bold text-xl text-black mt-3">
-                                                            <span>{userInfo.username}</span>
+                                                            <span>{userInfo?.username}</span>
                                                         </h3>
                                                     </div>
                                                     <div className="flex justify-center">
@@ -135,6 +134,14 @@ export default function Nav({ setShowLoginModal, setShowRegisterModal }) {
                                                                 Xem hồ sơ
                                                             </li>
                                                         </Link>
+                                                        {/* Admin Button */}
+                                                        {userInfo?.role === 'USER' && (
+                                                            <Link href={'/AdminPage'}>
+                                                                <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                                                                    Đến trang admin
+                                                                </li>
+                                                            </Link>
+                                                        )}
                                                         <li
                                                             className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-red-500"
                                                             onClick={() => {
@@ -166,11 +173,11 @@ export default function Nav({ setShowLoginModal, setShowRegisterModal }) {
                                         </>
                                     )}
                                     {/* Cart */}
-                                    <div className="hidden px-5 py-3 cursor-pointer font-sans text-xs font-bold text-center text-white uppercase align-middle transition-all rounded-lg select-none hover:bg-gray-900/10 active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none lg:inline-block">
-                                        <Link href={'/CartPage'}>
+                                    <Link href={'/CartPage'}>
+                                        <div className="hidden px-5 py-3 cursor-pointer font-sans text-xs font-bold text-center text-white uppercase align-middle transition-all rounded-lg select-none hover:bg-gray-900/10 active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none lg:inline-block">
                                             <FaShoppingCart className="text-2xl" />
-                                        </Link>
-                                    </div>
+                                        </div>
+                                    </Link>
                                 </div>
                             </div>
                         </div>

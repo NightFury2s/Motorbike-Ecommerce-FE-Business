@@ -3,6 +3,7 @@ import { AiTwotoneShop } from 'react-icons/ai';
 import { FaCheck } from 'react-icons/fa6';
 import { getCartByUser } from '@/pages/api/api';
 import axiosInstance from '@/pages/api/axios';
+import Link from 'next/link';
 
 const CartPage = () => {
     const [cartProducts, setCartProducts] = useState([]);
@@ -341,12 +342,14 @@ const CartPage = () => {
 
                                 {/* Order Button */}
                                 <div className="flex justify-center mt-4">
-                                    <button
-                                        className="bg-blue-500 hover:bg-blue-700 text-white text-xl font-bold py-3 px-16 rounded-lg mt-5"
-                                        onClick={handleSubmit}
-                                    >
-                                        Đặt hàng
-                                    </button>
+                                    <Link href="/InfomationOder">
+                                        <button
+                                            className="bg-blue-500 hover:bg-blue-700 text-white text-xl font-bold py-3 px-16 rounded-lg mt-5"
+                                            onClick={handleSubmit}
+                                        >
+                                            Đặt hàng
+                                        </button>
+                                    </Link>
                                 </div>
                             </div>
                         </div>
