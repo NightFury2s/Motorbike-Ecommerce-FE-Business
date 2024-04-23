@@ -178,7 +178,7 @@ export const addToCart = async (productId, quantity) => {
 // Get the cart for the logged-in user
 export const getCartByUser = async () => {
     try {
-        const response = await axiosInstance.post('/user/shoppingCart/getCartByUser', {});
+        const response = await axiosInstance.post('/user/shopping-cart/get-cart-by-user', {});
         return {
             success: true,
             cart: response.data,

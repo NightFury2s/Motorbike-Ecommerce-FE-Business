@@ -58,7 +58,7 @@ const CartPage = () => {
 
         try {
             const response = await axiosInstance.put(
-                `/user/shoppingCart/update-Cart?idCartDetail=${product.id}&quantityCart=${newQuantity}`,
+                `/user/shopping-cart/update-Cart?idCartDetail=${product.id}&quantityCart=${newQuantity}`,
             );
             if (response.status === 200) {
                 const updatedProducts = cartProducts.map((item) =>
@@ -78,7 +78,7 @@ const CartPage = () => {
     const onDelete = async (cartDetailId) => {
         try {
             const userToken = localStorage.getItem('userToken');
-            const response = await axiosInstance.delete(`/user/shoppingCart/delete?id=${cartDetailId}`, {
+            const response = await axiosInstance.delete(`/user/shopping-cart/delete?id=${cartDetailId}`, {
                 headers: {
                     Authorization: `Bearer ${userToken}`,
                 },
