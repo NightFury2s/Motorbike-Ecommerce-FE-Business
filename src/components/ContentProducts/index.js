@@ -25,7 +25,7 @@ const ContentProducts = () => {
                     {/* Sort */}
                     <div className="flex items-center">
                         <h2 className="mr-4">Danh mục</h2>
-                        <select className="px-3 py-2 border rounded-md mr-4">
+                        <select className="px-3 py-2 border rounded-md mr-4 px-4">
                             <option value="motorbike">Xe máy</option>
                             <option value="accessories">Phụ tùng</option>
                         </select>
