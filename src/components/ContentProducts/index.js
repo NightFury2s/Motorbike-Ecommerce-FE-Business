@@ -49,11 +49,16 @@ const ContentProducts = () => {
                             <th className="border border-gray-300 px-4 py-2">
                                 <input type="checkbox" />
                             </th>
-                            <th className="border border-gray-300 px-4 py-2">STT</th>
-                            <th className="border border-gray-300 px-4 py-2">Mã Danh Mục</th>
-                            <th className="border border-gray-300 px-4 py-2">Tên Danh Mục</th>
-                            <th className="border border-gray-300 px-4 py-2">Mã Loại</th>
-                            <th className="border border-gray-300 px-4 py-2">Hành động</th>
+                            <th className="border border-gray-300 px-4 py-2">Mã Sản Phẩm</th>
+                            <th className="border border-gray-300 px-4 py-2">Tên Sản Phẩm</th>
+                            <th className="border border-gray-300 px-4 py-2">Ảnh</th>
+                            <th className="border border-gray-300 px-4 py-2">Số lượng</th>
+                            <th className="border border-gray-300 px-4 py-2">Tình trạng</th>
+                            <th className="border border-gray-300 px-4 py-2">Giá gốc (VNĐ)</th>
+                            <th className="border border-gray-300 px-4 py-2">Phần trăm giảm giá (%)</th>
+                            <th className="border border-gray-300 px-4 py-2">Giá giảm giá (VNĐ)</th>
+                            <th className="border border-gray-300 px-4 py-2">Danh mục</th>
+                            <th className="border border-gray-300 px-4 py-2">Chức năng</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -62,10 +67,15 @@ const ContentProducts = () => {
                             <td className="border border-gray-300 px-4 py-2">
                                 <input type="checkbox" />
                             </td>
-                            <td className="border border-gray-300 px-4 py-2">1</td>
-                            <td className="border border-gray-300 px-4 py-2">DM001</td>
-                            <td className="border border-gray-300 px-4 py-2">Danh mục 1</td>
-                            <td className="border border-gray-300 px-4 py-2">ML001</td>
+                            <td className="border border-gray-300 px-4 py-2">01</td>
+                            <td className="border border-gray-300 px-4 py-2">Wave RSX</td>
+                            <td className="border border-gray-300 px-4 py-2">Ảnh 1</td>
+                            <td className="border border-gray-300 px-4 py-2">5</td>
+                            <td className="border border-gray-300 px-4 py-2">Còn hàng</td>
+                            <td className="border border-gray-300 px-4 py-2">30.000.000 VNĐ</td>
+                            <td className="border border-gray-300 px-4 py-2">10</td>
+                            <td className="border border-gray-300 px-4 py-2">27.000.000 VNĐ</td>
+                            <td className="border border-gray-300 px-4 py-2">Honda</td>
                             <td className="px-4 py-2 flex justify-center">
                                 <button className="mr-2">
                                     <FaEdit className="text-[#FFA800] text-[20px]" />
