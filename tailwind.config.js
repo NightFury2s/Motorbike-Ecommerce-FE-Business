@@ -9,6 +9,21 @@ module.exports = {
     ],
     theme: {
         extend: {
+            keyframes: {
+                drawCircle: {
+                    '0%': { strokeDasharray: '0, 314', strokeDashoffset: '-78.5' },
+                    '100%': { strokeDasharray: '314, 0', strokeDashoffset: '-78.5' },
+                },
+                drawTick: {
+                    '0%': { strokeDasharray: '0, 26', strokeDashoffset: '0' },
+                    '100%': { strokeDasharray: '26, 0', strokeDashoffset: '0' },
+                },
+            },
+            animation: {
+                'draw-circle': 'drawCircle 1s ease-in forwards',
+                'draw-tick': 'drawTick 0.5s ease-out 1s forwards',
+            },
+
             backgroundImage: {
                 'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
                 'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',

@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { auth_login } from '@/pages/api/api';
 import { MdLockOutline } from 'react-icons/md';
 import { FaUser } from 'react-icons/fa';
 import { IoCloseCircleSharp } from 'react-icons/io5';
 import { AuthContext } from '@/context/AuthContext';
 import { InputLoginField } from '../constants/Input';
-import { useContext } from 'react';
 import Link from 'next/link';
 
 const LoginModal = ({ setShowModal, setShowRegisterModal }) => {
@@ -15,8 +14,8 @@ const LoginModal = ({ setShowModal, setShowRegisterModal }) => {
     const [error, setError] = useState({ username: '', password: '' });
     const [isLoading, setIsLoading] = useState(false);
     const [rememberMe, setRememberMe] = useState(false);
+    const [showSuccessModal, setShowSuccessModal] = useState(false);
 
-    // Close Modal Event
     const handleClose = (e) => {
         if (e.target.id === 'modal-wrapper') {
             setShowModal(false);
@@ -25,10 +24,8 @@ const LoginModal = ({ setShowModal, setShowRegisterModal }) => {
 
     const handleLogin = async (e) => {
         e.preventDefault();
-        // Reset error state
         setError({ username: '', password: '' });
 
-        // Check if username and password are empty
         if (!username && !password) {
             setError({ username: 'Vui lòng nhập tên đăng nhập', password: 'Vui lòng nhập mật khẩu' });
             return;
@@ -37,7 +34,7 @@ const LoginModal = ({ setShowModal, setShowRegisterModal }) => {
         setIsLoading(true);
         const result = await auth_login(username, password);
         setIsLoading(false);
-        // Cases of username and password errors
+
         if (result && result.messenger) {
             if (result.messenger.includes('tên đăng nhập')) {
                 setError((currentErrors) => ({ ...currentErrors, username: result.messenger }));
@@ -48,6 +45,7 @@ const LoginModal = ({ setShowModal, setShowRegisterModal }) => {
                 setError((currentErrors) => ({ ...currentErrors, password: '' }));
             }
         }
+
         if (result.success) {
             if (rememberMe) {
                 localStorage.setItem('username', username);
@@ -56,9 +54,13 @@ const LoginModal = ({ setShowModal, setShowRegisterModal }) => {
                 localStorage.removeItem('username');
                 localStorage.removeItem('password');
             }
-            alert('Đăng nhập thành công');
-            setShowModal(false);
             setIsAuthenticated(true);
+            setShowSuccessModal(true);
+            setTimeout(() => {
+                setShowSuccessModal(false);
+                setShowModal(false);
+                window.location.reload();
+            }, 3000);
         }
     };
 
@@ -89,7 +91,6 @@ const LoginModal = ({ setShowModal, setShowRegisterModal }) => {
                             <div className="border-2 w-10 border-black inline-block mb-2"></div>
                             <p className="text-gray-400 my-3">Đăng nhập vào tài khoản của bạn</p>
                             <div className="flex flex-col items-center">
-                                {/* Username input */}
                                 <InputLoginField
                                     Icon={FaUser}
                                     type="text"
@@ -98,12 +99,9 @@ const LoginModal = ({ setShowModal, setShowRegisterModal }) => {
                                     onChange={(e) => setUsername(e.target.value)}
                                     error={error.username}
                                 />
-                                {/* Error message for username */}
                                 {error.username && (
                                     <p className="w-[80%] text-red-500 text-xs mb-3 text-left">{error.username}</p>
                                 )}
-
-                                {/* Password input */}
                                 <InputLoginField
                                     Icon={MdLockOutline}
                                     type="password"
@@ -112,19 +110,15 @@ const LoginModal = ({ setShowModal, setShowRegisterModal }) => {
                                     onChange={(e) => setPassword(e.target.value)}
                                     error={error.password}
                                 />
-                                {/* Error message for password */}
                                 {error.password && (
                                     <p className="w-[80%] text-red-500 text-xs mb-5 text-left">{error.password}</p>
                                 )}
-
-                                {/* Remember me */}
                                 <div className="flex justify-between w-[80%] mb-5">
                                     <label className="flex items-center text-xs">
                                         <input
                                             type="checkbox"
                                             checked={rememberMe}
                                             onChange={() => setRememberMe(!rememberMe)}
-                                            name="Nhớ mật khẩu"
                                             className="mr-1"
                                         />
                                         Nhớ mật khẩu
@@ -133,8 +127,6 @@ const LoginModal = ({ setShowModal, setShowRegisterModal }) => {
                                         <span className="italic text-xs text-gray-600">Quên mật khẩu ?</span>
                                     </Link>
                                 </div>
-
-                                {/* Login button */}
                                 <button
                                     type="submit"
                                     onClick={handleLogin}
@@ -146,10 +138,7 @@ const LoginModal = ({ setShowModal, setShowRegisterModal }) => {
                             </div>
                         </div>
                     </div>
-
-                    {/* Register Section */}
                     <div className="w-2/4 py-36 px-12 bg-[#2B92E4] text-white rounded-tr-2xl rounded-br-2xl relative">
-                        {/* Close button */}
                         <button
                             onClick={() => setShowModal(false)}
                             className="absolute top-0 right-0 mt-2 mr-3 text-black text-xl"
@@ -159,7 +148,6 @@ const LoginModal = ({ setShowModal, setShowRegisterModal }) => {
                         <h2 className="font-bold text-3xl mb-2">Đăng ký</h2>
                         <div className="border-2 w-10 border-white inline-block mb-2"></div>
                         <p className="mb-10">Bạn chưa có tài khoản ?</p>
-                        {/* Register button */}
                         <button
                             onClick={() => {
                                 setShowModal(false);
@@ -171,6 +159,38 @@ const LoginModal = ({ setShowModal, setShowRegisterModal }) => {
                         </button>
                     </div>
                 </div>
+
+                {/* Success Modal */}
+                {showSuccessModal && (
+                    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+                        <div className="bg-white p-6 rounded-lg shadow-lg flex flex-col items-center">
+                            <div className="relative">
+                                <svg className="w-20 h-20 text-green-500" fill="none" viewBox="0 0 24 24">
+                                    <circle
+                                        cx="12"
+                                        cy="12"
+                                        r="10"
+                                        stroke="currentColor"
+                                        strokeWidth="2"
+                                        className="animate-draw-circle"
+                                        style={{ strokeDasharray: '314, 314' }}
+                                    />
+                                    <path
+                                        className="stroke-current text-green-500 animate-draw-tick"
+                                        fill="none"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth="2"
+                                        d="M6 12l4 4L18 8"
+                                        style={{ strokeDasharray: '26, 26' }}
+                                    />
+                                </svg>
+                            </div>
+                            <h2 className="text-2xl font-bold text-black mb-2">Đăng nhập thành công!</h2>
+                            <p className="text-gray-500">Chào mừng bạn đến với Motobike Ecommerce.</p>
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     );
