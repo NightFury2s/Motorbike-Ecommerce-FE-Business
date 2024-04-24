@@ -3,12 +3,12 @@ import { FaPlus, FaTrash, FaEdit, FaSearch } from 'react-icons/fa';
 
 const ContentProducts = () => {
     return (
-        <div className="min-h-screen">
+        <div>
             {/* Header */}
             <div className="flex items-center justify-between mb-4">
                 <h2 className="text-xl font-bold">Sản phẩm</h2>
             </div>
-            <div className="bg-white p-4">
+            <div className="bg-white p-4 h-[calc(100vh-150px)]">
                 <div className="flex justify-between items-center mb-4">
                     {/* Left-side buttons and dropdown */}
                     <div className="flex items-center">
@@ -25,7 +25,7 @@ const ContentProducts = () => {
                     {/* Sort */}
                     <div className="flex items-center">
                         <h2 className="mr-4">Danh mục</h2>
-                        <select className="px-3 py-2 border rounded-md mr-4 px-4">
+                        <select className="px-3 py-2 border rounded-md mr-4">
                             <option value="motorbike">Xe máy</option>
                             <option value="accessories">Phụ tùng</option>
                         </select>

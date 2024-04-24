@@ -135,7 +135,7 @@ export default function Nav({ setShowLoginModal, setShowRegisterModal }) {
                                                             </li>
                                                         </Link>
                                                         {/* Admin Button */}
-                                                        {userInfo?.role === 'USER' && (
+                                                        {userInfo?.role === 'ADMIN' && (
                                                             <Link href={'/AdminPage'}>
                                                                 <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
                                                                     Đến trang admin
