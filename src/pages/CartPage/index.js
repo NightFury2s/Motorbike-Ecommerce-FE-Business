@@ -3,6 +3,7 @@ import { AiTwotoneShop } from 'react-icons/ai';
 import { FaCheck } from 'react-icons/fa6';
 import { getCartByUser } from '@/pages/api/api';
 import axiosInstance from '@/pages/api/axios';
+import Link from 'next/link';
 
 const CartPage = () => {
     const [cartProducts, setCartProducts] = useState([]);
@@ -58,7 +59,7 @@ const CartPage = () => {
 
         try {
             const response = await axiosInstance.put(
-                `/user/shopping-cart/update-Cart?idCartDetail=${product.id}&quantityCart=${newQuantity}`,
+                `/user/shopping-cart/update-cart?idCartDetail=${product.id}&quantityCart=${newQuantity}`,
             );
             if (response.status === 200) {
                 const updatedProducts = cartProducts.map((item) =>
@@ -114,7 +115,7 @@ const CartPage = () => {
             errors.fullName = 'Bạn phải nhập họ và tên';
         }
 
-        // Thêm kiểm tra cho số điện thoại
+        // Check phone number
         if (!phoneNumber.trim()) {
             errors.phoneNumber = 'Bạn phải nhập số điện thoại';
         } else if (phoneNumber.trim().length !== 10) {
@@ -341,12 +342,14 @@ const CartPage = () => {
 
                                 {/* Order Button */}
                                 <div className="flex justify-center mt-4">
-                                    <button
-                                        className="bg-blue-500 hover:bg-blue-700 text-white text-xl font-bold py-3 px-16 rounded-lg mt-5"
-                                        onClick={handleSubmit}
-                                    >
-                                        Đặt hàng
-                                    </button>
+                                    <Link href="/InfomationOder">
+                                        <button
+                                            className="bg-blue-500 hover:bg-blue-700 text-white text-xl font-bold py-3 px-16 rounded-lg mt-5"
+                                            onClick={handleSubmit}
+                                        >
+                                            Đặt hàng
+                                        </button>
+                                    </Link>
                                 </div>
                             </div>
                         </div>

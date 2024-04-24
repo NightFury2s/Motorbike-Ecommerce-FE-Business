@@ -59,7 +59,7 @@ export default function Home() {
                 </div>
 
                 {/* Accessories Section */}
-                <div>
+                <div className="mb-10">
                     <div className="text-center align-middle p-5">
                         <div className="flex justify-between items-center mx-auto">
                             <h1 className="font-bold text-3xl text-black  rounded-lg transition-colors">
