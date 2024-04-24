@@ -1,14 +1,30 @@
 import Link from 'next/link';
 import React, { useState } from 'react';
-import { FaUserCircle } from 'react-icons/fa';
+import { FaUserCircle, FaChevronRight, FaChevronDown } from 'react-icons/fa';
 import ContentProducts from '@/components/AdminProducts/Contents';
+import AddProducts from '@/components/AdminProducts/AddProducts';
 import ProtectedRoute from '@/components/ProtectedRoute';
 
 const AdminPage = () => {
     const [showOptions, setShowOptions] = useState(false);
+    const [selectedItem, setSelectedItem] = useState(null);
+    const [activeContent, setActiveContent] = useState('default');
 
+    // Handle toggle options
     const handleToggleOptions = () => {
         setShowOptions(!showOptions);
+        handleItemClick('products');
+    };
+
+    // Handle item click
+    const handleItemClick = (item) => {
+        setSelectedItem(item);
+    };
+
+    // Handle content change
+    const handleContentChange = (content, e) => {
+        e.stopPropagation();
+        setActiveContent(content);
     };
 
     return (
@@ -31,28 +47,48 @@ const AdminPage = () => {
                 {/* Body */}
                 <div className="flex flex-1 bg-[#EAEAEA]">
                     {/* Sidebar */}
-                    <div className="w-64 bg-[#2B92E4] p-4">
+                    <div className="w-60 bg-[#2B92E4]">
                         <ul className="text-white">
-                            <li className="text-lg font-semibold cursor-pointer" onClick={handleToggleOptions}>
-                                Sản phẩm
+                            <li
+                                className={`text-lg font-semibold cursor-pointer p-4 ${
+                                    selectedItem === 'products' ? 'bg-[#9ECEE8]' : ''
+                                }`}
+                                onClick={handleToggleOptions}
+                            >
+                                <div className="flex items-center justify-between">
+                                    Sản phẩm
+                                    {showOptions ? <FaChevronDown /> : <FaChevronRight />}
+                                </div>
                                 {showOptions && (
                                     <ul className="ml-4 mt-2 text-base">
-                                        <li className="mt-2 hover:text-gray-300">
-                                            <Link href="/products">Danh sách sản phẩm</Link>
+                                        <li
+                                            className="mt-2 hover:text-gray-300"
+                                            onClick={(e) => handleContentChange('products', e)}
+                                        >
+                                            Danh sách sản phẩm
                                         </li>
-                                        <li className="mt-2 hover:text-gray-300">
-                                            <Link href="/products/new">Thêm sản phẩm</Link>
+                                        <li
+                                            className="mt-2 hover:text-gray-300"
+                                            onClick={(e) => handleContentChange('addProduct', e)}
+                                        >
+                                            Thêm sản phẩm
                                         </li>
                                     </ul>
                                 )}
                             </li>
-                            <li className="mt-4 text-lg font-semibold cursor-pointer">Đăng xuất</li>
+                            <li className="ml-4 text-lg font-semibold cursor-pointer">Đăng xuất</li>
                         </ul>
                     </div>
 
                     {/* Content */}
                     <div className="flex-1 p-4 overflow-auto">
-                        <ContentProducts />
+                        {activeContent === 'products' ? (
+                            <ContentProducts activeContent={activeContent} />
+                        ) : activeContent === 'addProduct' ? (
+                            <AddProducts />
+                        ) : (
+                            <div className="text-center text-lg">Đây là Admin Page</div>
+                        )}
                     </div>
                 </div>
             </div>

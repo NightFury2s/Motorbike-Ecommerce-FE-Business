@@ -59,7 +59,7 @@ const CartPage = () => {
 
         try {
             const response = await axiosInstance.put(
-                `/user/shopping-cart/update-Cart?idCartDetail=${product.id}&quantityCart=${newQuantity}`,
+                `/user/shopping-cart/update-cart?idCartDetail=${product.id}&quantityCart=${newQuantity}`,
             );
             if (response.status === 200) {
                 const updatedProducts = cartProducts.map((item) =>
@@ -115,7 +115,7 @@ const CartPage = () => {
             errors.fullName = 'Bạn phải nhập họ và tên';
         }
 
-        // Thêm kiểm tra cho số điện thoại
+        // Check phone number
         if (!phoneNumber.trim()) {
             errors.phoneNumber = 'Bạn phải nhập số điện thoại';
         } else if (phoneNumber.trim().length !== 10) {

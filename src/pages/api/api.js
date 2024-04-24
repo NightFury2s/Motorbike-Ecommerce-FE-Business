@@ -196,7 +196,7 @@ export const sendToken = async (token) => {
         const config = {
             headers: {
                 Authorization: `Bearer ${token}`,
-                'Content-Type': 'application/json', // Loại nội dung của dữ liệu gửi đi
+                'Content-Type': 'application/json',
             },
         };
 
