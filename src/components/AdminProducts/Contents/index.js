@@ -1,33 +1,13 @@
 import React from 'react';
 import { FaPlus, FaTrash, FaEdit, FaSearch } from 'react-icons/fa';
-import { MdKeyboardDoubleArrowRight } from 'react-icons/md';
+import TitleManager from '@/components/constants/TitleManager';
 
 const ContentProducts = ({ activeContent }) => {
-    // Get title
-    const getTitle = () => {
-        switch (activeContent) {
-            case 'products':
-                return (
-                    <span className="flex justify-center items-center font-thin text-xl">
-                        Sản phẩm <MdKeyboardDoubleArrowRight className="mx-2 font-thin" /> Danh sách sản phẩm
-                    </span>
-                );
-            case 'addProduct':
-                return (
-                    <span>
-                        Sản phẩm <MdKeyboardDoubleArrowRight className="mx-2 font-thin" /> Thêm sản phẩm
-                    </span>
-                );
-            default:
-                return 'Sản phẩm';
-        }
-    };
-
     return (
         <div>
             {/* Header */}
             <div className="flex items-center justify-between mb-4">
-                <h2>{getTitle()}</h2>
+                <TitleManager activeContent={activeContent} />
             </div>
             <div className="bg-white p-4 px-10 h-[calc(100vh-150px)]">
                 <div className="flex justify-between items-center mb-4">

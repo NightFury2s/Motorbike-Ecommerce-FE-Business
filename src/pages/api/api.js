@@ -88,7 +88,7 @@ export const MotorbikeData = async () => {
     const sortBy = 1;
 
     try {
-        const response = await axiosInstance.get(`/productcar/getsome/${pageNumber}/${pageSize}/${sortBy}`);
+        const response = await axiosInstance.get(`/product/get-by-id-type/${pageNumber}/${pageSize}/${sortBy}`);
         const data = response.data;
         const products = data.productSomeReponseDtos;
 
@@ -106,7 +106,7 @@ export const AccessoriesData = async () => {
     const sortBy = 2;
 
     try {
-        const response = await axiosInstance.get(`/productcar/getsome/${pageNumber}/${pageSize}/${sortBy}`);
+        const response = await axiosInstance.get(`/product/get-by-id-type/${pageNumber}/${pageSize}/${sortBy}`);
         const data = response.data;
         const products = data.productSomeReponseDtos;
 
@@ -120,7 +120,7 @@ export const AccessoriesData = async () => {
 // Detail Product API
 export const DetailProductData = async (id) => {
     try {
-        const response = await axiosInstance.get(`/product/getDetail/${id}`);
+        const response = await axiosInstance.get(`/product/get-detail/${id}`);
         return response.data;
     } catch (error) {
         throw new Error('Failed to fetch product details: ' + error.message);
@@ -200,11 +200,44 @@ export const sendToken = async (token) => {
             },
         };
 
-        const response = await axios.post('/user/shoppingCart/getCartByUser', {}, config);
+        const response = await axios.post('/user/shopping-cart/get-cart-by-user', {}, config);
 
         return response.data;
     } catch (error) {
         console.error('Error:', error);
         return [];
+    }
+};
+
+// Add Product
+export const addProduct = async (productData) => {
+    try {
+        const response = await axiosInstance.post('/admin/product/add', productData, {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        if (response.status === 200 || response.status === 201) {
+            // Handle success
+            return {
+                success: true,
+                data: response.data,
+                message: 'Sản phẩm đã được thêm thành công!',
+            };
+        } else {
+            // Handle Error HTTP Response: 400, 401
+            return {
+                success: false,
+                message: response.data.message || 'Không thể thêm sản phẩm!',
+            };
+        }
+    } catch (error) {
+        console.error('Error adding product:', error);
+        // Handle Error Not Success
+        return {
+            success: false,
+            message: error.response ? error.response.data.message : 'Đã xảy ra lỗi khi thêm sản phẩm!',
+        };
     }
 };

@@ -85,7 +85,7 @@ const AdminPage = () => {
                         {activeContent === 'products' ? (
                             <ContentProducts activeContent={activeContent} />
                         ) : activeContent === 'addProduct' ? (
-                            <AddProducts />
+                            <AddProducts activeContent={activeContent} />
                         ) : (
                             <div className="text-center text-lg">Đây là Admin Page</div>
                         )}
