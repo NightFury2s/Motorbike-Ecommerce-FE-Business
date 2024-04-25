@@ -1,6 +1,6 @@
 import InfomationCard from "@/components/InfomationCard";
 import { useEffect, useRef, useState } from "react";
-import { sendToken, sendTokenOderSuss } from "../api/api";
+import { sendToken } from "../api/api";
 
 function OderSucc() {
   const [totalPrice, setTotalPrice] = useState('');
@@ -10,11 +10,10 @@ function OderSucc() {
   //mac dinh
   useEffect(() => {
     const token = localStorage.getItem("token");
-    // sendToken(token).then((data) => {
-    //   setDataProduct(data.shoppingCartDetailsDto || []);
-    //   setTotalPrice(data.totalPrice);
-    // });
-    // sendTokenOderSuss(token).then((e)=>console.log('suss'))
+    sendToken(token).then((data) => {
+      setDataProduct(data.shoppingCartDetailsDto || []);
+      setTotalPrice(data.totalPrice);
+    });
   }, []);
 
   return (

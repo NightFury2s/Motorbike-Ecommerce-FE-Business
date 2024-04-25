@@ -1,4 +1,3 @@
-
 import FilterProduct from "../../components/FilterProduct";
 import ProductCard from "../../components/cartProduct";
 import { useEffect, useState } from "react";
@@ -12,7 +11,7 @@ function ProductPage() {
   const [totalPage, setTotalPage] = useState(1);
   const [currentPage, SetCurrentPage] = useState(0);
   const [apiFiter, setApiFiter] = useState(null);
-  const [link, setLink] = useState("/productcar/getsome");
+  const [link, setLink] = useState("/product/get-by-id-type");
   const [sort , setSort]=useState('');
   const [type, setType] = useState()
 
@@ -32,10 +31,10 @@ function ProductPage() {
   };
 
   useEffect(  ()=>{
-    productsData('/productcar/getsome', currentPage, typePage|| 1);
+    productsData('/product/get-by-id-type', currentPage, typePage|| 1);
     SetCurrentPage(0)
     setType(typePage)
-    setLink('/productcar/getsome')
+    setLink('/product/get-by-id-type')
   },[typePage])
 
 

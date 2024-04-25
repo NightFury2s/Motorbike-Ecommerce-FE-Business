@@ -135,7 +135,7 @@ const RegisterModal = ({ setShowModal, setShowLoginModal }) => {
                   name="fullName"
                   errors={errors}
                   setValue={setValue}
-                  minLength={{ value: 6, message: "Tên đăng nhập ít nhất 6 ký tự" }}
+                  minLength={{ value: 6, message: "Họ và tên phải ít nhất 6 ký tự" }}
                   pattern={{
                     value: /^[^0-9!@#$%^&*()_+|~=`{}\[\]:";'<>?,.\/].*$/,
                     message: "Chỉ được phép nhập chữ cái",

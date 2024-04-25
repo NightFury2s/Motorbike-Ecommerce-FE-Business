@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { auth_login } from '@/pages/api/api';
 import { MdLockOutline } from 'react-icons/md';
 import { FaUser } from 'react-icons/fa';
@@ -14,7 +14,6 @@ const LoginModal = ({ setShowModal, setShowRegisterModal }) => {
     const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
     const [error, setError] = useState({ username: '', password: '' });
     const [isLoading, setIsLoading] = useState(false);
-    const [rememberMe, setRememberMe] = useState(false);
 
     // Close Modal Event
     const handleClose = (e) => {
@@ -49,28 +48,11 @@ const LoginModal = ({ setShowModal, setShowRegisterModal }) => {
             }
         }
         if (result.success) {
-            if (rememberMe) {
-                localStorage.setItem('username', username);
-                localStorage.setItem('password', password);
-            } else {
-                localStorage.removeItem('username');
-                localStorage.removeItem('password');
-            }
             alert('Đăng nhập thành công');
             setShowModal(false);
             setIsAuthenticated(true);
         }
     };
-
-    useEffect(() => {
-        const savedUsername = localStorage.getItem('username');
-        const savedPassword = localStorage.getItem('password');
-        if (savedUsername && savedPassword) {
-            setUsername(savedUsername);
-            setPassword(savedPassword);
-            setRememberMe(true);
-        }
-    }, []);
 
     return (
         <div
@@ -82,11 +64,11 @@ const LoginModal = ({ setShowModal, setShowRegisterModal }) => {
                 <div className="bg-white rounded-2xl shadow-2xl flex w-[850px]">
                     <div className="w-3/4 p-5">
                         <div className="text-left font-bold">
-                            <span className="text-[#4B5563]">Motorbike</span> Ecommerce
+                            <span className="text-[#2B92E4]">Motorbike</span> Ecommerce
                         </div>
                         <div className="py-10">
-                            <h2 className="text-3xl font-bold text-black mb-2">Đăng nhập</h2>
-                            <div className="border-2 w-10 border-black inline-block mb-2"></div>
+                            <h2 className="text-3xl font-bold text-[#2B92E4] mb-2">Đăng nhập</h2>
+                            <div className="border-2 w-10 border-[#2B92E4] inline-block mb-2"></div>
                             <p className="text-gray-400 my-3">Đăng nhập vào tài khoản của bạn</p>
                             <div className="flex flex-col items-center">
                                 {/* Username input */}
@@ -120,13 +102,7 @@ const LoginModal = ({ setShowModal, setShowRegisterModal }) => {
                                 {/* Remember me */}
                                 <div className="flex justify-between w-[80%] mb-5">
                                     <label className="flex items-center text-xs">
-                                        <input
-                                            type="checkbox"
-                                            checked={rememberMe}
-                                            onChange={() => setRememberMe(!rememberMe)}
-                                            name="Nhớ mật khẩu"
-                                            className="mr-1"
-                                        />
+                                        <input type="checkbox" name="Nhớ mật khẩu" className="mr-1" />
                                         Nhớ mật khẩu
                                     </label>
                                     <Link href="/ForgotPassword?" onClick={() => setShowModal(false)}>
@@ -138,7 +114,7 @@ const LoginModal = ({ setShowModal, setShowRegisterModal }) => {
                                 <button
                                     type="submit"
                                     onClick={handleLogin}
-                                    className="border-2 border-black text-black rounded-full px-12 py-2 inline-block font-semibold hover:bg-[#2B92E4] hover:text-white disabled:bg-[#2B92E4] disabled:text-gray-200"
+                                    className="border-2 border-[#2B92E4] text-[#2B92E4] rounded-full px-12 py-2 inline-block font-semibold hover:bg-[#2B92E4] hover:text-white disabled:bg-[#2B92E4] disabled:text-gray-200"
                                     disabled={isLoading}
                                 >
                                     {isLoading ? 'Đang đăng nhập...' : 'Đăng nhập'}

@@ -2,13 +2,14 @@ import Link from 'next/link';
 import { FaShoppingCart, FaUserCircle } from 'react-icons/fa';
 import { AuthContext } from '@/context/AuthContext';
 import { useContext, useEffect, useState, useRef } from 'react';
-import { FaCaretDown, FaCaretRight, FaSearch } from 'react-icons/fa';
+import { FaCaretDown, FaCaretRight } from 'react-icons/fa';
 
 export default function Nav({ setShowLoginModal, setShowRegisterModal }) {
     const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
     const [showDropdown, setShowDropdown] = useState(false);
     const dropdownRef = useRef(null);
     const [userInfo, setUserInfo] = useState(null);
+    const [LinkProduct, setLinkProduct] = useState('');
 
     // Close dropdown when click outside
     useEffect(() => {
@@ -46,7 +47,7 @@ export default function Nav({ setShowLoginModal, setShowRegisterModal }) {
         <>
             <div className="grid w-full place-items-center rounded-lg p-6 pb-7 lg:overflow-visible">
                 <div className="-m-7 max-h-[768px] w-[calc(100%+48px)]">
-                    <nav className="sticky top-0 z-10 block w-full max-w-full px-4 py-3 text-white bg-[#2B92E4] rounded-none shadow-md h-max border-white/80 bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200 lg:px-8 lg:py-4">
+                    <nav className="sticky top-0 z-10 block w-full max-w-full px-4 py-3 text-white bg-[#0F3187] rounded-none shadow-md h-max border-white/80 bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200 lg:px-8 lg:py-4">
                         <div className="flex items-center justify-between text-blue-gray-900">
                             <Link
                                 href={'/'}
@@ -60,22 +61,25 @@ export default function Nav({ setShowLoginModal, setShowRegisterModal }) {
                                 <div className="relative h-10 w-full min-w-[30rem]">
                                     <input
                                         type="search"
-                                        className="h-full w-full rounded-[7px] border bg-white px-3 py-3.5 pr-16 font-sans text-sm font-normal placeholder:italic !text-black transition-all focus:outline-none disabled:bg-blue-gray-50"
-                                        placeholder="Tìm kiếm tên sản phẩm"
+                                        className="peer h-full w-full rounded-[7px] border bg-[#D9D9D9] px-3 py-3.5 pr-20 font-sans text-sm font-normal !text-black transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
+                                        placeholder=" "
                                     />
-                                    <button
-                                        className="absolute right-1 top-1/2 transform -translate-y-1/2 py-2 px-2 text-center align-middle font-sans font-bold uppercase transition-all hover:shadow-lg hover:shadow-blue-gray-500/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                                        type="button"
-                                    >
-                                        <FaSearch className="text-xl text-black" />
-                                    </button>
+                                    <label className="pointer-events-none absolute left-0 -top-1.5 flex h-full w-full select-none !overflow-visible truncate text-[11px] font-normal leading-tight !text-white transition-all before:pointer-events-none before:mt-[6.5px] before:mr-1 before:box-border before:block before:h-1.5 before:w-2.5 before:rounded-tl-md before:border-t before:border-l before:border-transparent before:transition-all after:pointer-events-none after:mt-[6.5px] after:ml-1 after:box-border after:block after:h-1.5 after:w-2.5 after:flex-grow after:rounded-tr-md after:border-t after:border-r after:border-transparent after:transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[3.75] peer-placeholder-shown:text-blue-gray-500 peer-placeholder-shown:before:border-transparent peer-placeholder-shown:after:border-transparent peer-focus:text-[11px] peer-focus:leading-tight peer-focus:text-white peer-focus:before:border-t-2 peer-focus:before:border-l-2 peer-focus:before:border-transparent peer-focus:after:border-t-2 peer-focus:after:border-r-2 peer-focus:after:border-transparent peer-disabled:text-transparent peer-disabled:before:border-transparent peer-disabled:after:border-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500">
+                                        Tìm kiếm...
+                                    </label>
                                 </div>
+                                <button
+                                    className="!absolute right-1 top-1 select-none rounded bg-gray py-2 px-2 text-center align-middle font-sans text-xs font-bold bg-[#656565] uppercase text-blue-gray-900 shadow-md shadow-blue-gray-500/10 transition-all hover:shadow-lg hover:shadow-blue-gray-500/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                                    type="button"
+                                >
+                                    Tìm kiếm
+                                </button>
                             </div>
 
                             <div className="flex items-center gap-4">
                                 <div className="flex items-center gap-x-5">
                                     {/* Motorcycle */}
-                                    <Link href={'/ProductPage?typePage=1'}>
+                                    <Link  href={'/ProductPage?typePage=1'}>
                                         <button
                                             className="hidden px-4 py-3 font-sans text-xs font-bold text-center text-white uppercase align-middle transition-all rounded-lg select-none hover:bg-gray-900/10 active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none lg:inline-block"
                                             type="button"
@@ -94,6 +98,7 @@ export default function Nav({ setShowLoginModal, setShowRegisterModal }) {
                                     </Link>
                                     {/* Login */}
                                     {isAuthenticated ? (
+                                        // Render FaUserCircle button if authenticated
                                         <div ref={dropdownRef} className="relative flex items-center">
                                             <FaUserCircle
                                                 className="cursor-pointer text-4xl text-[#FFFFFF]"
@@ -122,26 +127,16 @@ export default function Nav({ setShowLoginModal, setShowRegisterModal }) {
                                                     <div className="flex flex-col justify-center items-center p-2">
                                                         <FaUserCircle className="text-4xl text-[#949393]" />
                                                         <h3 className="font-bold text-xl text-black mt-3">
-                                                            <span>{userInfo?.username}</span>
+                                                            <span>{userInfo.username}</span>
                                                         </h3>
                                                     </div>
                                                     <div className="flex justify-center">
                                                         <hr className="w-3/4 border-gray-300" />
                                                     </div>
                                                     <ul className="text-gray-700">
-                                                        <Link href={'/ProfilePage'}>
-                                                            <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                                                                Xem hồ sơ
-                                                            </li>
-                                                        </Link>
-                                                        {/* Admin Button */}
-                                                        {userInfo?.role === 'ADMIN' && (
-                                                            <Link href={'/AdminPage'}>
-                                                                <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                                                                    Đến trang admin
-                                                                </li>
-                                                            </Link>
-                                                        )}
+                                                        <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                                                            Xem hồ sơ
+                                                        </li>
                                                         <li
                                                             className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-red-500"
                                                             onClick={() => {
@@ -173,11 +168,11 @@ export default function Nav({ setShowLoginModal, setShowRegisterModal }) {
                                         </>
                                     )}
                                     {/* Cart */}
-                                    <Link href={'/CartPage'}>
-                                        <div className="hidden px-5 py-3 cursor-pointer font-sans text-xs font-bold text-center text-white uppercase align-middle transition-all rounded-lg select-none hover:bg-gray-900/10 active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none lg:inline-block">
+                                    <div className="hidden px-5 py-3 cursor-pointer font-sans text-xs font-bold text-center text-white uppercase align-middle transition-all rounded-lg select-none hover:bg-gray-900/10 active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none lg:inline-block">
+                                        <Link href={'/CartPage'}>
                                             <FaShoppingCart className="text-2xl" />
-                                        </div>
-                                    </Link>
+                                        </Link>
+                                    </div>
                                 </div>
                             </div>
                         </div>

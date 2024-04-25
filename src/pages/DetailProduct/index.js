@@ -1,11 +1,8 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaCartPlus } from 'react-icons/fa';
-import { IoIosStar, IoIosStarOutline, IoIosStarHalf } from 'react-icons/io';
+import { IoIosStar, IoIosStarOutline } from 'react-icons/io';
 import { useRouter } from 'next/router';
 import { DetailProductData, ReviewsData } from '@/pages/api/api';
-import { FiPlus, FiMinus } from 'react-icons/fi';
-import { AuthContext } from '@/context/AuthContext';
-import { addToCart } from '@/pages/api/api';
 
 const DetailProduct = () => {
     const [activeImg, setActiveImage] = useState('');
@@ -16,17 +13,8 @@ const DetailProduct = () => {
         quantityReviews: 0,
         averageRating: 0,
     });
-    const [productDetail, setProductDetail] = useState(null);
-    const { increaseQty, decreaseQty, qty, setQty } = useContext(AuthContext);
 
-    // Quantity adjustment with validation
-    const handleQuantityChange = (e) => {
-        const value = parseInt(e.target.value, 10);
-        // Ensure the input is a number and not less than 1
-        if (!isNaN(value) && value >= 1) {
-            setQty(value);
-        }
-    };
+    const [productDetail, setProductDetail] = useState(null);
 
     useEffect(() => {
         // Fetch product details with id
@@ -56,39 +44,6 @@ const DetailProduct = () => {
         }
     }, [id]);
 
-    const handleAddToCart = async () => {
-        const result = await addToCart(productDetail.id, qty);
-        if (result.success) {
-            console.table('Product added to cart:', result, productDetail.id);
-            alert('Sản phẩm đã được thêm vào giỏ hàng!');
-        } else {
-            console.error('Error adding to cart:', result.message);
-            alert('Đã xảy ra lỗi khi thêm sản phẩm vào giỏ hàng.');
-        }
-    };
-
-    const handleBuyNow = async () => {
-        console.log('Buy now:', productDetail.id);
-    };
-
-    const renderStars = (rating) => {
-        const fullStars = Math.floor(rating);
-        const halfStar = rating % 1 > 0;
-        const emptyStars = Math.floor(5 - rating);
-
-        return (
-            <>
-                {[...Array(fullStars)].map((_, index) => (
-                    <IoIosStar key={`full-${index}`} className="text-yellow-500 text-2xl" />
-                ))}
-                {halfStar && <IoIosStarHalf className="text-yellow-500 text-2xl" />}
-                {[...Array(emptyStars)].map((_, index) => (
-                    <IoIosStarOutline key={`empty-${index}`} className="text-yellow-500 text-2xl" />
-                ))}
-            </>
-        );
-    };
-
     // Make sure to handle loading state or check if productDetail is null before trying to render details
     if (!productDetail) return <div>Loading...</div>;
 
@@ -100,7 +55,29 @@ const DetailProduct = () => {
                         <h1 className="text-[#000000] text-3xl font-bold">{productDetail.name}</h1>
                         <h6 className="text-[#D3D3D3] text-xl font-semibold">Bảo hành tại Motorbike</h6>
                         <div className="flex ">
-                            {renderStars(reviewData.averageRating)}
+                            {[...Array(5)].map((star, index) => {
+                                index += 1;
+                                return (
+                                    <button
+                                        type="button"
+                                        key={index}
+                                        className={
+                                            index <= Math.round(reviewData.averageRating)
+                                                ? 'text-yellow-500'
+                                                : 'text-gray-400'
+                                        }
+                                        style={{ cursor: 'default' }}
+                                    >
+                                        <div className="text-2xl">
+                                            {index <= Math.round(reviewData.averageRating) ? (
+                                                <IoIosStar />
+                                            ) : (
+                                                <IoIosStarOutline />
+                                            )}
+                                        </div>
+                                    </button>
+                                );
+                            })}
                             <div>
                                 <h3 className="text-xl font-bold text-[#777777] ml-4">
                                     {reviewData.averageRating} ({reviewData.quantityReviews} đánh giá)
@@ -141,7 +118,7 @@ const DetailProduct = () => {
                     <div className="flex flex-col gap-6 lg:w-2/4 p-10 bg-[#D9D9D9] rounded-r-lg">
                         <div className="flex items-center bg-[#D9D9D9">
                             {/* New Price */}
-                            <h6 className="text-3xl text-[#2B92E4] font-bold">
+                            <h6 className="text-3xl text-[#FF5E22] font-bold">
                                 {productDetail.newPrice.toLocaleString('vi-VN')} <span>&#8363;</span>
                             </h6>
                             {/* Old Price */}
@@ -149,7 +126,7 @@ const DetailProduct = () => {
                                 {productDetail.originalPrice.toLocaleString('vi-VN')} <span>&#8363;</span>
                             </span>
                             {/* Discount */}
-                            <div className="ml-5 bg-[#2B92E4] px-3 flex items-center justify-center rounded-md">
+                            <div className="ml-5 bg-[#FF5E22] px-3 flex items-center justify-center rounded-md">
                                 <span className="text-md font-medium text-black">-{productDetail.discount}%</span>
                             </div>
                         </div>
@@ -161,38 +138,14 @@ const DetailProduct = () => {
                         {/* Product Description */}
                         <p className="text-gray-700 text-xl py-10">{productDetail.describe}</p>
 
-                        {/* Quantity adjustment */}
-                        <div className="flex items-center rounded-lg">
-                            <button onClick={decreaseQty} className="px-4 py-4 border bg-white">
-                                <FiMinus />
-                            </button>
-                            <input
-                                className="w-10 text-center border py-3"
-                                type="number"
-                                min="1"
-                                value={qty}
-                                onChange={handleQuantityChange}
-                                onInput={(e) => (e.target.value = e.target.value.replace(/[^0-9]/g, ''))} // Restricts input to numbers only
-                            />
-                            <button onClick={increaseQty} className="px-4 py-4 border bg-white">
-                                <FiPlus />
-                            </button>
-                        </div>
-
                         {/* Add to Cart Button */}
-                        <div className="flex justify-center space-x-4">
+                        <div className="flex justify-center mt-10">
                             {/* Add to Cart Button */}
-                            <button
-                                className="flex items-center justify-center bg-[#2B92E4] text-white text-2xl rounded-lg px-3 py-3 text-center w-1/3 hover:shadow-lg transition-shadow duration-200 ease-in-out"
-                                onClick={handleAddToCart}
-                            >
+                            <button className="flex items-center justify-center bg-[#FF9700] text-white text-2xl rounded-l-lg px-3 py-3 text-center w-1/3 hover:shadow-lg transition-shadow duration-200 ease-in-out">
                                 <FaCartPlus className="text-white mr-2" />
                             </button>
                             {/* Buy now Button */}
-                            <button
-                                className="bg-[#2B92E4] text-white font-bold rounded-lg text-[15px] px-5 py-1.5 text-center w-2/3 hover:shadow-lg transition-shadow duration-200 ease-in-out"
-                                onClick={handleBuyNow}
-                            >
+                            <button className="bg-[#FF5E22] text-white font-bold rounded-r-lg text-[15px] px-5 py-1.5 text-center w-2/3 hover:shadow-lg transition-shadow duration-200 ease-in-out">
                                 Mua ngay
                             </button>
                         </div>

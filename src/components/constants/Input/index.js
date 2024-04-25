@@ -94,79 +94,48 @@ function InputComponent({
 
 export default InputComponent;
 InputComponent.defaultProps = {
-    type: 'text ',
-    placeholder: 'placeholder',
-    textMessage: 'textMessage',
-    pattern: null,
+  type: "text ",
+  placeholder: "placeholder",
+  textMessage: "textMessage",
+  pattern: null,
 };
 
 InputComponent.propTypes = {
-    type: PropTypes.string,
-    placeholder: PropTypes.string,
-    textMessage: PropTypes.string,
-    pattern: PropTypes.object,
+  type: PropTypes.string,
+  placeholder: PropTypes.string,
+  textMessage: PropTypes.string,
+  pattern: PropTypes.object,
 };
 
-// Input Login Field
+
 export const InputLoginField = ({ Icon, type = 'text', placeholder, value, onChange, error }) => {
-    const [showPassword, setShowPassword] = useState(false);
-    const inputRef = useRef(null);
+  const [showPassword, setShowPassword] = useState(false);
+  const inputRef = useRef(null);
 
-    const handleClick = () => {
-        inputRef.current.focus();
-    };
+  const handleClick = () => {
+      inputRef.current.focus();
+  };
 
-    const togglePasswordVisibility = () => {
-        setShowPassword(!showPassword);
-    };
+  const togglePasswordVisibility = () => {
+      setShowPassword(!showPassword);
+  };
 
-    return (
-        <div className={`bg-gray-100 w-[80%] p-2 flex items-center mb-3 ${error ? 'border-red-500 border' : ''}`}>
-            <Icon className="text-black m-2" onClick={handleClick} />
-            <input
-                type={type === 'password' ? (showPassword ? 'text' : 'password') : type}
-                placeholder={placeholder}
-                className="bg-gray-100 outline-none text-sm flex-1"
-                value={value}
-                onChange={onChange}
-                ref={inputRef}
-            />
-            {type === 'password' && (
-                <div onClick={togglePasswordVisibility} className="cursor-pointer p-2">
-                    {showPassword ? <FaEye className="text-black" /> : <FaEyeSlash className="text-black" />}
-                </div>
-            )}
-        </div>
-    );
-};
-
-export const InpuProfileField = ({ label, id, value, isEditable, onChange, toggleEdit }) => {
-    return (
-        <div className="col-span-6 sm:col-span-3">
-            {label && (
-                <label htmlFor={id} className="block text-sm font-medium text-gray-700 mb-3">
-                    {label}
-                </label>
-            )}
-            <div className="relative w-full">
-                <input
-                    type="text"
-                    onChange={onChange}
-                    value={value}
-                    readOnly={!isEditable}
-                    id={id}
-                    className={`w-full px-3 py-2 pr-10 border rounded-md dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 ${
-                        !isEditable && 'bg-gray-100'
-                    }`}
-                />
-                <button
-                    type="button"
-                    onClick={toggleEdit}
-                    className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500"
-                >
-                    <FaPencilAlt />
-                </button>
-            </div>
-        </div>
-    );
+  return (
+      <div className={`bg-gray-100 w-[80%] p-2 flex items-center mb-3 ${error ? 'border-red-500 border' : ''}`}>
+          <Icon className="text-gray-400 m-2" onClick={handleClick} />
+          <input
+              type={type === 'password' ? (showPassword ? 'text' : 'password') : type}
+              placeholder={placeholder}
+              className="bg-gray-100 outline-none text-sm flex-1"
+              value={value}
+              onChange={onChange}
+              ref={inputRef}
+          />
+          {type === 'password' && (
+              <div onClick={togglePasswordVisibility} className="cursor-pointer p-2">
+                  {showPassword ? <FaEye className="text-gray-400" /> : <FaEyeSlash className="text-gray-400" />}
+              </div>
+          )}
+      </div>
+  );
 };
