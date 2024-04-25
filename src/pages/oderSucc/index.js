@@ -10,10 +10,10 @@ function OderSucc() {
   //mac dinh
   useEffect(() => {
     const token = localStorage.getItem("token");
-    // sendToken(token).then((data) => {
-    //   setDataProduct(data.shoppingCartDetailsDto || []);
-    //   setTotalPrice(data.totalPrice);
-    // });
+    sendToken(token).then((data) => {
+      setDataProduct(data.shoppingCartDetailsDto || []);
+      setTotalPrice(data.totalPrice);
+    });
     // sendTokenOderSuss(token).then((e)=>console.log('suss'))
   }, []);
 

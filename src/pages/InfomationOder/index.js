@@ -16,6 +16,7 @@ function InfomationOder() {
     const token = localStorage.getItem("token");
     setUser(JSON.parse(localStorage.getItem("userInfo")));
     sendToken(token).then((data)=>{
+      console.log(data);
       setDataProduct(data.shoppingCartDetailsDto || [])
       setTotalPrice(data.totalPrice)
     })    

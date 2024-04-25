@@ -12,9 +12,6 @@ const ContentProducts = ({ activeContent }) => {
     const [search,setSearch] = useState('')
     const [curr,setCurr] = useState(0)
 
-    console.log(search);
-    
-
     useEffect(()=>{
         getdataAdmin(type)
         .then((e)=>{
@@ -27,7 +24,7 @@ const ContentProducts = ({ activeContent }) => {
         .then((e)=>{
             setDataProduct(e.productSomeReponseDtos)
         })
-    },[type,curr ,])
+    },[type,curr])
 
     useEffect(()=>{
         getdataAdminSearch(curr,search)
@@ -60,7 +57,7 @@ const ContentProducts = ({ activeContent }) => {
                     </span>
                 );
             default:
-                return 'Sản phẩm';
+                return 'Sản phẩm'
         }
     };
 

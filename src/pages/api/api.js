@@ -198,6 +198,7 @@ export const getCartByUser = async () => {
 
 // send token to server
 export const sendToken = async (token) => {
+    console.log(token);
     try{
       const config = {
         headers: {
@@ -206,7 +207,7 @@ export const sendToken = async (token) => {
         }
       };
     
-      const response = await axios.post('/user/shopping-cart/get-cart-by-user', {}, config)
+      const response = await axios.post('http://192.168.199.241:8080/user/shopping-cart/get-cart-by-user', {}, config)
       
       return response.data
   }
