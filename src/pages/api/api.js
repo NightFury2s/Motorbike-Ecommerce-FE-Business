@@ -86,46 +86,51 @@ export const MotorbikeData = async () => {
     const pageNumber = 0;
     const pageSize = 4;
     const sortBy = 1;
-
+  
     try {
-        const response = await axiosInstance.get(`/productcar/getsome/${pageNumber}/${pageSize}/${sortBy}`);
-        const data = response.data;
-        const products = data.productSomeReponseDtos;
-
-        return products;
+      const response = await axios.get(
+        `/product/get-by-id-type/${pageNumber}/${pageSize}/${sortBy}`
+      );
+      const data = response.data;
+      const products = data.productSomeReponseDtos;
+  
+      return products;
     } catch (error) {
-        console.error('Error:', error);
-        return [];
+      console.error("Error:", error);
+      return [];
     }
-};
+  };
 
 // Accessories Products API
 export const AccessoriesData = async () => {
     const pageNumber = 0;
     const pageSize = 4;
     const sortBy = 2;
-
+  
     try {
-        const response = await axiosInstance.get(`/productcar/getsome/${pageNumber}/${pageSize}/${sortBy}`);
-        const data = response.data;
-        const products = data.productSomeReponseDtos;
-
-        return products;
+      const response = await axios.get(
+        `/product/get-by-id-type/${pageNumber}/${pageSize}/${sortBy}`
+      );
+      const data = response.data;
+      const products = data.productSomeReponseDtos;
+  
+      return products;
     } catch (error) {
-        console.error('Error:', error);
-        return [];
+      console.error("Error:", error);
+      return [];
     }
-};
+  };
+  
 
 // Detail Product API
 export const DetailProductData = async (id) => {
     try {
-        const response = await axiosInstance.get(`/product/getDetail/${id}`);
-        return response.data;
+      const response = await axios.get(`/product/get-detail/${id}`);
+      return response.data;
     } catch (error) {
-        throw new Error('Failed to fetch product details: ' + error.message);
+      throw new Error("Failed to fetch product details: " + error.message);
     }
-};
+  };
 
 // Get Reviews Data by Product ID
 export const ReviewsData = async (productId) => {
@@ -138,12 +143,13 @@ export const ReviewsData = async (productId) => {
     }
 };
 // data page product
-export const dataPageProduct = async (link, currentPage, type) => {
+export const dataPageProduct = async (link, currentPage, type,sort) => {
     try {
-        const response = await axiosInstance.get(`${link}/${currentPage}/${12}/${type}`);
+        const response = await axiosInstance.get(`${link}/${currentPage}/${12}/${type}${sort ? `/${sort}` : ""}`);
         const data = response.data;
         // const products = data.productSomeReponseDtos;
         // return products;
+        console.log('data');
         return data;
     } catch (error) {
         console.error('Error:', error);
@@ -192,19 +198,20 @@ export const getCartByUser = async () => {
 
 // send token to server
 export const sendToken = async (token) => {
-    try {
-        const config = {
-            headers: {
-                Authorization: `Bearer ${token}`,
-                'Content-Type': 'application/json',
-            },
-        };
-
-        const response = await axios.post('/user/shoppingCart/getCartByUser', {}, config);
-
-        return response.data;
-    } catch (error) {
-        console.error('Error:', error);
-        return [];
-    }
-};
+    try{
+      const config = {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json' // Loại nội dung của dữ liệu gửi đi
+        }
+      };
+    
+      const response = await axios.post('/user/shopping-cart/get-cart-by-user', {}, config)
+      
+      return response.data
+  }
+  catch (error) {
+    console.error("Error:", error);
+    return [];
+  }
+  }

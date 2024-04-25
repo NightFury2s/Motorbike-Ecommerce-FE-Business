@@ -1,4 +1,3 @@
-
 import FilterProduct from "../../components/FilterProduct";
 import ProductCard from "../../components/cartProduct";
 import { useEffect, useState } from "react";
@@ -12,9 +11,11 @@ function ProductPage() {
   const [totalPage, setTotalPage] = useState(1);
   const [currentPage, SetCurrentPage] = useState(0);
   const [apiFiter, setApiFiter] = useState(null);
-  const [link, setLink] = useState("/productcar/getsome");
+  const [link, setLink] = useState("/product/get-by-id-type");
   const [sort , setSort]=useState('');
   const [type, setType] = useState()
+
+  console.log(sort);
 
   const router = useRouter();
   const { typePage } = router.query;
@@ -23,7 +24,7 @@ function ProductPage() {
   // filter
   useEffect(() => {
     productsData(link, currentPage, apiFiter ||typePage,sort);
-  }, [apiFiter, currentPage ,sort , link]);
+  }, [apiFiter, currentPage,sort, link]);
 
   const handlePageChange = async (index) => {
       const pageCondition = index <= 0 ? 0 : index - 1;
@@ -32,10 +33,10 @@ function ProductPage() {
   };
 
   useEffect(  ()=>{
-    productsData('/productcar/getsome', currentPage, typePage|| 1);
+    productsData('/product/get-by-id-type', currentPage, typePage|| 1);
     SetCurrentPage(0)
     setType(typePage)
-    setLink('/productcar/getsome')
+    setLink('/product/get-by-id-type')
   },[typePage])
 
 
@@ -57,6 +58,7 @@ function ProductPage() {
     if(e.target.selectedIndex==1){
       SetCurrentPage(0)
       setSort('ASC')
+      console.log('tt');
       await  productsData(link, currentPage, apiFiter|| 1 , "ASC");
     }
     else if(e.target.selectedIndex==2){
