@@ -38,7 +38,7 @@ function InfomationOder() {
         <div className="informationOder-infor-container-head">
           <FaAddressCard style={{ fontSize: "30px" }} />
           <h3 style={{ paddingLeft: "8px", fontWeight: "800" }}>
-            Thông tin khách hàng{" "}
+            Thông tin khách hàng
           </h3>
         </div>
 
@@ -70,9 +70,7 @@ function InfomationOder() {
 
         <div className="informationOder-product-container-total-price">
           <p className="informationOder-product-container-total-price_name">
-            {" "}
-            Tổng cộng :{
-              " "}
+            Tổng cộng 
           </p>
           <p className="informationOder-product-container-total-price_price">
             {totalPrice && totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} VND
@@ -94,8 +92,7 @@ function InfomationOder() {
                 borderRadius: "3px",
               }}
             >
-              {" "}
-              Thanh toán{" "}
+              Thanh toán
             </button>
 
           </Link>

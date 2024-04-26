@@ -35,8 +35,7 @@ function OderSucc() {
 
         <div className="oder-succ-container-body">
           <p className="oder-succ-container-body-name">
-            {" "}
-            Đơn đặt hàng của bạn gồm:{" "}
+            Đơn đặt hàng của bạn gồm:
           </p>
 
 
@@ -50,30 +49,26 @@ function OderSucc() {
           <div className="oder-succ-container-body-pay">
             <div className="oder-succ-container-body-pay-total">
               <p className="oder-succ-container-body-pay-total-name">
-                {" "}
-                Tổng giá tiền{" "}
+                Tổng giá tiền
               </p>
               <p className="oder-succ-container-body-pay-total-name oder-succ-container-body-pay-total-price">
-                {" "}
                 {totalPrice && totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} VND
               </p>
             </div>
 
             <div className="oder-succ-container-body-pay-total">
               <p className="oder-succ-container-body-pay-total-name">
-                {" "}
-                Phương thức thanh toán{" "}
+                Phương thức thanh toán
               </p>
               <p className="oder-succ-container-body-pay-total-name">
-                {" "}
-                Thanh toán tại shop{" "}
+                Thanh toán tại shop
               </p>
             </div>
           </div>
 
           <p className="oder-succ-container-body-footer">
             Cảm ơn anh chị đã mua hàng tại: Motobike Ecommerce. Anh chị vui lòng
-            đến cửa hàng nhận xe và thanh toán nhé.{" "}
+            đến cửa hàng nhận xe và thanh toán nhé.
           </p>
         </div>
       </div>

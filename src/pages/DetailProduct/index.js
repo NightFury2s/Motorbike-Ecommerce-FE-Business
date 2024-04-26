@@ -38,8 +38,9 @@ const DetailProduct = () => {
                         setActiveImage('data:image/png;base64,' + productDetail.images[0].imgData);
                     }
                 })
-                .catch((error) =>{} );
-
+                .catch((error) => {
+                    console.error(error.message)
+                })
             // Fetch reviews for the product
             ReviewsData(id)
                 .then((data) => {
@@ -51,6 +52,7 @@ const DetailProduct = () => {
                     }
                 })
                 .catch((error) => {
+                    console.error('Failed to fetch reviews:', error);
                 });
         }
     }, [id]);
@@ -118,9 +120,8 @@ const DetailProduct = () => {
                                 {productDetail.images.map((image, index) => (
                                     <div
                                         key={index}
-                                        className={`flex justify-center w-40 h-24 overflow-hidden rounded-md cursor-pointer ${
-                                            'data:image/png;base64,' + image.imgData === activeImg ? 'shadow-2xl' : ''
-                                        } bg-[#D9D9D9]`}
+                                        className={`flex justify-center w-40 h-24 overflow-hidden rounded-md cursor-pointer ${'data:image/png;base64,' + image.imgData === activeImg ? 'shadow-2xl' : ''
+                                            } bg-[#D9D9D9]`}
                                         onClick={() => setActiveImage('data:image/png;base64,' + image.imgData)}
                                     >
                                         <img

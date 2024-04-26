@@ -28,7 +28,6 @@ function ProductPage() {
   const handlePageChange = async (index) => {
     const pageCondition = index <= 0 ? 0 : index - 1;
     SetCurrentPage(pageCondition);
-    // await  productsData(link, pageCondition, apiFiter ||typePage,sort);
   };
 
   useEffect(() => {
@@ -141,8 +140,7 @@ function ProductPage() {
             padding: "0px 20px",
           }}
         >
-          {" "}
-          {typePage ? (type == "1" ? "Xe Máy" : "Phụ Tùng") : "Xe Máy"}{" "}
+          {typePage ? (type == "1" ? "Xe Máy" : "Phụ Tùng") : "Xe Máy"}
         </h6>
         <div className="ProductPage-line"></div>
       </div>

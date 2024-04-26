@@ -61,6 +61,7 @@ const RegisterModal = ({ setShowModal, setShowLoginModal }) => {
                         }
                     })
                     .catch((error) => {
+                        console.log(error);
                     });
             } catch (error) {
                 alert('Đăng ký không thành công. Vui lòng thử lại!');

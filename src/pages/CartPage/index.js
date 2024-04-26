@@ -28,6 +28,7 @@ const CartPage = () => {
                     }
                 }
             } catch (error) {
+                console.error('Có lỗi đã xảy ra:', error);
             }
         };
         fetchCartProducts();
@@ -70,6 +71,7 @@ const CartPage = () => {
                 throw new Error('Failed to update cart:', response.statusText);
             }
         } catch (error) {
+            console.error('Error updating cart:', error);
         }
     };
 
@@ -334,7 +336,7 @@ const CartPage = () => {
                                 <div className="flex justify-between items-center mt-5">
                                     <div className="text-xl font-bold uppercase">Tổng tiền:</div>
                                     <div className="text-xl font-bold text-[#ff6700]">
-                                        { totalPrice &&totalPrice.toLocaleString('vi-VN')} VNĐ
+                                        { totalPrice && totalPrice.toLocaleString('vi-VN')} VNĐ
                                     </div>
                                 </div>
 
