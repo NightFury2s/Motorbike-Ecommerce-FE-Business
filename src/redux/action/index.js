@@ -8,7 +8,6 @@ export const registerSlice = createSlice({
     },
     reducers: {
         increment: (state, actions) => {
-            console.log(actions.payload);
             const data = setRegisterData(actions.payload);
             state.data = data;
         },

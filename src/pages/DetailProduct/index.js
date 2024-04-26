@@ -38,8 +38,9 @@ const DetailProduct = () => {
                         setActiveImage('data:image/png;base64,' + productDetail.images[0].imgData);
                     }
                 })
-                .catch((error) => console.error(error.message));
-
+                .catch((error) => {
+                    console.error(error.message)
+                })
             // Fetch reviews for the product
             ReviewsData(id)
                 .then((data) => {
@@ -59,16 +60,13 @@ const DetailProduct = () => {
     const handleAddToCart = async () => {
         const result = await addToCart(productDetail.id, qty);
         if (result.success) {
-            console.table('Product added to cart:', result, productDetail.id);
             alert('Sản phẩm đã được thêm vào giỏ hàng!');
         } else {
-            console.error('Error adding to cart:', result.message);
             alert('Đã xảy ra lỗi khi thêm sản phẩm vào giỏ hàng.');
         }
     };
 
     const handleBuyNow = async () => {
-        console.log('Buy now:', productDetail.id);
     };
 
     const renderStars = (rating) => {
@@ -122,9 +120,8 @@ const DetailProduct = () => {
                                 {productDetail.images.map((image, index) => (
                                     <div
                                         key={index}
-                                        className={`flex justify-center w-40 h-24 overflow-hidden rounded-md cursor-pointer ${
-                                            'data:image/png;base64,' + image.imgData === activeImg ? 'shadow-2xl' : ''
-                                        } bg-[#D9D9D9]`}
+                                        className={`flex justify-center w-40 h-24 overflow-hidden rounded-md cursor-pointer ${'data:image/png;base64,' + image.imgData === activeImg ? 'shadow-2xl' : ''
+                                            } bg-[#D9D9D9]`}
                                         onClick={() => setActiveImage('data:image/png;base64,' + image.imgData)}
                                     >
                                         <img

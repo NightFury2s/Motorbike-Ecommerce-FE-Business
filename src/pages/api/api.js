@@ -56,7 +56,6 @@ export const ForgotPassword = async (email) => {
         }
         return false;
     } catch (error) {
-        console.error('Có lỗi xảy ra:', error.response ? error.response.data : error.messenger);
         throw new Error(error.response ? error.response.data.messenger : 'Có lỗi xảy ra, vui lòng thử lại sau.');
     }
 };
@@ -77,7 +76,6 @@ export const ConfirmOTP = async (email, otp) => {
         });
         // Handle response
     } catch (error) {
-        console.error('Có lỗi xảy ra:', error.response ? error.response.data : error.messenger);
         throw new Error(error.response ? error.response.data.messenger : 'Có lỗi xảy ra, vui lòng thử lại sau.');
     }
 };
@@ -88,13 +86,14 @@ export const MotorbikeData = async () => {
     const sortBy = 1;
 
     try {
-        const response = await axiosInstance.get(`/productcar/getsome/${pageNumber}/${pageSize}/${sortBy}`);
+        const response = await axios.get(
+            `/product/get-by-id-type/${pageNumber}/${pageSize}/${sortBy}`
+        );
         const data = response.data;
         const products = data.productSomeReponseDtos;
 
         return products;
     } catch (error) {
-        console.error('Error:', error);
         return [];
     }
 };
@@ -106,24 +105,26 @@ export const AccessoriesData = async () => {
     const sortBy = 2;
 
     try {
-        const response = await axiosInstance.get(`/productcar/getsome/${pageNumber}/${pageSize}/${sortBy}`);
+        const response = await axios.get(
+            `/product/get-by-id-type/${pageNumber}/${pageSize}/${sortBy}`
+        );
         const data = response.data;
         const products = data.productSomeReponseDtos;
 
         return products;
     } catch (error) {
-        console.error('Error:', error);
         return [];
     }
 };
 
+
 // Detail Product API
 export const DetailProductData = async (id) => {
     try {
-        const response = await axiosInstance.get(`/product/getDetail/${id}`);
+        const response = await axios.get(`/product/get-detail/${id}`);
         return response.data;
     } catch (error) {
-        throw new Error('Failed to fetch product details: ' + error.message);
+        throw new Error("Failed to fetch product details: " + error.message);
     }
 };
 
@@ -133,20 +134,18 @@ export const ReviewsData = async (productId) => {
         const response = await axiosInstance.get(`/reviews/get/${productId}`);
         return response.data;
     } catch (error) {
-        console.error('Error fetching reviews:', error);
         return null;
     }
 };
 // data page product
-export const dataPageProduct = async (link, currentPage, type) => {
+export const dataPageProduct = async (link, currentPage, type, sort) => {
     try {
-        const response = await axiosInstance.get(`${link}/${currentPage}/${12}/${type}`);
+        const response = await axiosInstance.get(`${link}/${currentPage}/${12}/${type}${sort ? `/${sort}` : ""}`);
         const data = response.data;
         // const products = data.productSomeReponseDtos;
         // return products;
         return data;
     } catch (error) {
-        console.error('Error:', error);
         return [];
     }
 };
@@ -165,7 +164,6 @@ export const addToCart = async (productId, quantity) => {
             data: response.data,
         };
     } catch (error) {
-        console.error('Error adding to cart:', error);
         return {
             success: false,
             message: error.response ? error.response.data.message : 'An error occurred',
@@ -182,7 +180,6 @@ export const getCartByUser = async () => {
             cart: response.data,
         };
     } catch (error) {
-        console.error('Error fetching cart:', error);
         return {
             success: false,
             message: error.response ? error.response.data.message : 'An error occurred',
@@ -191,20 +188,34 @@ export const getCartByUser = async () => {
 };
 
 // send token to server
-export const sendToken = async (token) => {
+export const getByCartUserPayment = async () => {
     try {
-        const config = {
-            headers: {
-                Authorization: `Bearer ${token}`,
-                'Content-Type': 'application/json',
-            },
-        };
+        const response = await axiosInstance.post('http://192.168.199.241:8080/user/shopping-cart/get-cart-by-user', {})
+        return response.data
+    }
+    catch (error) {
+        return [];
+    }
+}
 
-        const response = await axios.post('/user/shoppingCart/getCartByUser', {}, config);
-
-        return response.data;
+// getdata Admin 
+export const getdataAdmin = async (type, curr) => {
+    try {
+        const response = await axiosInstance.get(`http://192.168.199.241:8080/product/get-by-id-type/${curr || 0}/12/${type}`);
+        const data = response.data;
+        return data;
     } catch (error) {
-        console.error('Error:', error);
+        return [];
+    }
+};
+
+//search admin
+export const getdataAdminSearch = async (curr, valueSearch) => {
+    try {
+        const response = await axiosInstance.get(`http://192.168.199.241:8080/product/find-by-name-product/${curr}/12/${valueSearch}`);
+        const data = response.data;
+        return data || [];
+    } catch (error) {
         return [];
     }
 };
