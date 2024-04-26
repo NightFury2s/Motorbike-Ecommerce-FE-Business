@@ -72,7 +72,7 @@ function InfomationOder() {
           <p className="informationOder-product-container-total-price_name">
             {" "}
             Tổng cộng :{
-" "}
+              " "}
           </p>
           <p className="informationOder-product-container-total-price_price">
             {totalPrice && totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} VND
@@ -81,7 +81,7 @@ function InfomationOder() {
 
         <div className="informationOder-product-container-payment">
           <div className="informationOder-product-container-payment-name">
-        
+
           </div>
 
           <Link href={'/oderSucc'}>

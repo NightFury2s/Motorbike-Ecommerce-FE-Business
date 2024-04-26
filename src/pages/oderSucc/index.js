@@ -38,7 +38,7 @@ function OderSucc() {
           <p className="oder-succ-container-body-name">
             {" "}
             Đơn đặt hàng của bạn gồm:{
-" "}
+              " "}
           </p>
 
 

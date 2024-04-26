@@ -39,7 +39,7 @@ export const setRegisterData = async (data) => {
 };
 
 // Forgot Password
-export const ForgotPassword = async (email)=> {
+export const ForgotPassword = async (email) => {
     // Create form data
     const formData = new URLSearchParams();
     formData.append('email', email);
@@ -84,49 +84,49 @@ export const MotorbikeData = async () => {
     const pageNumber = 0;
     const pageSize = 4;
     const sortBy = 1;
-  
+
     try {
-      const response = await axios.get(
-        `/product/get-by-id-type/${pageNumber}/${pageSize}/${sortBy}`
-      );
-      const data = response.data;
-      const products = data.productSomeReponseDtos;
-  
-      return products;
+        const response = await axios.get(
+            `/product/get-by-id-type/${pageNumber}/${pageSize}/${sortBy}`
+        );
+        const data = response.data;
+        const products = data.productSomeReponseDtos;
+
+        return products;
     } catch (error) {
-      return [];
+        return [];
     }
-  };
+};
 
 // Accessories Products API
 export const AccessoriesData = async () => {
     const pageNumber = 0;
     const pageSize = 4;
     const sortBy = 2;
-  
+
     try {
-      const response = await axios.get(
-        `/product/get-by-id-type/${pageNumber}/${pageSize}/${sortBy}`
-      );
-      const data = response.data;
-      const products = data.productSomeReponseDtos;
-  
-      return products;
+        const response = await axios.get(
+            `/product/get-by-id-type/${pageNumber}/${pageSize}/${sortBy}`
+        );
+        const data = response.data;
+        const products = data.productSomeReponseDtos;
+
+        return products;
     } catch (error) {
-      return [];
+        return [];
     }
-  };
-  
+};
+
 
 // Detail Product API
-export const DetailProductData = async (id)=> {
+export const DetailProductData = async (id) => {
     try {
-      const response = await axios.get(`/product/get-detail/${id}`);
-      return response.data;
+        const response = await axios.get(`/product/get-detail/${id}`);
+        return response.data;
     } catch (error) {
-      throw new Error("Failed to fetch product details: " + error.message);
+        throw new Error("Failed to fetch product details: " + error.message);
     }
-  };
+};
 
 // Get Reviews Data by Product ID
 export const ReviewsData = async (productId) => {
@@ -138,7 +138,7 @@ export const ReviewsData = async (productId) => {
     }
 };
 // data page product
-export const dataPageProduct = async (link, currentPage, type,sort) => {
+export const dataPageProduct = async (link, currentPage, type, sort) => {
     try {
         const response = await axiosInstance.get(`${link}/${currentPage}/${12}/${type}${sort ? `/${sort}` : ""}`);
         const data = response.data;
@@ -189,20 +189,20 @@ export const getCartByUser = async () => {
 
 // send token to server
 export const getByCartUser1 = async () => {
-    try{
-        console.log('cart');
-      const response = await axiosInstance.post('http://192.168.199.241:8080/user/shopping-cart/get-cart-by-user', {})
-      return response.data
-  }
-  catch (error) {
-    return [];
-  }
-  }
-
- // getdata Admin 
- export const getdataAdmin  = async(  type ,curr) => {
     try {
-        const response = await axiosInstance.get(`http://192.168.199.241:8080/product/get-by-id-type/${curr||0}/12/${type}`);
+        console.log('cart');
+        const response = await axiosInstance.post('http://192.168.199.241:8080/user/shopping-cart/get-cart-by-user', {})
+        return response.data
+    }
+    catch (error) {
+        return [];
+    }
+}
+
+// getdata Admin 
+export const getdataAdmin = async (type, curr) => {
+    try {
+        const response = await axiosInstance.get(`http://192.168.199.241:8080/product/get-by-id-type/${curr || 0}/12/${type}`);
         const data = response.data;
         return data;
     } catch (error) {
@@ -211,7 +211,7 @@ export const getByCartUser1 = async () => {
 };
 
 //search admin
-export const getdataAdminSearch  = async (curr,valueSearch) => {
+export const getdataAdminSearch = async (curr, valueSearch) => {
     try {
         const response = await axiosInstance.get(`http://192.168.199.241:8080/product/find-by-name-product/${curr}/12/${valueSearch}`);
         const data = response.data;
