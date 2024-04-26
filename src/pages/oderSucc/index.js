@@ -1,6 +1,6 @@
 import InfomationCard from "@/components/InfomationCard";
 import { useEffect, useRef, useState } from "react";
-import { sendToken, sendTokenOderSuss } from "../api/api";
+import { getByCartUser, getByCartUser1, sendToken, sendTokenOderSuss } from "../api/api";
 
 function OderSucc() {
   const [totalPrice, setTotalPrice] = useState('');
@@ -9,12 +9,11 @@ function OderSucc() {
 
   //mac dinh
   useEffect(() => {
-    const token = localStorage.getItem("token");
-      // sendToken(token).then((data) => {
-      //   setDataProduct(data.shoppingCartDetailsDto || []);
-      //   setTotalPrice(data.totalPrice);
-      // });
-    sendTokenOderSuss(token).then((e)=>console.log('suss'))
+    getByCartUser1().then((data) => {
+      console.log(data);
+      setDataProduct(data?.shoppingCartDetailsDto);
+      setTotalPrice(data?.totalPrice);
+    })
   }, []);
 
   return (
@@ -38,12 +37,13 @@ function OderSucc() {
         <div className="oder-succ-container-body">
           <p className="oder-succ-container-body-name">
             {" "}
-            Đơn đặt hàng của bạn gồm:{" "}
+            Đơn đặt hàng của bạn gồm:{
+" "}
           </p>
 
 
           <div className="hiden">
-            {dataProduct.map((e) => {
+            {dataProduct && dataProduct?.map((e) => {
               return <InfomationCard product={e} />;
             })}
           </div>

@@ -39,7 +39,7 @@ export const setRegisterData = async (data) => {
 };
 
 // Forgot Password
-export const ForgotPassword = async (email) => {
+export const ForgotPassword = async (email)=> {
     // Create form data
     const formData = new URLSearchParams();
     formData.append('email', email);
@@ -56,7 +56,6 @@ export const ForgotPassword = async (email) => {
         }
         return false;
     } catch (error) {
-        console.error('Có lỗi xảy ra:', error.response ? error.response.data : error.messenger);
         throw new Error(error.response ? error.response.data.messenger : 'Có lỗi xảy ra, vui lòng thử lại sau.');
     }
 };
@@ -77,7 +76,6 @@ export const ConfirmOTP = async (email, otp) => {
         });
         // Handle response
     } catch (error) {
-        console.error('Có lỗi xảy ra:', error.response ? error.response.data : error.messenger);
         throw new Error(error.response ? error.response.data.messenger : 'Có lỗi xảy ra, vui lòng thử lại sau.');
     }
 };
@@ -96,7 +94,6 @@ export const MotorbikeData = async () => {
   
       return products;
     } catch (error) {
-      console.error("Error:", error);
       return [];
     }
   };
@@ -116,14 +113,13 @@ export const AccessoriesData = async () => {
   
       return products;
     } catch (error) {
-      console.error("Error:", error);
       return [];
     }
   };
   
 
 // Detail Product API
-export const DetailProductData = async (id) => {
+export const DetailProductData = async (id)=> {
     try {
       const response = await axios.get(`/product/get-detail/${id}`);
       return response.data;
@@ -138,7 +134,6 @@ export const ReviewsData = async (productId) => {
         const response = await axiosInstance.get(`/reviews/get/${productId}`);
         return response.data;
     } catch (error) {
-        console.error('Error fetching reviews:', error);
         return null;
     }
 };
@@ -149,10 +144,8 @@ export const dataPageProduct = async (link, currentPage, type,sort) => {
         const data = response.data;
         // const products = data.productSomeReponseDtos;
         // return products;
-        console.log('data');
         return data;
     } catch (error) {
-        console.error('Error:', error);
         return [];
     }
 };
@@ -171,7 +164,6 @@ export const addToCart = async (productId, quantity) => {
             data: response.data,
         };
     } catch (error) {
-        console.error('Error adding to cart:', error);
         return {
             success: false,
             message: error.response ? error.response.data.message : 'An error occurred',
@@ -188,7 +180,6 @@ export const getCartByUser = async () => {
             cart: response.data,
         };
     } catch (error) {
-        console.error('Error fetching cart:', error);
         return {
             success: false,
             message: error.response ? error.response.data.message : 'An error occurred',
@@ -197,40 +188,35 @@ export const getCartByUser = async () => {
 };
 
 // send token to server
-export const sendToken = async (token) => {
+export const getByCartUser1 = async () => {
     try{
-      const config = {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json' // Loại nội dung của dữ liệu gửi đi
-        }
-      };
-    
-      const response = await axios.post('http://192.168.199.241:8080/user/shopping-cart/get-cart-by-user', {}, config)
-      
+        console.log('cart');
+      const response = await axiosInstance.post('http://192.168.199.241:8080/user/shopping-cart/get-cart-by-user', {})
       return response.data
   }
   catch (error) {
-    console.error("Error:", error);
     return [];
   }
   }
 
-  export const sendTokenOderSuss = async (token) => {
-    try{
-      const config = {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json' // Loại nội dung của dữ liệu gửi đi
-        }
-      };
-    
-      const response = await axios.post('http://192.168.199.241:8080/user/shopping-cart/payment', {}, config)
-      
-      return response.data
-  }
-  catch (error) {
-    console.error("Error:", error);
-    return [];
-  }
-  } 
+ // getdata Admin 
+ export const getdataAdmin  = async(  type ,curr) => {
+    try {
+        const response = await axiosInstance.get(`http://192.168.199.241:8080/product/get-by-id-type/${curr||0}/12/${type}`);
+        const data = response.data;
+        return data;
+    } catch (error) {
+        return [];
+    }
+};
+
+//search admin
+export const getdataAdminSearch  = async (curr,valueSearch) => {
+    try {
+        const response = await axiosInstance.get(`http://192.168.199.241:8080/product/find-by-name-product/${curr}/12/${valueSearch}`);
+        const data = response.data;
+        return data || [];
+    } catch (error) {
+        return [];
+    }
+};
