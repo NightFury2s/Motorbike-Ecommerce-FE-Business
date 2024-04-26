@@ -1,7 +1,7 @@
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 import { useState } from "react";
 
-function FilterProduct({name, filter, setApiFiter, setLink,SetCurrentPage , setType }) {
+function FilterProduct({ name, filter, setApiFiter, setLink, SetCurrentPage, setType }) {
   const [openFilter, setOpenFilter] = useState(true);
 
   const handleFilter = () => {
@@ -11,7 +11,7 @@ function FilterProduct({name, filter, setApiFiter, setLink,SetCurrentPage , setT
   return (
     <div className="ProductPage-content-filter-container">
       <h2 className="ProductPage-content-filter-items-name">
-        <div style={{fontWeight:'700'}} > {name}</div>
+        <div style={{ fontWeight: '700' }} > {name}</div>
         {openFilter ? (
           <FaAngleUp
             onClick={handleFilter}
@@ -25,9 +25,8 @@ function FilterProduct({name, filter, setApiFiter, setLink,SetCurrentPage , setT
         )}
       </h2>
       <ul
-        className={`ProductPage-content-filter-list ${
-          openFilter ? "open" : ""
-        }`}
+        className={`ProductPage-content-filter-list ${openFilter ? "open" : ""
+          }`}
       >
         {filter.map((e) => (
           <li

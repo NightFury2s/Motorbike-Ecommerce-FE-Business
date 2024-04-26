@@ -7,38 +7,43 @@ import { FaAngleLeft, FaAngleRight } from 'react-icons/fa6';
 
 const ContentProducts = ({ activeContent }) => {
 
-    const [dataProduct,setDataProduct] = useState([])
-    const [type,setType] = useState('1')
-    const [search,setSearch] = useState('')
-    const [curr,setCurr] = useState(0)
+    const [dataProduct, setDataProduct] = useState([])
+    const [type, setType] = useState('1')
+    const [search, setSearch] = useState('')
+    const [curr, setCurr] = useState(0)
 
-    useEffect(()=>{
-        getdataAdmin(type,curr)
-        .then((e)=>{
-            setDataProduct(e.productSomeReponseDtos)
-        })
-    },[])
+    useEffect(() => {
+        getdataAdmin(type, curr)
+            .then((e) => {
+                setDataProduct(e.productSomeReponseDtos)
+            })
+    }, [])
 
-    useEffect(()=>{
-        getdataAdmin(type,curr)
-        .then((e)=>{
-            setDataProduct(e.productSomeReponseDtos)
-        })
-    },[type,curr])
 
-    useEffect(()=>{
-        getdataAdminSearch(curr,search)
-        .then((e)=>{
-            setDataProduct(e.productSomeReponseDtos||[])
-        })
-    },[search,curr])
+    useEffect(() => {
 
-    const incre = ()=>{
-        setCurr(curr+1)
+        if (search.length > 0) {
+            getdataAdminSearch(curr, search)
+                .then((e) => {
+                    setDataProduct(e.productSomeReponseDtos || [])
+                })
+        }
+
+        else {
+            getdataAdmin(type, curr)
+                .then((e) => {
+                    setDataProduct(e.productSomeReponseDtos)
+                })
+        }
+    }, [type, curr, search])
+
+
+    const incre = () => {
+        setCurr(curr + 1)
     }
 
-    const decre = ()=>{
-        setCurr(curr>0?curr-1:0)
+    const decre = () => {
+        setCurr(curr > 0 ? curr - 1 : 0)
     }
 
     const getTitle = () => {
@@ -66,7 +71,7 @@ const ContentProducts = ({ activeContent }) => {
             <div className="flex items-center justify-between mb-4">
                 <h2>{getTitle()}</h2>
             </div>
-            <div style={{height:'100%'}} className="bg-white p-4 px-10 h-[calc(100vh-150px)]">
+            <div style={{ height: '100%' }} className="bg-white p-4 px-10 h-[calc(100vh-150px)]">
                 <div className="flex justify-between items-center mb-4">
                     {/* Left-side buttons and dropdown */}
                     <div className="flex items-center">
@@ -83,7 +88,7 @@ const ContentProducts = ({ activeContent }) => {
                     {/* Sort */}
                     <div className="flex items-center">
                         <h2 className="mr-4">Danh mục</h2>
-                        <select onChange={(e)=>{setType(e.target.value)}} className="px-3 py-2 border rounded-md mr-4">
+                        <select onChange={(e) => { setType(e.target.value) }} className="px-3 py-2 border rounded-md mr-4">
                             <option value="1">Xe máy</option>
                             <option value="2">Phụ tùng</option>
                         </select>
@@ -93,7 +98,7 @@ const ContentProducts = ({ activeContent }) => {
                     <div className="flex items-center relative">
                         <input
                             value={search}
-                            onChange={(e)=>{setSearch(e.target.value)}}
+                            onChange={(e) => { setSearch(e.target.value) }}
                             type="search"
                             className="pl-4 pr-3 py-2 border rounded-md focus:outline-none italic w-full"
                             placeholder="Tìm kiếm"
@@ -125,14 +130,14 @@ const ContentProducts = ({ activeContent }) => {
                         {/* Data rows here */}
 
                         {
-                           dataProduct && dataProduct.map((element)=> <RowProduct product = {element} />)
+                            dataProduct && dataProduct.map((element) => <RowProduct product={element} />)
                         }
                     </tbody>
                 </table>
-                <div style={{display:'flex' , marginTop:'10px', marginLeft:"90%", padding:'5px',border:'1px solid black ', justifyContent:'space-around', alignItems:"center"}} >
-                <FaAngleLeft onClick={decre} style={{border:'1px solid black ',padding:'0 4px' ,}} />
-                <span style={{ padding:'0 4px' ,fontSize:'16px'}} >{curr + 1}</span>
-                <FaAngleRight onClick={incre} style={{border:'1px solid black ',padding:'0 4px' }} />
+                <div style={{ display: 'flex', marginTop: '10px', marginLeft: "90%", padding: '5px', border: '1px solid black ', justifyContent: 'space-around', alignItems: "center" }} >
+                    <FaAngleLeft onClick={decre} style={{ border: '1px solid black ', padding: '0 4px', }} />
+                    <span style={{ padding: '0 4px', fontSize: '16px' }} >{curr + 1}</span>
+                    <FaAngleRight onClick={incre} style={{ border: '1px solid black ', padding: '0 4px' }} />
                 </div>
             </div>
         </div>
