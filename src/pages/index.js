@@ -18,7 +18,6 @@ export default function Home() {
                 const accessoriesData = await AccessoriesData();
                 setAccessoriesProducts(accessoriesData);
             } catch (error) {
-                console.error('Error fetching products:', error);
             }
         };
 

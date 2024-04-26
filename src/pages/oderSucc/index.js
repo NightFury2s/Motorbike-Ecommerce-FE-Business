@@ -10,7 +10,6 @@ function OderSucc() {
   //mac dinh
   useEffect(() => {
     getByCartUserPayment().then((data) => {
-      console.log(data);
       setDataProduct(data?.shoppingCartDetailsDto);
       setTotalPrice(data?.totalPrice);
     })

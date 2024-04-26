@@ -4,11 +4,9 @@ import { createSlice } from '@reduxjs/toolkit';
 // const PostUser = async (payload) =>{
 //    try {
 //         const response = await axios.post('http://192.168.199.241:8080/register', data);
-//         console.log('Registration successful:', response.data);
 //         return response.data
 //         // Xử lý logic sau khi đăng ký thành công
 //       } catch (error) {
-//         console.error('Registration failed: ' , error);
 
 //         // Xử lý logic khi đăng ký thất bại, ví dụ: hiển thị thông báo lỗi cho người dùng
 //       }

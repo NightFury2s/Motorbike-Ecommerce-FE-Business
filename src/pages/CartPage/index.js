@@ -28,7 +28,6 @@ const CartPage = () => {
                     }
                 }
             } catch (error) {
-                console.error('Có lỗi đã xảy ra:', error);
             }
         };
         fetchCartProducts();
@@ -71,7 +70,6 @@ const CartPage = () => {
                 throw new Error('Failed to update cart:', response.statusText);
             }
         } catch (error) {
-            console.error('Error updating cart:', error);
         }
     };
 

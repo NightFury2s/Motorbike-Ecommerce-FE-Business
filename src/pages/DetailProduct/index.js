@@ -38,7 +38,7 @@ const DetailProduct = () => {
                         setActiveImage('data:image/png;base64,' + productDetail.images[0].imgData);
                     }
                 })
-                .catch((error) => console.error(error.message));
+                .catch((error) => );
 
             // Fetch reviews for the product
             ReviewsData(id)
@@ -51,7 +51,6 @@ const DetailProduct = () => {
                     }
                 })
                 .catch((error) => {
-                    console.error('Failed to fetch reviews:', error);
                 });
         }
     }, [id]);
@@ -59,16 +58,13 @@ const DetailProduct = () => {
     const handleAddToCart = async () => {
         const result = await addToCart(productDetail.id, qty);
         if (result.success) {
-            console.table('Product added to cart:', result, productDetail.id);
             alert('Sản phẩm đã được thêm vào giỏ hàng!');
         } else {
-            console.error('Error adding to cart:', result.message);
             alert('Đã xảy ra lỗi khi thêm sản phẩm vào giỏ hàng.');
         }
     };
 
     const handleBuyNow = async () => {
-        console.log('Buy now:', productDetail.id);
     };
 
     const renderStars = (rating) => {

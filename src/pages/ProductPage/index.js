@@ -15,7 +15,6 @@ function ProductPage() {
   const [sort , setSort]=useState('');
   const [type, setType] = useState()
 
-  console.log(sort);
 
   const router = useRouter();
   const { typePage } = router.query;
@@ -48,7 +47,6 @@ function ProductPage() {
 
       return "sucsseful";
     } catch (error) {
-      console.error("Error fetching products:", error);
       return "err";
     }
   };
@@ -58,7 +56,6 @@ function ProductPage() {
     if(e.target.selectedIndex==1){
       SetCurrentPage(0)
       setSort('ASC')
-      console.log('tt');
       await  productsData(link, currentPage, apiFiter|| 1 , "ASC");
     }
     else if(e.target.selectedIndex==2){
