@@ -1,6 +1,6 @@
 import InfomationCard from "@/components/InfomationCard";
 import { FaAddressCard } from "react-icons/fa";
-import { getByCartUser1, sendToken } from "../api/api";
+import { getByCartUserPayment } from "../api/api";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
@@ -11,7 +11,7 @@ function InfomationOder() {
 
   // mac dinh 
   useEffect(() => {
-    getByCartUser1().then((data) => {
+    getByCartUserPayment().then((data) => {
       setDataProduct(data?.shoppingCartDetailsDto);
       setTotalPrice(data?.totalPrice);
     })
@@ -99,9 +99,6 @@ function InfomationOder() {
             </button>
 
           </Link>
-
-
-
         </div>
       </div>
     </div>

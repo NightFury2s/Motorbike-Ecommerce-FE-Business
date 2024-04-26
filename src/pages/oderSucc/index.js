@@ -1,6 +1,6 @@
 import InfomationCard from "@/components/InfomationCard";
 import { useEffect, useRef, useState } from "react";
-import { getByCartUser, getByCartUser1, sendToken, sendTokenOderSuss } from "../api/api";
+import {  getByCartUserPayment} from "../api/api";
 
 function OderSucc() {
   const [totalPrice, setTotalPrice] = useState('');
@@ -9,7 +9,7 @@ function OderSucc() {
 
   //mac dinh
   useEffect(() => {
-    getByCartUser1().then((data) => {
+    getByCartUserPayment().then((data) => {
       console.log(data);
       setDataProduct(data?.shoppingCartDetailsDto);
       setTotalPrice(data?.totalPrice);

@@ -188,7 +188,7 @@ export const getCartByUser = async () => {
 };
 
 // send token to server
-export const getByCartUser1 = async () => {
+export const getByCartUserPayment = async () => {
     try {
         console.log('cart');
         const response = await axiosInstance.post('http://192.168.199.241:8080/user/shopping-cart/get-cart-by-user', {})
