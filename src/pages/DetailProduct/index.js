@@ -38,7 +38,7 @@ const DetailProduct = () => {
                         setActiveImage('data:image/png;base64,' + productDetail.images[0].imgData);
                     }
                 })
-                .catch((error) => );
+                .catch((error) =>{} );
 
             // Fetch reviews for the product
             ReviewsData(id)
