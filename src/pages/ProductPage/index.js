@@ -12,7 +12,7 @@ function ProductPage() {
   const [currentPage, SetCurrentPage] = useState(0);
   const [apiFiter, setApiFiter] = useState(null);
   const [link, setLink] = useState("/product/get-by-id-type");
-  const [sort , setSort]=useState('');
+  const [sort, setSort] = useState('');
   const [type, setType] = useState()
 
 
@@ -22,26 +22,26 @@ function ProductPage() {
 
   // filter
   useEffect(() => {
-    productsData(link, currentPage, apiFiter ||typePage,sort);
-  }, [apiFiter, currentPage,sort, link]);
+    productsData(link, currentPage, apiFiter || typePage, sort);
+  }, [apiFiter, currentPage, sort, link]);
 
   const handlePageChange = async (index) => {
-      const pageCondition = index <= 0 ? 0 : index - 1;
-      SetCurrentPage(pageCondition);
-      // await  productsData(link, pageCondition, apiFiter ||typePage,sort);
+    const pageCondition = index <= 0 ? 0 : index - 1;
+    SetCurrentPage(pageCondition);
+    // await  productsData(link, pageCondition, apiFiter ||typePage,sort);
   };
 
-  useEffect(  ()=>{
-    productsData('/product/get-by-id-type', currentPage, typePage|| 1);
+  useEffect(() => {
+    productsData('/product/get-by-id-type', currentPage, typePage || 1);
     SetCurrentPage(0)
     setType(typePage)
     setLink('/product/get-by-id-type')
-  },[typePage])
+  }, [typePage])
 
 
-  const productsData = async (link, currentPage,type,sort ) => {
+  const productsData = async (link, currentPage, type, sort) => {
     try {
-      const motorbikeData = await dataPageProduct(link, currentPage, type,sort );
+      const motorbikeData = await dataPageProduct(link, currentPage, type, sort);
       setMotorbikeProducts(motorbikeData.productSomeReponseDtos);
       setTotalPage(motorbikeData.totalPages);
 
@@ -51,32 +51,34 @@ function ProductPage() {
     }
   };
 
-  const handleArr = async (e)=>{
+  const handleArr = (e) => {
+    switch (e.target.selectedIndex == 1) {
+      case 1:
+        SetCurrentPage(0)
+        setSort('ASC')
+        productsData(link, 0, apiFiter || 1, "ASC");
 
-    if(e.target.selectedIndex==1){
-      SetCurrentPage(0)
-      setSort('ASC')
-      await  productsData(link, currentPage, apiFiter|| 1 , "ASC");
-    }
-    else if(e.target.selectedIndex==2){
-      SetCurrentPage(0)
-      setSort('DESC')
-      await productsData(link, currentPage, apiFiter|| 1 , "DESC");
-    }
-    else {
-      setSort('')
-      SetCurrentPage(0)
-      await productsData(link, currentPage, typePage|| 1);
+        break;
+      case 2:
+        SetCurrentPage(0)
+        setSort('DESC')
+         productsData(link, 0, apiFiter || 1, "DESC");
+        break;
+
+      default:
+        setSort('')
+        SetCurrentPage(0)
+        productsData(link, 0, typePage || 1);
     }
   }
 
 
-  
- 
+
+
 
   // mac dinh
   useEffect(() => {
-    productsData(link, currentPage, typePage|| 1);
+    productsData(link, currentPage, typePage || 1);
     setType(typePage || 1)
   }, []);
 
@@ -84,24 +86,24 @@ function ProductPage() {
     {
       name: "Kawasaki",
       link: "1",
-      type:'1'
+      type: '1'
     },
     {
       name: "Ducati",
       link: "2",
-      type:'1'
+      type: '1'
 
     },
     {
       name: "Honda",
       link: "3",
-      type:'1'
+      type: '1'
 
     },
     {
       name: "Suziki",
       link: "4",
-      type:'1'
+      type: '1'
     },
   ];
 
@@ -109,22 +111,22 @@ function ProductPage() {
     {
       name: "Dầu nhớt",
       link: "5",
-      type:'2'
+      type: '2'
     },
     {
       name: "Phanh xe",
       link: "6",
-      type:'2'
+      type: '2'
     },
     {
       name: "Gương",
       link: "7",
-      type:'2'
+      type: '2'
     },
     {
       name: "Bánh xe",
       link: "8",
-      type:'2'
+      type: '2'
     },
   ];
 
@@ -217,7 +219,7 @@ function ProductPage() {
               onChange={handlePageChange}
               total={totalPage}
               initialPage={1}
-              page={currentPage+1} 
+              page={currentPage + 1}
             />
           </div>
         </div>

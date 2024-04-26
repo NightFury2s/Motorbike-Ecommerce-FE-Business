@@ -1,6 +1,6 @@
 import InfomationCard from "@/components/InfomationCard";
 import { useEffect, useRef, useState } from "react";
-import {  getByCartUserPayment} from "../api/api";
+import { getByCartUserPayment } from "../api/api";
 
 function OderSucc() {
   const [totalPrice, setTotalPrice] = useState('');
@@ -36,8 +36,7 @@ function OderSucc() {
         <div className="oder-succ-container-body">
           <p className="oder-succ-container-body-name">
             {" "}
-            Đơn đặt hàng của bạn gồm:{
-              " "}
+            Đơn đặt hàng của bạn gồm:{" "}
           </p>
 
 
