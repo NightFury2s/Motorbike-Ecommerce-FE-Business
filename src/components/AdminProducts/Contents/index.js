@@ -26,7 +26,7 @@ const ContentProducts = ({ activeContent }) => {
         if (search.length > 0) {
             getdataAdminSearch(curr, search)
                 .then((e) => {
-                    setDataProduct(e.productSomeReponseDtos || [])
+                    setDataProduct(e.productSomeReponseDtos )
                 })
         }
 
