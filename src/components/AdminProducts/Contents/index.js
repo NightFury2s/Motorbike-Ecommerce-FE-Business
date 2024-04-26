@@ -13,7 +13,7 @@ const ContentProducts = ({ activeContent }) => {
     const [curr,setCurr] = useState(0)
 
     useEffect(()=>{
-        getdataAdmin(type)
+        getdataAdmin(type,curr)
         .then((e)=>{
             setDataProduct(e.productSomeReponseDtos)
         })
@@ -29,7 +29,6 @@ const ContentProducts = ({ activeContent }) => {
     useEffect(()=>{
         getdataAdminSearch(curr,search)
         .then((e)=>{
-            console.log(e,'eee');
             setDataProduct(e.productSomeReponseDtos||[])
         })
     },[search,curr])
@@ -124,8 +123,9 @@ const ContentProducts = ({ activeContent }) => {
                     </thead>
                     <tbody>
                         {/* Data rows here */}
+
                         {
-                            dataProduct.map((element)=> <RowProduct product = {element} />)
+                           dataProduct && dataProduct.map((element)=> <RowProduct product = {element} />)
                         }
                     </tbody>
                 </table>

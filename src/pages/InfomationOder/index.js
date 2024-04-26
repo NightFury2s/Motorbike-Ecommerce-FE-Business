@@ -1,25 +1,20 @@
 import InfomationCard from "@/components/InfomationCard";
 import { FaAddressCard } from "react-icons/fa";
-import { sendToken } from "../api/api";
+import { getByCartUser1, sendToken } from "../api/api";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
 function InfomationOder() {
   const [dataProduct, setDataProduct] = useState([]);
   const [user, setUser] = useState({});
-  const [totalPrice,setTotalPrice]= useState('')
+  const [totalPrice, setTotalPrice] = useState('')
 
- 
-
-  //mac dinh 
+  // mac dinh 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    setUser(JSON.parse(localStorage.getItem("userInfo")));
-    sendToken(token).then((data)=>{
-      console.log(data);
-      setDataProduct(data.shoppingCartDetailsDto || [])
-      setTotalPrice(data.totalPrice)
-    })    
+    getByCartUser1().then((data) => {
+      setDataProduct(data?.shoppingCartDetailsDto);
+      setTotalPrice(data?.totalPrice);
+    })
   }, []);
 
 
@@ -65,12 +60,12 @@ function InfomationOder() {
 
       <div className="informationOder-product-container">
 
-          <div className="hiden" >
-        {dataProduct.map((e)=>{
+        <div className="hiden" >
+          {dataProduct.map((e) => {
             return <InfomationCard product={e} />
           })}
 
-          </div>
+        </div>
 
 
         <div className="informationOder-product-container-total-price">
@@ -79,7 +74,7 @@ function InfomationOder() {
             Tổng cộng :{" "}
           </p>
           <p className="informationOder-product-container-total-price_price">
-          { totalPrice && totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} VND
+            {totalPrice && totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} VND
           </p>
         </div>
 
@@ -89,23 +84,23 @@ function InfomationOder() {
           </div>
 
           <Link href={'/oderSucc'}>
-          
-          <button
-            style={{
-              padding: " 10px 20px",
-              color: "white",
-              backgroundColor: "#2B92E4",
-              borderRadius: "3px",
-            }}
-          >
-            {" "}
-            Thanh toán{" "}
-          </button>
+
+            <button
+              style={{
+                padding: " 10px 20px",
+                color: "white",
+                backgroundColor: "#2B92E4",
+                borderRadius: "3px",
+              }}
+            >
+              {" "}
+              Thanh toán{" "}
+            </button>
 
           </Link>
 
 
-          
+
         </div>
       </div>
     </div>
