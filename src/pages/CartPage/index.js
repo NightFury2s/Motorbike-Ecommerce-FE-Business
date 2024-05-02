@@ -91,7 +91,7 @@ const CartPage = () => {
             } else {
                 throw new Error('Có lỗi đã xảy ra:', error);
             }
-        } catch (error) {}
+        } catch (error) { }
     };
 
     const handleFullNameChange = (e) => {
@@ -161,9 +161,8 @@ const CartPage = () => {
                                         placeholder="Họ và tên"
                                         value={fullName}
                                         onChange={handleFullNameChange}
-                                        className={`w-full p-2 border rounded ${
-                                            errors.fullName ? 'border-red-500' : ''
-                                        }`}
+                                        className={`w-full p-2 border rounded ${errors.fullName ? 'border-red-500' : ''
+                                            }`}
                                     />
                                     {errors.fullName && <p className="text-red-500 text-sm">{errors.fullName}</p>}
                                 </div>
@@ -178,9 +177,8 @@ const CartPage = () => {
                                         placeholder="Số điện thoại"
                                         value={phoneNumber}
                                         onChange={handlePhoneNumberChange}
-                                        className={`w-full p-2 border rounded ${
-                                            errors.phoneNumber ? 'border-red-500' : ''
-                                        }`}
+                                        className={`w-full p-2 border rounded ${errors.phoneNumber ? 'border-red-500' : ''
+                                            }`}
                                     />
                                     {errors.phoneNumber && <p className="text-red-500 text-sm">{errors.phoneNumber}</p>}
                                 </div>
@@ -336,7 +334,7 @@ const CartPage = () => {
                                 <div className="flex justify-between items-center mt-5">
                                     <div className="text-xl font-bold uppercase">Tổng tiền:</div>
                                     <div className="text-xl font-bold text-[#ff6700]">
-                                        { totalPrice && totalPrice.toLocaleString('vi-VN')} VNĐ
+                                        {totalPrice && totalPrice.toLocaleString('vi-VN')} VNĐ
                                     </div>
                                 </div>
 
