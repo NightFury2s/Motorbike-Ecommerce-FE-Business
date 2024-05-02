@@ -2,17 +2,17 @@ import React from 'react';
 
 const CategoryDropdown = ({ category, onValueChange }) => {
     const motorcycleBrands = [
-        { name: 'Kawasaki', link: '1', type: '1' },
-        { name: 'Ducati', link: '2', type: '1' },
-        { name: 'Honda', link: '3', type: '1' },
-        { name: 'Suzuki', link: '4', type: '1' },
+        { name: 'Kawasaki', type: '1', link: '1' },
+        { name: 'Ducati', type: '2', link: '1' },
+        { name: 'Honda', type: '3', link: '1' },
+        { name: 'Suzuki', type: '4', link: '1' },
     ];
 
     const accessories = [
-        { name: 'Dầu nhớt', link: '5', type: '2' },
-        { name: 'Phanh xe', link: '6', type: '2' },
-        { name: 'Gương', link: '7', type: '2' },
-        { name: 'Bánh xe', link: '8', type: '2' },
+        { name: 'Dầu nhớt', type: '5', link: '2' },
+        { name: 'Phanh xe', type: '6', link: '2' },
+        { name: 'Gương', type: '7', link: '2' },
+        { name: 'Bánh xe', type: '8', link: '2' },
     ];
 
     const isDisabled = !category;
@@ -26,13 +26,13 @@ const CategoryDropdown = ({ category, onValueChange }) => {
             <option value="">-Chọn danh mục-</option>
             {category === 'motorbike' &&
                 motorcycleBrands.map((brand) => (
-                    <option key={brand.link} value={brand.link}>
+                    <option key={brand.link} value={`${brand.link},${brand.type}`}>
                         {brand.name}
                     </option>
                 ))}
             {category === 'accessories' &&
                 accessories.map((part) => (
-                    <option key={part.link} value={part.link}>
+                    <option key={part.link} value={`${part.link},${part.type}`}>
                         {part.name}
                     </option>
                 ))}

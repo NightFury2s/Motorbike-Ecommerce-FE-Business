@@ -10,10 +10,10 @@ import SuccessModal from '@/components/SuccessModal';
 const AddProducts = ({ activeContent }) => {
     const [productName, setProductName] = useState('');
     const [price, setPrice] = useState('');
-    const [quantity, setQuantity] = useState(0);
+    const [quantity, setQuantity] = useState('0');
     const [detailType, setDetailType] = useState(0);
     const [idTypeProduct, setIdTypeProduct] = useState(0);
-    const [discountPercentage, setDiscountPercentage] = useState('');
+    const [discountPercentage, setDiscountPercentage] = useState('0');
     const [description, setDescription] = useState('');
     const [images, setImages] = useState([]);
     const [category, setCategory] = useState('');
@@ -21,8 +21,16 @@ const AddProducts = ({ activeContent }) => {
 
     const handleProductNameChange = (e) => setProductName(e.target.value);
     const handlePriceChange = (e) => setPrice(e.target.value);
-    const handleIdTypeProductChange = (value) => setIdTypeProduct(value);
-    const handleDiscount = (e) => setDiscountPercentage(e.target.value);
+    const handleIdTypeProductChange = (value) => {
+        const [link, type] = value.split(',');
+        setIdTypeProduct(parseInt(link, 10));
+        setDetailType(parseInt(type, 10));
+    };
+
+    const handleDiscount = (e) => {
+        const value = e.target.value;
+        setDiscountPercentage(value || '0');
+    };
 
     // Add product
     const handleAddProduct = async () => {
@@ -60,9 +68,7 @@ const AddProducts = ({ activeContent }) => {
 
     const handleQuantityChange = (e) => {
         const value = e.target.value;
-        if (!isNaN(value) && value >= 0) {
-            setQuantity(parseInt(value, 10));
-        }
+        setQuantity(value || '0');
     };
 
     return (
@@ -110,6 +116,7 @@ const AddProducts = ({ activeContent }) => {
                             className="px-3 py-2 border rounded-md text-base w-64"
                             value={discountPercentage}
                             onChange={handleDiscount}
+                            onFocus={(e) => e.target.value === '0' && setDiscountPercentage('')}
                         />
                     </div>
 
@@ -132,6 +139,7 @@ const AddProducts = ({ activeContent }) => {
                             className="px-3 py-2 border rounded-md text-base w-64"
                             value={quantity}
                             onChange={handleQuantityChange}
+                            onFocus={(e) => e.target.value === '0' && setQuantity('')}
                         />
                     </div>
                 </div>
@@ -140,10 +148,20 @@ const AddProducts = ({ activeContent }) => {
                 <div className="mt-6">
                     <ImageUploader onImagesChange={setImages} />
                 </div>
+
+                {/* Caution */}
+                <div className="mt-6">
+                    <span className="text-base font-thin text-red-500">
+                        * Lưu ý: Chỉ được thêm tối đa 4 ảnh. Hỗ trợ tệp .jpg, .png, ...
+                    </span>
+                </div>
+
+                {/* Description */}
                 <div className="mt-6">
                     <DescriptionUploader description={description} setDescription={setDescription} />
                 </div>
 
+                {/* Success Modal & Button */}
                 <div className="flex justify-end mt-6 p-4 space-x-4">
                     {showSuccessModal && (
                         <SuccessModal
@@ -160,9 +178,6 @@ const AddProducts = ({ activeContent }) => {
                         onClick={handleAddProduct}
                     >
                         Thêm
-                    </button>
-                    <button className="bg-[#777777] hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-                        Thoát
                     </button>
                 </div>
             </div>

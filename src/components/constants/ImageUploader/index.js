@@ -58,7 +58,6 @@ const ImageUploader = ({ onImagesChange }) => {
                         className="w-28 h-28 border-2 bg-[#D9D9D9] border-gray-300 rounded-md cursor-pointer flex justify-center items-center mr-10"
                     >
                         <FaUpload className="text-2xl text-white" />
-                        <span className="text-sm text-white">Upload</span>
                         <input
                             type="file"
                             accept="image/*"
@@ -81,7 +80,7 @@ const ImageUploader = ({ onImagesChange }) => {
 
             {/* Upload Images Button */}
             <button
-                className="bg-[#12419b] hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex items-center align-middle mt-4"
+                className="bg-[#2B92E4] hover:bg-[#12419b] text-white font-bold py-2 px-4 rounded flex items-center align-middle mt-4"
                 onClick={uploadImages}
             >
                 <FaUpload />
