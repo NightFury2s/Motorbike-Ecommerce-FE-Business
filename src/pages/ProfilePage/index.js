@@ -32,7 +32,6 @@ function Profile() {
     // }, []);
 
     // function handleUpdateUser(e) {
-    //     console.log(e);
     //     e.preventDefault();
     //     var formData = new FormData();
     //     formData.append('firstName', firstName);

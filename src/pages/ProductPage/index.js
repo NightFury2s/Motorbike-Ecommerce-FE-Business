@@ -25,7 +25,6 @@ function ProductPage() {
     const handlePageChange = async (index) => {
         const pageCondition = index <= 0 ? 0 : index - 1;
         SetCurrentPage(pageCondition);
-        // await  productsData(link, pageCondition, apiFiter ||typePage,sort);
     };
 
     useEffect(() => {
@@ -43,24 +42,28 @@ function ProductPage() {
 
             return 'sucsseful';
         } catch (error) {
-            console.error('Error fetching products:', error);
             return 'err';
         }
     };
 
-    const handleArr = async (e) => {
-        if (e.target.selectedIndex == 1) {
-            SetCurrentPage(0);
-            setSort('ASC');
-            await productsData(link, currentPage, apiFiter || 1, 'ASC');
-        } else if (e.target.selectedIndex == 2) {
-            SetCurrentPage(0);
-            setSort('DESC');
-            await productsData(link, currentPage, apiFiter || 1, 'DESC');
-        } else {
-            setSort('');
-            SetCurrentPage(0);
-            await productsData(link, currentPage, typePage || 1);
+    const handleArr = (e) => {
+        switch (e.target.selectedIndex == 1) {
+            case 1:
+                SetCurrentPage(0);
+                setSort('ASC');
+                productsData(link, 0, apiFiter || 1, 'ASC');
+
+                break;
+            case 2:
+                SetCurrentPage(0);
+                setSort('DESC');
+                productsData(link, 0, apiFiter || 1, 'DESC');
+                break;
+
+            default:
+                setSort('');
+                SetCurrentPage(0);
+                productsData(link, 0, typePage || 1);
         }
     };
 
@@ -127,13 +130,12 @@ function ProductPage() {
                         padding: '0px 20px',
                     }}
                 >
-                    {' '}
-                    {typePage ? (type == '1' ? 'Xe Máy' : 'Phụ Tùng') : 'Xe Máy'}{' '}
+                    {typePage ? (type == '1' ? 'Xe Máy' : 'Phụ Tùng') : 'Xe Máy'}
                 </h6>
                 <div className="ProductPage-line"></div>
             </div>
             <div className="ProductPage-total-filter">
-                <div className="ProductPage-total">12 Sản Phẩm</div>
+                <div className="ProductPage-total">12 Sản Phẩm </div>
                 <div className="ProductPage-filter">
                     <span className="ProductPage-filter-name">Sắp xếp: </span>
                     <select

@@ -1,6 +1,6 @@
 import InfomationCard from "@/components/InfomationCard";
 import { useEffect, useRef, useState } from "react";
-import { sendToken, sendTokenOderSuss } from "../api/api";
+import { getByCartUserPayment } from "../api/api";
 
 function OderSucc() {
   const [totalPrice, setTotalPrice] = useState('');
@@ -9,12 +9,10 @@ function OderSucc() {
 
   //mac dinh
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    // sendToken(token).then((data) => {
-    //   setDataProduct(data.shoppingCartDetailsDto || []);
-    //   setTotalPrice(data.totalPrice);
-    // });
-    // sendTokenOderSuss(token).then((e)=>console.log('suss'))
+    getByCartUserPayment().then((data) => {
+      setDataProduct(data?.shoppingCartDetailsDto);
+      setTotalPrice(data?.totalPrice);
+    })
   }, []);
 
   return (
@@ -37,13 +35,12 @@ function OderSucc() {
 
         <div className="oder-succ-container-body">
           <p className="oder-succ-container-body-name">
-            {" "}
-            Đơn đặt hàng của bạn gồm:{" "}
+            Đơn đặt hàng của bạn gồm:
           </p>
 
 
           <div className="hiden">
-            {dataProduct.map((e) => {
+            {dataProduct && dataProduct?.map((e) => {
               return <InfomationCard product={e} />;
             })}
           </div>
@@ -52,30 +49,26 @@ function OderSucc() {
           <div className="oder-succ-container-body-pay">
             <div className="oder-succ-container-body-pay-total">
               <p className="oder-succ-container-body-pay-total-name">
-                {" "}
-                Tổng giá tiền{" "}
+                Tổng giá tiền
               </p>
               <p className="oder-succ-container-body-pay-total-name oder-succ-container-body-pay-total-price">
-                {" "}
                 {totalPrice && totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} VND
               </p>
             </div>
 
             <div className="oder-succ-container-body-pay-total">
               <p className="oder-succ-container-body-pay-total-name">
-                {" "}
-                Phương thức thanh toán{" "}
+                Phương thức thanh toán
               </p>
               <p className="oder-succ-container-body-pay-total-name">
-                {" "}
-                Thanh toán tại shop{" "}
+                Thanh toán tại shop
               </p>
             </div>
           </div>
 
           <p className="oder-succ-container-body-footer">
             Cảm ơn anh chị đã mua hàng tại: Motobike Ecommerce. Anh chị vui lòng
-            đến cửa hàng nhận xe và thanh toán nhé.{" "}
+            đến cửa hàng nhận xe và thanh toán nhé.
           </p>
         </div>
       </div>

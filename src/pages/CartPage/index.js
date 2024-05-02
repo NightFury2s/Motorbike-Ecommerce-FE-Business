@@ -336,7 +336,7 @@ const CartPage = () => {
                                 <div className="flex justify-between items-center mt-5">
                                     <div className="text-xl font-bold uppercase">Tổng tiền:</div>
                                     <div className="text-xl font-bold text-[#ff6700]">
-                                        {totalPrice.toLocaleString('vi-VN')} VNĐ
+                                        { totalPrice && totalPrice.toLocaleString('vi-VN')} VNĐ
                                     </div>
                                 </div>
 
