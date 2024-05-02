@@ -232,11 +232,36 @@ export const addProduct = async (productData) => {
             };
         }
     } catch (error) {
-        console.error('Error adding product:', error);
         // Handle Error Not Success
         return {
             success: false,
             message: error.response ? error.response.data.message : 'Đã xảy ra lỗi khi thêm sản phẩm!',
+        };
+    }
+};
+
+// Delete Product
+export const deleteProduct = async (productId) => {
+    try {
+        const response = await axiosInstance.delete(`/admin/product/delete/${productId}`);
+        if (response.status === 200 || response.status === 204) {
+            // If Delete Success Return True
+            return {
+                success: true,
+                message: 'Xoá sản phẩm thành công!',
+            };
+        } else {
+            // Handle Error HTTP Response: 400, 401
+            return {
+                success: false,
+                message: 'Không thể xoá sản phẩm!',
+            };
+        }
+    } catch (error) {
+        // Handle Error Not Success
+        return {
+            success: false,
+            message: error.response ? error.response.data.message : 'Đã xảy ra lỗi khi xoá sản phẩm!',
         };
     }
 };

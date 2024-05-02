@@ -27,6 +27,10 @@ const AdminPage = () => {
         setActiveContent(content);
     };
 
+    const changeContent = (content) => {
+        setActiveContent(content);
+    };
+
     return (
         <ProtectedRoute>
             <div className="min-h-screen flex flex-col">
@@ -83,7 +87,7 @@ const AdminPage = () => {
                     {/* Content */}
                     <div className="flex-1 p-4 overflow-auto">
                         {activeContent === 'products' ? (
-                            <ContentProducts activeContent={activeContent} />
+                            <ContentProducts activeContent={activeContent} changeContent={changeContent} />
                         ) : activeContent === 'addProduct' ? (
                             <AddProducts activeContent={activeContent} />
                         ) : (
