@@ -84,7 +84,7 @@ const AddProducts = ({ activeContent }) => {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    {/* Product Name, Category Dropdown, Price */}
+                    {/* Product Name */}
                     <div>
                         <h2 className="mb-3 text-lg">Tên sản phẩm</h2>
                         <input
@@ -94,10 +94,14 @@ const AddProducts = ({ activeContent }) => {
                             onChange={handleProductNameChange}
                         />
                     </div>
+
+                    {/* Category Dropdown */}
                     <div>
                         <h2 className="mb-3 text-lg">Danh mục</h2>
                         <CategoryDropdown category={category} onValueChange={handleIdTypeProductChange} />
                     </div>
+
+                    {/* Price */}
                     <div>
                         <h2 className="mb-3 text-lg">Giá</h2>
                         <input
