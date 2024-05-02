@@ -24,18 +24,15 @@ const CategoryDropdown = ({ category, onValueChange }) => {
             onChange={(e) => onValueChange(e.target.value)}
         >
             <option value="">-Chọn danh mục-</option>
-            {/* Motorbike Category */}
             {category === 'motorbike' &&
                 motorcycleBrands.map((brand) => (
-                    <option key={brand.type} value={`${brand.link},${brand.type}`}>
+                    <option key={brand.link} value={`${brand.link},${brand.type}`}>
                         {brand.name}
                     </option>
                 ))}
-
-            {/* Accessories Category */}
             {category === 'accessories' &&
                 accessories.map((part) => (
-                    <option key={part.type} value={`${part.link},${part.type}`}>
+                    <option key={part.link} value={`${part.link},${part.type}`}>
                         {part.name}
                     </option>
                 ))}
