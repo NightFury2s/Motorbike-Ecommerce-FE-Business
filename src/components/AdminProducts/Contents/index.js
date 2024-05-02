@@ -1,8 +1,52 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaPlus, FaTrash, FaEdit, FaSearch } from 'react-icons/fa';
 import { MdKeyboardDoubleArrowRight } from 'react-icons/md';
+import RowProduct from '../rowProduct';
+import { getdataAdmin, getdataAdminSearch } from '@/pages/api/api';
+import { FaAngleLeft, FaAngleRight } from 'react-icons/fa6';
 
 const ContentProducts = ({ activeContent }) => {
+
+
+    const [dataProduct, setDataProduct] = useState([])
+    const [type, setType] = useState('1')
+    const [search, setSearch] = useState('')
+    const [curr, setCurr] = useState(0)
+
+    useEffect(() => {
+        getdataAdmin(type, curr)
+            .then((e) => {
+                setDataProduct(e.productSomeReponseDtos)
+            })
+    }, [])
+
+
+    useEffect(() => {
+
+        if (search.length > 0) {
+            getdataAdminSearch(curr, search)
+                .then((e) => {
+                    setDataProduct(e.productSomeReponseDtos )
+                })
+        }
+
+        else {
+            getdataAdmin(type, curr)
+                .then((e) => {
+                    setDataProduct(e.productSomeReponseDtos)
+                })
+        }
+    }, [type, curr, search])
+
+
+    const incre = () => {
+        setCurr(curr + 1)
+    }
+
+    const decre = () => {
+        setCurr(curr > 0 ? curr - 1 : 0)
+    }
+
     // Get title
     const getTitle = () => {
         switch (activeContent) {
@@ -29,7 +73,7 @@ const ContentProducts = ({ activeContent }) => {
             <div className="flex items-center justify-between mb-4">
                 <h2>{getTitle()}</h2>
             </div>
-            <div className="bg-white p-4 px-10 h-[calc(100vh-150px)]">
+            <div style={{ height: '100%' }} className="bg-white p-4 px-10 h-[calc(100vh-150px)]">
                 <div className="flex justify-between items-center mb-4">
                     {/* Left-side buttons and dropdown */}
                     <div className="flex items-center">
@@ -46,15 +90,17 @@ const ContentProducts = ({ activeContent }) => {
                     {/* Sort */}
                     <div className="flex items-center">
                         <h2 className="mr-4">Danh mục</h2>
-                        <select className="px-3 py-2 border rounded-md mr-4">
-                            <option value="motorbike">Xe máy</option>
-                            <option value="accessories">Phụ tùng</option>
+                        <select onChange={(e) => { setType(e.target.value) }} className="px-3 py-2 border rounded-md mr-4">
+                            <option value="1">Xe máy</option>
+                            <option value="2">Phụ tùng</option>
                         </select>
                     </div>
 
                     {/* Search bar */}
                     <div className="flex items-center relative">
                         <input
+                            value={search}
+                            onChange={(e) => { setSearch(e.target.value) }}
                             type="search"
                             className="pl-4 pr-3 py-2 border rounded-md focus:outline-none italic w-full"
                             placeholder="Tìm kiếm"
@@ -84,30 +130,18 @@ const ContentProducts = ({ activeContent }) => {
                     </thead>
                     <tbody>
                         {/* Data rows here */}
-                        <tr className="hover:bg-gray-100">
-                            <td className="border border-gray-300 px-4 py-2">
-                                <input type="checkbox" />
-                            </td>
-                            <td className="border border-gray-300 px-4 py-2">01</td>
-                            <td className="border border-gray-300 px-4 py-2">Wave RSX</td>
-                            <td className="border border-gray-300 px-4 py-2">Ảnh 1</td>
-                            <td className="border border-gray-300 px-4 py-2">5</td>
-                            <td className="border border-gray-300 px-4 py-2">Còn hàng</td>
-                            <td className="border border-gray-300 px-4 py-2">30.000.000 VNĐ</td>
-                            <td className="border border-gray-300 px-4 py-2">10</td>
-                            <td className="border border-gray-300 px-4 py-2">27.000.000 VNĐ</td>
-                            <td className="border border-gray-300 px-4 py-2">Honda</td>
-                            <td className="px-4 py-2 flex justify-center">
-                                <button className="mr-2">
-                                    <FaEdit className="text-[#FFA800] text-[20px]" />
-                                </button>
-                                <button>
-                                    <FaTrash className="text-[#FF0000] text-[20px]" />
-                                </button>
-                            </td>
-                        </tr>
+                        {
+                            dataProduct && dataProduct.map((element) => <RowProduct product={element} />)
+                        }
+
                     </tbody>
                 </table>
+
+                <div style={{ display: 'flex', marginTop: '10px', marginLeft: "90%", padding: '5px', border: '1px solid black ', justifyContent: 'space-around', alignItems: "center" }} >
+                    <FaAngleLeft onClick={decre} style={{ border: '1px solid black ', padding: '0 4px', }} />
+                    <span style={{ padding: '0 4px', fontSize: '16px' }} >{curr + 1}</span>
+                    <FaAngleRight onClick={incre} style={{ border: '1px solid black ', padding: '0 4px' }} />
+                </div>
             </div>
         </div>
     );
