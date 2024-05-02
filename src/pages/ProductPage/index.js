@@ -40,7 +40,7 @@ function ProductPage() {
             setMotorbikeProducts(motorbikeData.productSomeReponseDtos);
             setTotalPage(motorbikeData.totalPages);
 
-            return 'sucsseful';
+            return 'successful';
         } catch (error) {
             return 'err';
         }

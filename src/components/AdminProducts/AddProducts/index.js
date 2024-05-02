@@ -9,7 +9,7 @@ import SuccessModal from '@/components/SuccessModal';
 
 const AddProducts = ({ activeContent }) => {
     const [productName, setProductName] = useState('');
-    const [price, setPrice] = useState('');
+    const [price, setPrice] = useState('0');
     const [quantity, setQuantity] = useState('0');
     const [detailType, setDetailType] = useState(0);
     const [idTypeProduct, setIdTypeProduct] = useState(0);
@@ -20,7 +20,12 @@ const AddProducts = ({ activeContent }) => {
     const [showSuccessModal, setShowSuccessModal] = useState(false);
 
     const handleProductNameChange = (e) => setProductName(e.target.value);
-    const handlePriceChange = (e) => setPrice(e.target.value);
+
+    const handlePriceChange = (e) => {
+        const value = e.target.value.replace(/\D/g, '');
+        setPrice(value || '0');
+    };
+
     const handleIdTypeProductChange = (value) => {
         const [link, type] = value.split(',');
         setIdTypeProduct(parseInt(link, 10));
@@ -28,7 +33,7 @@ const AddProducts = ({ activeContent }) => {
     };
 
     const handleDiscount = (e) => {
-        const value = e.target.value;
+        const value = e.target.value.replace(/\D/g, '');
         setDiscountPercentage(value || '0');
     };
 
@@ -56,10 +61,10 @@ const AddProducts = ({ activeContent }) => {
 
     // Discount calculation
     const calculateDiscount = () => {
-        const originalPrice = parseFloat(price);
+        const originalPrice = parseFloat(price) || 0;
         const discount = parseFloat(discountPercentage) / 100;
         const discountedPrice = originalPrice * (1 - discount);
-        return isNaN(discountedPrice) ? '' : discountedPrice.toFixed(2);
+        return originalPrice && !isNaN(discountedPrice) ? `${discountedPrice.toLocaleString('vi-VN')} VNĐ` : '';
     };
 
     const handleCategoryChange = (value) => {
@@ -107,7 +112,7 @@ const AddProducts = ({ activeContent }) => {
                         <input
                             type="text"
                             className="px-3 py-2 border rounded-md text-base w-64"
-                            value={price}
+                            value={`${parseInt(price).toLocaleString('vi-VN')} VNĐ`}
                             onChange={handlePriceChange}
                         />
                     </div>
@@ -118,9 +123,14 @@ const AddProducts = ({ activeContent }) => {
                         <input
                             type="text"
                             className="px-3 py-2 border rounded-md text-base w-64"
-                            value={discountPercentage}
+                            value={discountPercentage + (discountPercentage ? '%' : '')}
                             onChange={handleDiscount}
-                            onFocus={(e) => e.target.value === '0' && setDiscountPercentage('')}
+                            onFocus={(e) => e.target.value === '0%' && setDiscountPercentage('')}
+                            onBlur={(e) => {
+                                if (e.target.value === '') {
+                                    setDiscountPercentage('0');
+                                }
+                            }}
                         />
                     </div>
 
