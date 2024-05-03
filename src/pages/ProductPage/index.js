@@ -13,11 +13,13 @@ function ProductPage() {
   const [apiFiter, setApiFiter] = useState(null);
   const [link, setLink] = useState("/product/get-by-id-type");
   const [sort, setSort] = useState('');
-  const [type, setType] = useState()
+  const [type, setType] = useState('')
+  const [totaleElement, setTotalElement] = useState('')
 
 
   const router = useRouter();
   const { typePage } = router.query;
+
 
 
   // filter
@@ -43,25 +45,24 @@ function ProductPage() {
       const motorbikeData = await dataPageProduct(link, currentPage, type, sort);
       setMotorbikeProducts(motorbikeData.productSomeReponseDtos);
       setTotalPage(motorbikeData.totalPages);
-
+      setTotalElement(motorbikeData.totalElements)
       return "sucsseful";
     } catch (error) {
       return "err";
     }
   };
 
+
   const handleArr = (e) => {
-    switch (e.target.selectedIndex == 1) {
+    switch (e.target.selectedIndex) {
       case 1:
         SetCurrentPage(0)
         setSort('ASC')
-        productsData(link, 0, apiFiter || 1, "ASC");
-
         break;
+
       case 2:
         SetCurrentPage(0)
         setSort('DESC')
-         productsData(link, 0, apiFiter || 1, "DESC");
         break;
 
       default:
@@ -70,10 +71,6 @@ function ProductPage() {
         productsData(link, 0, typePage || 1);
     }
   }
-
-
-
-
 
   // mac dinh
   useEffect(() => {
@@ -145,7 +142,7 @@ function ProductPage() {
         <div className="ProductPage-line"></div>
       </div>
       <div className="ProductPage-total-filter">
-        <div className="ProductPage-total">12 Sản Phẩm  </div>
+        <div className="ProductPage-total">{totaleElement} Sản Phẩm  </div>
         <div className="ProductPage-filter">
           <span className="ProductPage-filter-name">Sắp xếp: </span>
           <select

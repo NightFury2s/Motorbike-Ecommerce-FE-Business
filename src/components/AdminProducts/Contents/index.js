@@ -12,11 +12,13 @@ const ContentProducts = ({ activeContent }) => {
     const [type, setType] = useState('1')
     const [search, setSearch] = useState('')
     const [curr, setCurr] = useState(0)
+    const [totalPage, setTotalPage] = useState('')
 
     useEffect(() => {
         getdataAdmin(type, curr)
             .then((e) => {
                 setDataProduct(e.productSomeReponseDtos)
+                setTotalPage(e.totalPages)
             })
     }, [])
 
@@ -26,13 +28,15 @@ const ContentProducts = ({ activeContent }) => {
         if (search.length > 0) {
             getdataAdminSearch(curr, search)
                 .then((e) => {
-                    setDataProduct(e.productSomeReponseDtos )
+                    setTotalPage(e.totalPages)
+                    setDataProduct(e.productSomeReponseDtos)
                 })
         }
 
         else {
             getdataAdmin(type, curr)
                 .then((e) => {
+                    setTotalPage(e.totalPages)
                     setDataProduct(e.productSomeReponseDtos)
                 })
         }
@@ -40,7 +44,9 @@ const ContentProducts = ({ activeContent }) => {
 
 
     const incre = () => {
-        setCurr(curr + 1)
+        if (curr + 1 < totalPage) {
+            setCurr(curr + 1)
+        }
     }
 
     const decre = () => {
@@ -138,9 +144,9 @@ const ContentProducts = ({ activeContent }) => {
                 </table>
 
                 <div style={{ display: 'flex', marginTop: '10px', marginLeft: "90%", padding: '5px', border: '1px solid black ', justifyContent: 'space-around', alignItems: "center" }} >
-                    <FaAngleLeft onClick={decre} style={{ border: '1px solid black ', padding: '0 4px', }} />
+                    <FaAngleLeft onClick={decre} style={{ border: '1px solid black ', padding: '0 4px', opacity: `${curr + 1 >= 1 ? '0.3' : '1'}` }} />
                     <span style={{ padding: '0 4px', fontSize: '16px' }} >{curr + 1}</span>
-                    <FaAngleRight onClick={incre} style={{ border: '1px solid black ', padding: '0 4px' }} />
+                    <FaAngleRight onClick={incre} style={{ border: '1px solid black ', padding: '0 4px', opacity: `${curr + 1 < totalPage ? '1' : '0.3'}` }} />
                 </div>
             </div>
         </div>

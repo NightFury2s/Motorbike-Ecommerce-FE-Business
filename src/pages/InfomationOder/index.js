@@ -11,6 +11,7 @@ function InfomationOder() {
 
   // mac dinh 
   useEffect(() => {
+    setUser(JSON.parse(localStorage.getItem("userInfo")));
     getByCartUserPayment().then((data) => {
       setDataProduct(data?.shoppingCartDetailsDto);
       setTotalPrice(data?.totalPrice);
@@ -70,7 +71,7 @@ function InfomationOder() {
 
         <div className="informationOder-product-container-total-price">
           <p className="informationOder-product-container-total-price_name">
-            Tổng cộng 
+            Tổng cộng
           </p>
           <p className="informationOder-product-container-total-price_price">
             {totalPrice && totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} VND

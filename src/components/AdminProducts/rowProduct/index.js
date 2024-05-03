@@ -21,11 +21,11 @@ function RowProduct({ product }) {
             </td>
             <td className="border border-gray-300 px-4 py-2">{product && product.quantity}</td>
             <td className="border border-gray-300 px-4 py-2">{product.quantity > 0 ? "Còn Hàng " : 'Hết Hàng'}</td>
-            <td className="border border-gray-300 px-4 py-2">{product && product.originalPrice}</td>
+            <td className="border border-gray-300 px-4 py-2">{product && product.originalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
             <td className="border border-gray-300 px-4 py-2">{product && product.discount}</td>
-            <td className="border border-gray-300 px-4 py-2">{product && product.newPrice}</td>
-            <td className="border border-gray-300 px-4 py-2">Honda</td>
-            <td className="px-4 py-2 flex justify-center">
+            <td className="border border-gray-300 px-4 py-2">{product && product.newPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+            <td className="border border-gray-300 px-4 py-2">{product && product.detailType}</td>
+            <td  className="px-4 py-2 flex justify-center mt-12">
                 <button className="mr-2">
                     <FaEdit className="text-[#FFA800] text-[20px]" />
                 </button>
