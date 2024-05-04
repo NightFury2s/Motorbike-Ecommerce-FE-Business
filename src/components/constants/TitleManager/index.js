@@ -16,6 +16,12 @@ const TitleManager = ({ activeContent }) => {
                         Sản phẩm <MdKeyboardDoubleArrowRight className="mx-2" /> Thêm sản phẩm
                     </>
                 );
+            case 'updateProduct':
+                return (
+                    <>
+                        Sản phẩm <MdKeyboardDoubleArrowRight className="mx-2" /> Cập nhật sản phẩm
+                    </>
+                );
             default:
                 return 'Sản phẩm';
         }

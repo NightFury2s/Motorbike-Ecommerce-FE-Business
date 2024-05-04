@@ -21,18 +21,21 @@ const CategoryDropdown = ({ category, onValueChange }) => {
         <select
             className="px-3 py-2 border rounded-md text-base italic"
             disabled={isDisabled}
-            onChange={(e) => onValueChange(e.target.value)}
+            onChange={(e) => {
+                console.log('Selected Value:', e.target.value); // This will show what's being passed
+                onValueChange(e.target.value);
+            }}
         >
             <option value="">-Chọn danh mục-</option>
             {category === 'motorbike' &&
                 motorcycleBrands.map((brand) => (
-                    <option key={brand.link} value={`${brand.link},${brand.type}`}>
+                    <option key={brand.type} value={`${brand.link},${brand.type}`}>
                         {brand.name}
                     </option>
                 ))}
             {category === 'accessories' &&
                 accessories.map((part) => (
-                    <option key={part.link} value={`${part.link},${part.type}`}>
+                    <option key={part.type} value={`${part.link},${part.type}`}>
                         {part.name}
                     </option>
                 ))}

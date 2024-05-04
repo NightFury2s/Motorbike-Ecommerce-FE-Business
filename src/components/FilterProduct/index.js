@@ -24,7 +24,7 @@ function FilterProduct({ name, filter, setApiFiter, setLink, SetCurrentPage, set
                         key={e.id}
                         onClick={() => {
                             setApiFiter(e.link);
-                            setLink('/productcar/getTypeDetail');
+                            setLink('/product/get-type-detail');
                             SetCurrentPage(0);
                             setType(e.type);
                         }}
