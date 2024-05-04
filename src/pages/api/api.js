@@ -218,21 +218,18 @@ export const addProduct = async (productData) => {
         });
 
         if (response.status === 200 || response.status === 201) {
-            // Handle success
             return {
                 success: true,
                 data: response.data,
                 message: 'Sản phẩm đã được thêm thành công!',
             };
         } else {
-            // Handle Error HTTP Response: 400, 401
             return {
                 success: false,
                 message: response.data.message || 'Không thể thêm sản phẩm!',
             };
         }
     } catch (error) {
-        // Handle Error Not Success
         return {
             success: false,
             message: error.response ? error.response.data.message : 'Đã xảy ra lỗi khi thêm sản phẩm!',
@@ -245,23 +242,37 @@ export const deleteProduct = async (productId) => {
     try {
         const response = await axiosInstance.delete(`/admin/product/delete/${productId}`);
         if (response.status === 200 || response.status === 204) {
-            // If Delete Success Return True
             return {
                 success: true,
                 message: 'Xoá sản phẩm thành công!',
             };
         } else {
-            // Handle Error HTTP Response: 400, 401
             return {
                 success: false,
                 message: 'Không thể xoá sản phẩm!',
             };
         }
     } catch (error) {
-        // Handle Error Not Success
         return {
             success: false,
             message: error.response ? error.response.data.message : 'Đã xảy ra lỗi khi xoá sản phẩm!',
+        };
+    }
+};
+
+// Update Product
+export const updateProduct = async (productId, productData) => {
+    try {
+        const response = await axiosInstance.put(`/admin/product/put/${productId}`, productData, {
+            headers: { 'Content-Type': 'application/json' },
+        });
+        return response;
+    } catch (error) {
+        console.error('Error updating product:', error.response ? error.response.data : error.message);
+        return {
+            success: false,
+            status: error.response ? error.response.status : 500, // Default to status 500 on error
+            message: (error.response && error.response.data && error.response.data.message) || 'Unknown error',
         };
     }
 };

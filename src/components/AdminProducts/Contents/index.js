@@ -15,6 +15,7 @@ const ContentProducts = ({ activeContent, changeContent }) => {
     const [type, setType] = useState('1');
     const [search, setSearch] = useState('');
     const [curr, setCurr] = useState(0);
+    const [selectedProduct, setSelectedProduct] = useState(null);
 
     useEffect(() => {
         getdataAdmin(type, curr).then((e) => {
@@ -211,8 +212,12 @@ const ContentProducts = ({ activeContent, changeContent }) => {
                                     key={element.id}
                                     product={element}
                                     onDelete={handleDeleteProduct}
-                                    onSelect={handleSelectProduct}
+                                    onSelect={(id) => {
+                                        setSelectedProduct(id);
+                                        handleSelectProduct(id);
+                                    }}
                                     isSelected={selectedProducts.includes(element.id)}
+                                    changeContent={changeContent}
                                 />
                             ))}
                     </tbody>
