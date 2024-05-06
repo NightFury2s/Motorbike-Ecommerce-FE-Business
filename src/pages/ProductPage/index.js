@@ -6,13 +6,17 @@ import { Pagination } from '@nextui-org/react';
 import { useRouter } from 'next/router';
 
 function ProductPage() {
+
+
+
     const [motorbikeProducts, setMotorbikeProducts] = useState([]);
     const [totalPage, setTotalPage] = useState(1);
     const [currentPage, SetCurrentPage] = useState(0);
     const [apiFiter, setApiFiter] = useState(null);
-    const [link, setLink] = useState('/product/get-by-id-type');
+    const [link, setLink] = useState("/product/get-by-id-type");
     const [sort, setSort] = useState('');
-    const [type, setType] = useState();
+    const [type, setType] = useState('')
+    const [totaleElement, setTotalElement] = useState('')
 
     const router = useRouter();
     const { typePage } = router.query;
@@ -34,30 +38,31 @@ function ProductPage() {
         setLink('/product/get-by-id-type');
     }, [typePage]);
 
+
+
     const productsData = async (link, currentPage, type, sort) => {
         try {
             const motorbikeData = await dataPageProduct(link, currentPage, type, sort);
             setMotorbikeProducts(motorbikeData.productSomeReponseDtos);
             setTotalPage(motorbikeData.totalPages);
-
-            return 'successful';
+            setTotalElement(motorbikeData.totalElements)
+            return "sucsseful";
         } catch (error) {
-            return 'err';
+            return "err";
         }
     };
 
-    const handleArr = (e) => {
-        switch (e.target.selectedIndex == 1) {
-            case 1:
-                SetCurrentPage(0);
-                setSort('ASC');
-                productsData(link, 0, apiFiter || 1, 'ASC');
 
+    const handleArr = (e) => {
+        switch (e.target.selectedIndex) {
+            case 1:
+                SetCurrentPage(0)
+                setSort('ASC')
                 break;
+
             case 2:
-                SetCurrentPage(0);
-                setSort('DESC');
-                productsData(link, 0, apiFiter || 1, 'DESC');
+                SetCurrentPage(0)
+                setSort('DESC')
                 break;
 
             default:
@@ -118,6 +123,7 @@ function ProductPage() {
             type: '2',
         },
     ];
+
 
     return (
         <div className="ProductPage-container">
