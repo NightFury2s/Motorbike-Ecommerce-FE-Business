@@ -28,9 +28,10 @@ export const auth_login = async (username, password) => {
 // Handle Register
 export const setRegisterData = async (data) => {
     try {
-        const response = await axios.post('/register', data);
+        const response = await axiosInstance.post('/register', data);
         return response;
     } catch (error) {
+        console.log(error.response.messenger);
         return {
             success: false,
             messenger: error.response ? error.response.data.messenger : error.messenger,
