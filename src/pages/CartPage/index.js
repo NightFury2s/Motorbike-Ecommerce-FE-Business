@@ -1,15 +1,19 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { useRouter } from 'next/router';
 import { AiTwotoneShop } from 'react-icons/ai';
 import { FaCheck } from 'react-icons/fa6';
 import { getCartByUser } from '@/pages/api/api';
 import axiosInstance from '@/pages/api/axios';
-import Link from 'next/link';
 
 const CartPage = () => {
+    const router = useRouter();
     const [cartProducts, setCartProducts] = useState([]);
     const [totalPrice, setTotalPrice] = useState(0);
     const [fullName, setFullName] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
+    const [email, setEmail] = useState('');
+    const [address, setAddress] = useState('');
+    const [content, setContent] = useState('');
     const [errors, setErrors] = useState({});
 
     // Fetch Cart Products
@@ -91,7 +95,7 @@ const CartPage = () => {
             } else {
                 throw new Error('Có lỗi đã xảy ra:', error);
             }
-        } catch (error) { }
+        } catch (error) {}
     };
 
     const handleFullNameChange = (e) => {
@@ -115,7 +119,6 @@ const CartPage = () => {
             errors.fullName = 'Bạn phải nhập họ và tên';
         }
 
-        // Check phone number
         if (!phoneNumber.trim()) {
             errors.phoneNumber = 'Bạn phải nhập số điện thoại';
         } else if (phoneNumber.trim().length !== 10) {
@@ -125,7 +128,16 @@ const CartPage = () => {
         setErrors(errors);
 
         if (Object.keys(errors).length === 0) {
-            alert('Đặt hàng thành công!');
+            const userInfo = {
+                fullName,
+                phoneNumber,
+                email,
+                address,
+                content,
+            };
+            localStorage.setItem('userInfo', JSON.stringify(userInfo));
+
+            router.push('/InfomationOder');
         }
     };
 
@@ -161,8 +173,9 @@ const CartPage = () => {
                                         placeholder="Họ và tên"
                                         value={fullName}
                                         onChange={handleFullNameChange}
-                                        className={`w-full p-2 border rounded ${errors.fullName ? 'border-red-500' : ''
-                                            }`}
+                                        className={`w-full p-2 border rounded ${
+                                            errors.fullName ? 'border-red-500' : ''
+                                        }`}
                                     />
                                     {errors.fullName && <p className="text-red-500 text-sm">{errors.fullName}</p>}
                                 </div>
@@ -177,8 +190,9 @@ const CartPage = () => {
                                         placeholder="Số điện thoại"
                                         value={phoneNumber}
                                         onChange={handlePhoneNumberChange}
-                                        className={`w-full p-2 border rounded ${errors.phoneNumber ? 'border-red-500' : ''
-                                            }`}
+                                        className={`w-full p-2 border rounded ${
+                                            errors.phoneNumber ? 'border-red-500' : ''
+                                        }`}
                                     />
                                     {errors.phoneNumber && <p className="text-red-500 text-sm">{errors.phoneNumber}</p>}
                                 </div>
@@ -189,13 +203,25 @@ const CartPage = () => {
                                 {/* Email field */}
                                 <div className="w-1/2 px-2">
                                     <label className="block text-sm font-medium text-gray-700">Email</label>
-                                    <input type="email" placeholder="Email" className="w-full p-2 border rounded" />
+                                    <input
+                                        type="email"
+                                        placeholder="Email"
+                                        className="w-full p-2 border rounded"
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                    />
                                 </div>
 
                                 {/* Address field */}
                                 <div className="w-1/2 px-2">
                                     <label className="block text-sm font-medium text-gray-700">Địa chỉ</label>
-                                    <input type="text" placeholder="Địa chỉ" className="w-full p-2 border rounded" />
+                                    <input
+                                        type="text"
+                                        placeholder="Địa chỉ"
+                                        className="w-full p-2 border rounded"
+                                        value={address}
+                                        onChange={(e) => setAddress(e.target.value)}
+                                    />
                                 </div>
                             </div>
 
@@ -206,6 +232,8 @@ const CartPage = () => {
                                     placeholder="Nhập nội dung..."
                                     className="w-full p-2 border rounded"
                                     rows="4"
+                                    value={content}
+                                    onChange={(e) => setContent(e.target.value)}
                                 ></textarea>
                             </div>
                         </div>
@@ -340,14 +368,12 @@ const CartPage = () => {
 
                                 {/* Order Button */}
                                 <div className="flex justify-center mt-4">
-                                    <Link href="/InfomationOder">
-                                        <button
-                                            className="bg-blue-500 hover:bg-blue-700 text-white text-xl font-bold py-3 px-16 rounded-lg mt-5"
-                                            onClick={handleSubmit}
-                                        >
-                                            Đặt hàng
-                                        </button>
-                                    </Link>
+                                    <button
+                                        className="bg-blue-500 hover:bg-blue-700 text-white text-xl font-bold py-3 px-16 rounded-lg mt-5"
+                                        onClick={handleSubmit}
+                                    >
+                                        Đặt hàng
+                                    </button>
                                 </div>
                             </div>
                         </div>

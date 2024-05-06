@@ -4,27 +4,48 @@ import { MdKeyboardDoubleArrowRight } from 'react-icons/md';
 import RowProduct from '../rowProduct';
 import { getdataAdmin, getdataAdminSearch } from '@/pages/api/api';
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa6';
+import { deleteProduct } from '@/pages/api/api';
+import { useRouter } from 'next/router';
 
-const ContentProducts = ({ activeContent }) => {
-
-
-    const [dataProduct, setDataProduct] = useState([])
-    const [type, setType] = useState('1')
-    const [search, setSearch] = useState('')
-    const [curr, setCurr] = useState(0)
+const ContentProducts = ({ activeContent, changeContent }) => {
+    const router = useRouter();
+    const [dataProduct, setDataProduct] = useState([]);
+    const [selectedProducts, setSelectedProducts] = useState([]);
+    const [selectAll, setSelectAll] = useState(false);
+    const [type, setType] = useState('1');
+    const [search, setSearch] = useState('');
+    const [curr, setCurr] = useState(0);
+    const [selectedProduct, setSelectedProduct] = useState(null);
     const [totalPage, setTotalPage] = useState('')
 
-    useEffect(() => {
-        getdataAdmin(type, curr)
-            .then((e) => {
-                setDataProduct(e.productSomeReponseDtos)
-                setTotalPage(e.totalPages)
-            })
-    }, [])
-
 
     useEffect(() => {
+        getdataAdmin(type, curr).then((e) => {
+            setDataProduct(e.productSomeReponseDtos);
+            setSelectAll(false);
+            setTotalPage(e.totalPages)
+        });
+    }, []);
 
+    // Handle select all
+    const handleSelectAll = (e) => {
+        if (e.target.checked) {
+            const newSelectedProducts = dataProduct.map((product) => product.id);
+            setSelectedProducts(newSelectedProducts);
+        } else {
+            setSelectedProducts([]);
+        }
+    };
+
+    const handleSelectProduct = (id) => {
+        if (selectedProducts.includes(id)) {
+            setSelectedProducts(selectedProducts.filter((item) => item !== id));
+        } else {
+            setSelectedProducts([...selectedProducts, id]);
+        }
+    };
+
+    useEffect(() => {
         if (search.length > 0) {
             getdataAdminSearch(curr, search)
                 .then((e) => {
@@ -42,7 +63,27 @@ const ContentProducts = ({ activeContent }) => {
         }
     }, [type, curr, search])
 
+    // useEffect(() => {
+    //     const savedSelectedProducts = JSON.parse(localStorage.getItem('selectedProducts') || '[]');
+    //     setSelectedProducts(savedSelectedProducts);
 
+    //     if (search.length > 0) {
+    //         getdataAdminSearch(curr, search)
+    //             .then((e) => {
+    //                 setTotalPage(e.totalPages)
+    //                 setDataProduct(e.productSomeReponseDtos)
+    //             })
+    //     }
+    //     else {
+    //         getdataAdmin(type, curr)
+    //             .then((e) => {
+    //                 setTotalPage(e.totalPages)
+    //                 setDataProduct(e.productSomeReponseDtos)
+    //             })
+    //     }
+    // }, [selectedProducts, dataProduct]);
+
+       
     const incre = () => {
         if (curr + 1 < totalPage) {
             setCurr(curr + 1)
@@ -50,8 +91,8 @@ const ContentProducts = ({ activeContent }) => {
     }
 
     const decre = () => {
-        setCurr(curr > 0 ? curr - 1 : 0)
-    }
+        setCurr(curr > 0 ? curr - 1 : 0);
+    };
 
     // Get title
     const getTitle = () => {
@@ -73,6 +114,18 @@ const ContentProducts = ({ activeContent }) => {
         }
     };
 
+    // Function to handle product deletion
+    const handleDeleteProduct = async (productId) => {
+        const response = await deleteProduct(productId);
+        if (response.success) {
+            // Remove the deleted product from the state to update UI
+            setDataProduct(dataProduct.filter((product) => product.id !== productId));
+            alert('Product deleted successfully');
+        } else {
+            alert('Failed to delete product: ' + response.message);
+        }
+    };
+
     return (
         <div>
             {/* Header */}
@@ -83,10 +136,16 @@ const ContentProducts = ({ activeContent }) => {
                 <div className="flex justify-between items-center mb-4">
                     {/* Left-side buttons and dropdown */}
                     <div className="flex items-center">
-                        <button className="mr-4 flex items-center px-3 py-1 rounded-md bg-blue-500 text-white hover:bg-blue-600">
+                        <button
+                            onClick={() => changeContent('addProduct')}
+                            className="mr-4 flex items-center px-3 py-1 rounded-md bg-blue-500 text-white hover:bg-blue-600"
+                        >
                             <FaPlus className="mr-1" /> Thêm danh mục
                         </button>
-                        <button className="mr-4 flex items-center px-3 py-1 rounded-md bg-red-500 text-white hover:bg-red-600">
+                        <button
+                            // onClick={handleDeleteSelectedProducts}
+                            className="mr-4 flex items-center px-3 py-1 rounded-md bg-red-500 text-white hover:bg-red-600"
+                        >
                             <FaTrash className="mr-1" /> Xoá tất cả
                         </button>
                     </div>
@@ -96,7 +155,12 @@ const ContentProducts = ({ activeContent }) => {
                     {/* Sort */}
                     <div className="flex items-center">
                         <h2 className="mr-4">Danh mục</h2>
-                        <select onChange={(e) => { setType(e.target.value) }} className="px-3 py-2 border rounded-md mr-4">
+                        <select
+                            onChange={(e) => {
+                                setType(e.target.value);
+                            }}
+                            className="px-3 py-2 border rounded-md mr-4"
+                        >
                             <option value="1">Xe máy</option>
                             <option value="2">Phụ tùng</option>
                         </select>
@@ -106,7 +170,9 @@ const ContentProducts = ({ activeContent }) => {
                     <div className="flex items-center relative">
                         <input
                             value={search}
-                            onChange={(e) => { setSearch(e.target.value) }}
+                            onChange={(e) => {
+                                setSearch(e.target.value);
+                            }}
                             type="search"
                             className="pl-4 pr-3 py-2 border rounded-md focus:outline-none italic w-full"
                             placeholder="Tìm kiếm"
@@ -120,7 +186,7 @@ const ContentProducts = ({ activeContent }) => {
                     <thead>
                         <tr className="bg-gray-200">
                             <th className="border border-gray-300 px-4 py-2">
-                                <input type="checkbox" />
+                                <input type="checkbox" checked={selectAll} onChange={handleSelectAll} />
                             </th>
                             <th className="border border-gray-300 px-4 py-2">Mã Sản Phẩm</th>
                             <th className="border border-gray-300 px-4 py-2">Tên Sản Phẩm</th>
@@ -135,11 +201,20 @@ const ContentProducts = ({ activeContent }) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {/* Data rows here */}
-                        {
-                            dataProduct && dataProduct.map((element) => <RowProduct product={element} />)
-                        }
-
+                        {dataProduct &&
+                            dataProduct.map((element) => (
+                                <RowProduct
+                                    key={element.id}
+                                    product={element}
+                                    onDelete={handleDeleteProduct}
+                                    onSelect={(id) => {
+                                        setSelectedProduct(id);
+                                        handleSelectProduct(id);
+                                    }}
+                                    isSelected={selectedProducts.includes(element.id)}
+                                    changeContent={changeContent}
+                                />
+                            ))}
                     </tbody>
                 </table>
 

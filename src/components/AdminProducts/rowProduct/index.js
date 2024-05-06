@@ -1,12 +1,14 @@
-import React from 'react';
-import { FaPlus, FaTrash, FaEdit, FaSearch } from 'react-icons/fa';
+import React, { useState } from 'react';
+import { FaTrash, FaEdit } from 'react-icons/fa';
+import { useRouter } from 'next/router';
 
-function RowProduct({ product }) {
+function RowProduct({ product, onDelete, onSelect, isSelected, changeContent }) {
+    const router = useRouter();
 
     return (
         <tr className="hover:bg-gray-100">
             <td className="border border-gray-300 px-4 py-2">
-                <input type="checkbox" />
+                <input type="checkbox" checked={isSelected} onChange={() => onSelect(product.id)} />
             </td>
             <td className="border border-gray-300 px-4 py-2">{product && product.id}</td>
             <td className="border border-gray-300 px-4 py-2">{product && product.name}</td>
@@ -34,8 +36,7 @@ function RowProduct({ product }) {
                 </button>
             </td>
         </tr>
-    )
-
+    );
 }
 
 export default RowProduct;

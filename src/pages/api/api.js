@@ -87,9 +87,7 @@ export const MotorbikeData = async () => {
     const sortBy = 1;
 
     try {
-        const response = await axios.get(
-            `/product/get-by-id-type/${pageNumber}/${pageSize}/${sortBy}`
-        );
+        const response = await axiosInstance.get(`/product/get-by-id-type/${pageNumber}/${pageSize}/${sortBy}`);
         const data = response.data;
         const products = data.productSomeReponseDtos;
 
@@ -106,9 +104,7 @@ export const AccessoriesData = async () => {
     const sortBy = 2;
 
     try {
-        const response = await axios.get(
-            `/product/get-by-id-type/${pageNumber}/${pageSize}/${sortBy}`
-        );
+        const response = await axiosInstance.get(`/product/get-by-id-type/${pageNumber}/${pageSize}/${sortBy}`);
         const data = response.data;
         const products = data.productSomeReponseDtos;
 
@@ -118,14 +114,13 @@ export const AccessoriesData = async () => {
     }
 };
 
-
 // Detail Product API
 export const DetailProductData = async (id) => {
     try {
-        const response = await axios.get(`/product/get-detail/${id}`);
+        const response = await axiosInstance.get(`/product/get-detail/${id}`);
         return response.data;
     } catch (error) {
-        throw new Error("Failed to fetch product details: " + error.message);
+        throw new Error('Failed to fetch product details: ' + error.message);
     }
 };
 
@@ -141,7 +136,7 @@ export const ReviewsData = async (productId) => {
 // data page product
 export const dataPageProduct = async (link, currentPage, type, sort) => {
     try {
-        const response = await axiosInstance.get(`${link}/${currentPage}/${12}/${type}${sort ? `/${sort}` : ""}`);
+        const response = await axiosInstance.get(`${link}/${currentPage}/${12}/${type}${sort ? `/${sort}` : ''}`);
         const data = response.data;
         // const products = data.productSomeReponseDtos;
         // return products;
@@ -191,18 +186,22 @@ export const getCartByUser = async () => {
 // send token to server
 export const getByCartUserPayment = async () => {
     try {
-        const response = await axiosInstance.post('http://192.168.199.241:8080/user/shopping-cart/get-cart-by-user', {})
-        return response.data
-    }
-    catch (error) {
+        const response = await axiosInstance.post(
+            'http://192.168.199.241:8080/user/shopping-cart/get-cart-by-user',
+            {},
+        );
+        return response.data;
+    } catch (error) {
         return [];
     }
-}
+};
 
-// getdata Admin 
+// getdata Admin
 export const getdataAdmin = async (type, curr) => {
     try {
-        const response = await axiosInstance.get(`http://192.168.199.241:8080/product/get-by-id-type/${curr || 0}/12/${type}`);
+        const response = await axiosInstance.get(
+            `http://192.168.199.241:8080/product/get-by-id-type/${curr || 0}/12/${type}`,
+        );
         const data = response.data;
         return data;
     } catch (error) {
@@ -210,10 +209,81 @@ export const getdataAdmin = async (type, curr) => {
     }
 };
 
+// Add Product
+export const addProduct = async (productData) => {
+    try {
+        const response = await axiosInstance.post('/admin/product/add', productData, {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        if (response.status === 200 || response.status === 201) {
+            return {
+                success: true,
+                data: response.data,
+                message: 'Sản phẩm đã được thêm thành công!',
+            };
+        } else {
+            return {
+                success: false,
+                message: response.data.message || 'Không thể thêm sản phẩm!',
+            };
+        }
+    } catch (error) {
+        return {
+            success: false,
+            message: error.response ? error.response.data.message : 'Đã xảy ra lỗi khi thêm sản phẩm!',
+        };
+    }
+};
+
+// Delete Product
+export const deleteProduct = async (productId) => {
+    try {
+        const response = await axiosInstance.delete(`/admin/product/delete/${productId}`);
+        if (response.status === 200 || response.status === 204) {
+            return {
+                success: true,
+                message: 'Xoá sản phẩm thành công!',
+            };
+        } else {
+            return {
+                success: false,
+                message: 'Không thể xoá sản phẩm!',
+            };
+        }
+    } catch (error) {
+        return {
+            success: false,
+            message: error.response ? error.response.data.message : 'Đã xảy ra lỗi khi xoá sản phẩm!',
+        };
+    }
+};
+
+// Update Product
+export const updateProduct = async (productId, productData) => {
+    try {
+        const response = await axiosInstance.put(`/admin/product/put/${productId}`, productData, {
+            headers: { 'Content-Type': 'application/json' },
+        });
+        return response;
+    } catch (error) {
+        console.error('Error updating product:', error.response ? error.response.data : error.message);
+        return {
+            success: false,
+            status: error.response ? error.response.status : 500, // Default to status 500 on error
+            message: (error.response && error.response.data && error.response.data.message) || 'Unknown error',
+        };
+    }
+};
+
 //search admin
 export const getdataAdminSearch = async (curr, valueSearch) => {
     try {
-        const response = await axiosInstance.get(`http://192.168.199.241:8080/product/find-by-name-product/${curr}/12/${valueSearch}`);
+        const response = await axiosInstance.get(
+            `http://192.168.199.241:8080/product/find-by-name-product/${curr}/12/${valueSearch}`,
+        );
         const data = response.data;
         return data || [];
     } catch (error) {

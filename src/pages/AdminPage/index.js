@@ -3,12 +3,14 @@ import React, { useState } from 'react';
 import { FaUserCircle, FaChevronRight, FaChevronDown } from 'react-icons/fa';
 import ContentProducts from '@/components/AdminProducts/Contents';
 import AddProducts from '@/components/AdminProducts/AddProducts';
+import UpdateProducts from '@/components/AdminProducts/UpdateProducts';
 import ProtectedRoute from '@/components/ProtectedRoute';
 
 const AdminPage = () => {
     const [showOptions, setShowOptions] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
     const [activeContent, setActiveContent] = useState('default');
+    const [productToEdit, setProductToEdit] = useState(null);
 
     // Handle toggle options
     const handleToggleOptions = () => {
@@ -25,6 +27,11 @@ const AdminPage = () => {
     const handleContentChange = (content, e) => {
         e.stopPropagation();
         setActiveContent(content);
+    };
+
+    const changeContent = (content, product = null) => {
+        setActiveContent(content);
+        setProductToEdit(product);
     };
 
     return (
@@ -73,6 +80,7 @@ const AdminPage = () => {
                                         >
                                             Thêm sản phẩm
                                         </li>
+                                        <li onClick={(e) => handleContentChange('updateProduct', e)}></li>
                                     </ul>
                                 )}
                             </li>
@@ -83,9 +91,15 @@ const AdminPage = () => {
                     {/* Content */}
                     <div className="flex-1 p-4 overflow-auto">
                         {activeContent === 'products' ? (
-                            <ContentProducts activeContent={activeContent} />
+                            <ContentProducts activeContent={activeContent} changeContent={changeContent} />
                         ) : activeContent === 'addProduct' ? (
-                            <AddProducts />
+                            <AddProducts activeContent={activeContent} />
+                        ) : activeContent === 'updateProduct' ? (
+                            <UpdateProducts
+                                activeContent={activeContent}
+                                product={productToEdit}
+                                changeContent={changeContent}
+                            />
                         ) : (
                             <div className="text-center text-lg">Đây là Admin Page</div>
                         )}

@@ -1,56 +1,44 @@
-import React, { useState } from 'react';
-import { addProduct } from '@/pages/api/api';
+import React, { useState, useEffect } from 'react';
+import { updateProduct } from '@/pages/api/api';
 import CategorySelector from '@/components/constants/CategorySelector';
 import CategoryDropdown from '@/components/constants/CategoryDropdown';
 import ImageUploader from '@/components/constants/ImageUploader';
 import DescriptionUploader from '@/components/constants/DescriptionUploader';
 import TitleManager from '@/components/constants/TitleManager';
 import SuccessModal from '@/components/SuccessModal';
-import { useRouter } from 'next/router';
 
-const AddProducts = ({ activeContent }) => {
-    const [productName, setProductName] = useState('');
-    const [price, setPrice] = useState('0');
-    const [quantity, setQuantity] = useState('0');
-    const [detailType, setDetailType] = useState(0);
-    const [idTypeProduct, setIdTypeProduct] = useState(0);
-    const [discountPercentage, setDiscountPercentage] = useState('0');
-    const [description, setDescription] = useState('');
-    const [images, setImages] = useState([]);
-    const [category, setCategory] = useState('');
+const UpdateProducts = ({ activeContent, changeContent, product }) => {
+    const productId = product && product.id;
+    const [productName, setProductName] = useState(product.name);
+    const [price, setPrice] = useState(product?.originalPrice.toString() || '0');
+    const [discountPercentage, setDiscountPercentage] = useState(product?.discount.toString() || '0');
+    const [quantity, setQuantity] = useState(product.quantity.toString());
+    const [detailType, setDetailType] = useState(product.detailType);
+    const [images, setImages] = useState(product.images);
     const [showSuccessModal, setShowSuccessModal] = useState(false);
-    const [newProductId, setNewProductId] = useState(null);
-    const router = useRouter();
+    const [description, setDescription] = useState(product.description);
+    const [category, setCategory] = useState(product?.category || '');
+    const [idTypeProduct, setIdTypeProduct] = useState(product?.idTypeProduct || '');
 
     const handleProductNameChange = (e) => setProductName(e.target.value);
-
     const handlePriceChange = (e) => {
         const value = e.target.value.replace(/\D/g, '');
-        setPrice(value || '0');
+        setPrice(value);
     };
-
+    const handleQuantityChange = (e) => setQuantity(e.target.value);
+    const handleDiscount = (e) => {
+        const value = e.target.value.replace(/\D/g, '');
+        setDiscountPercentage(value);
+    };
+    const handleCategoryChange = (value) => setCategory(value);
     const handleIdTypeProductChange = (value) => {
         const [link, type] = value.split(',');
         setIdTypeProduct(parseInt(link, 10));
         setDetailType(parseInt(type, 10));
     };
 
-    const handleDiscount = (e) => {
-        const value = e.target.value.replace(/\D/g, '');
-        setDiscountPercentage(value || '0');
-    };
-
-    const handleCategoryChange = (value) => {
-        setCategory(value);
-    };
-
-    const handleQuantityChange = (e) => {
-        const value = e.target.value;
-        setQuantity(value || '0');
-    };
-
-    // Add product
-    const handleAddProduct = async () => {
+    // Update product
+    const handleUpdateProduct = async () => {
         const productData = {
             name: productName,
             price: parseFloat(price),
@@ -58,17 +46,20 @@ const AddProducts = ({ activeContent }) => {
             detailType: parseInt(detailType, 10),
             idTypeProduct: parseInt(idTypeProduct, 10),
             discount: parseFloat(discountPercentage),
-            describe: description,
-            images: images,
+            describe: description || 'Không ',
+            images: images.map((img) => ({
+                idImg: img.idImg,
+                imgData: img.imgData,
+                content: img.content,
+            })),
         };
 
-        const response = await addProduct(productData);
-        if (response.success) {
-            setShowSuccessModal(true);
-            setNewProductId(response.data.id);
+        const response = await updateProduct(product.id, productData);
+
+        if (response && response.status === 200) {
             setShowSuccessModal(true);
         } else {
-            console.error('Không thể thêm sản phẩm:', response.message);
+            const errorMessage = response.message || 'Có lỗi đã xảy ra!';
         }
     };
 
@@ -80,19 +71,8 @@ const AddProducts = ({ activeContent }) => {
         return originalPrice && !isNaN(discountedPrice) ? `${discountedPrice.toLocaleString('vi-VN')} VNĐ` : '';
     };
 
-    const redirectToProductDetail = () => {
-        setShowSuccessModal(false);
-        if (newProductId) {
-            router.push({
-                pathname: '/DetailProduct',
-                query: { id: newProductId }, // Pass the product ID as a query parameter
-            });
-        }
-    };
-
     return (
         <div className="mx-auto">
-            {/* Header */}
             <div className="flex items-center justify-between mb-4">
                 <TitleManager activeContent={activeContent} />
             </div>
@@ -102,8 +82,8 @@ const AddProducts = ({ activeContent }) => {
                     <CategorySelector onCategoryChange={handleCategoryChange} />
                 </div>
 
+                {/* Product Name */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    {/* Product Name */}
                     <div>
                         <h2 className="mb-3 text-lg">Tên sản phẩm</h2>
                         <input
@@ -114,10 +94,15 @@ const AddProducts = ({ activeContent }) => {
                         />
                     </div>
 
-                    {/* Category Dropdown */}
+                    {/* Category */}
                     <div>
                         <h2 className="mb-3 text-lg">Danh mục</h2>
-                        <CategoryDropdown category={category} onValueChange={handleIdTypeProductChange} />
+                        <CategoryDropdown
+                            category={category}
+                            onValueChange={handleIdTypeProductChange}
+                            detailType={detailType}
+                            idTypeProduct={idTypeProduct}
+                        />
                     </div>
 
                     {/* Price */}
@@ -167,7 +152,6 @@ const AddProducts = ({ activeContent }) => {
                             className="px-3 py-2 border rounded-md text-base w-64"
                             value={quantity}
                             onChange={handleQuantityChange}
-                            onFocus={(e) => e.target.value === '0' && setQuantity('')}
                         />
                     </div>
                 </div>
@@ -189,21 +173,23 @@ const AddProducts = ({ activeContent }) => {
                     <DescriptionUploader description={description} setDescription={setDescription} />
                 </div>
 
-                {/* Success Modal & Button */}
                 <div className="flex justify-end mt-6 p-4 space-x-4">
                     {showSuccessModal && (
                         <SuccessModal
                             setShowSuccessModal={setShowSuccessModal}
-                            title="Thêm sản phẩm thành công!"
+                            title="Cập nhật sản phẩm thành công!"
                             message="Chào mừng bạn đến với Motobike Ecommerce."
-                            onClose={redirectToProductDetail}
+                            onClose={() => {
+                                setShowSuccessModal(false);
+                                changeContent('products');
+                            }}
                         />
                     )}
                     <button
+                        onClick={handleUpdateProduct}
                         className="bg-[#2B92E4] hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-                        onClick={handleAddProduct}
                     >
-                        Thêm
+                        Cập nhật
                     </button>
                 </div>
             </div>
@@ -211,4 +197,4 @@ const AddProducts = ({ activeContent }) => {
     );
 };
 
-export default AddProducts;
+export default UpdateProducts;
