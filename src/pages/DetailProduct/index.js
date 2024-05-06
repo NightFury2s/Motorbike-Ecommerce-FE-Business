@@ -18,6 +18,7 @@ const DetailProduct = () => {
     });
     const [productDetail, setProductDetail] = useState(null);
     const { increaseQty, decreaseQty, qty, setQty } = useContext(AuthContext);
+    const [errorMessage, setErrorMessage] = useState('');
 
     // Quantity adjustment with validation
     const handleQuantityChange = (e) => {
@@ -25,6 +26,11 @@ const DetailProduct = () => {
         // Ensure the input is a number and not less than 1
         if (!isNaN(value) && value >= 1) {
             setQty(value);
+            if (value > productDetail.quantity) {
+                setErrorMessage(`Số lượng sản phẩm trong kho chỉ còn lại ${productDetail.quantity} sản phẩm.`);
+            } else {
+                setErrorMessage('');
+            }
         }
     };
 
@@ -39,8 +45,8 @@ const DetailProduct = () => {
                     }
                 })
                 .catch((error) => {
-                    console.error(error.message)
-                })
+                    console.error(error.message);
+                });
             // Fetch reviews for the product
             ReviewsData(id)
                 .then((data) => {
@@ -57,16 +63,38 @@ const DetailProduct = () => {
         }
     }, [id]);
 
-    const handleAddToCart = async () => {
-        const result = await addToCart(productDetail.id, qty);
-        if (result.success) {
-            alert('Sản phẩm đã được thêm vào giỏ hàng!');
+    useEffect(() => {
+        if (productDetail && qty > productDetail.quantity) {
+            setErrorMessage(`Số lượng sản phẩm trong kho chỉ còn lại ${productDetail.quantity} sản phẩm.`);
         } else {
-            alert('Đã xảy ra lỗi khi thêm sản phẩm vào giỏ hàng.');
+            setErrorMessage('');
+        }
+    }, [qty, productDetail]);
+
+    const handleAddToCart = async () => {
+        if (qty > productDetail.quantity) {
+            setErrorMessage(`Số lượng sản phẩm trong kho chỉ còn lại ${productDetail.quantity} sản phẩm.`);
+        } else {
+            const result = await addToCart(productDetail.id, qty);
+            if (result.success) {
+                alert('Sản phẩm đã được thêm vào giỏ hàng!');
+            } else {
+                alert('Đã xảy ra lỗi khi thêm sản phẩm vào giỏ hàng.');
+            }
         }
     };
 
     const handleBuyNow = async () => {
+        if (qty > productDetail.quantity) {
+            setErrorMessage(`Số lượng sản phẩm trong kho chỉ còn lại ${productDetail.quantity} sản phẩm.`);
+        } else {
+            const result = await addToCart(productDetail.id, qty);
+            if (result.success) {
+                router.push('/CartPage');
+            } else {
+                alert('Đã xảy ra lỗi khi thêm sản phẩm vào giỏ hàng.');
+            }
+        }
     };
 
     const renderStars = (rating) => {
@@ -105,7 +133,7 @@ const DetailProduct = () => {
                                 </h3>
                             </div>
                         </div>
-                        <div className="flex flex-col justify-center items-center max-w-2xl max-h-96">
+                        <div className="flex flex-col justify-center items-center max-w-3xl max-h-96">
                             <div className="max-w-2xl max-h-96 mt-10 flex justify-center items-center bg-gray-100 rounded-xl overflow-hidden">
                                 <img
                                     src={activeImg}
@@ -120,8 +148,9 @@ const DetailProduct = () => {
                                 {productDetail.images.map((image, index) => (
                                     <div
                                         key={index}
-                                        className={`flex justify-center w-40 h-24 overflow-hidden rounded-md cursor-pointer ${'data:image/png;base64,' + image.imgData === activeImg ? 'shadow-2xl' : ''
-                                            } bg-[#D9D9D9]`}
+                                        className={`flex justify-center w-40 h-24 overflow-hidden rounded-md cursor-pointer ${
+                                            'data:image/png;base64,' + image.imgData === activeImg ? 'shadow-2xl' : ''
+                                        } bg-[#D9D9D9]`}
                                         onClick={() => setActiveImage('data:image/png;base64,' + image.imgData)}
                                     >
                                         <img
@@ -175,6 +204,9 @@ const DetailProduct = () => {
                                 <FiPlus />
                             </button>
                         </div>
+
+                        {/* Error Message */}
+                        {errorMessage && <div className="text-[#FF0000] text-sm ">{errorMessage}</div>}
 
                         {/* Add to Cart Button */}
                         <div className="flex justify-center space-x-4">
