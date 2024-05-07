@@ -141,7 +141,7 @@ function ProductPage() {
                 <div className="ProductPage-line"></div>
             </div>
             <div className="ProductPage-total-filter">
-                <div className="ProductPage-total">12 Sản Phẩm </div>
+                <div className="ProductPage-total">{totaleElement} Sản Phẩm </div>
                 <div className="ProductPage-filter">
                     <span className="ProductPage-filter-name">Sắp xếp: </span>
                     <select
