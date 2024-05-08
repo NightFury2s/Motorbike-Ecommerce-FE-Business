@@ -18,6 +18,8 @@ function ProductPage() {
     const [type, setType] = useState('')
     const [totaleElement, setTotalElement] = useState('')
 
+
+
     const router = useRouter();
     const { typePage } = router.query;
 
@@ -36,6 +38,7 @@ function ProductPage() {
         SetCurrentPage(0);
         setType(typePage);
         setLink('/product/get-by-id-type');
+        setApiFiter(typePage)
     }, [typePage]);
 
 
