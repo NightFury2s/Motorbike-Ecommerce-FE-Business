@@ -14,7 +14,6 @@ export default function Nav({ setShowLoginModal, setShowRegisterModal }) {
 
     const router = useRouter();
     const { typePage } = router.query;
-    console.log('typePage',typePage);
 
     // Close dropdown when click outside
     useEffect(() => {
