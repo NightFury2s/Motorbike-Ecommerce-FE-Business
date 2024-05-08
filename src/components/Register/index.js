@@ -242,10 +242,10 @@ const RegisterModal = ({ setShowModal, setShowLoginModal }) => {
                                         marginLeft: '50%',
                                         transform: 'translateX(-50%)',
                                         marginTop: '5px',
-                                        color: 'black',
+                                        color: 'while',
                                         border: '2px solid black',
                                     }}
-                                    className="border-2 border-[#2B92E4] text-[#2B92E4] rounded-full px-12 py-2 inline-block font-semibold hover:bg-[#2B92E4] hover:text-white"
+                                    className="border-2 border-[#2B92E4]  rounded-full px-12 py-2 inline-block font-semibold hover:bg-[#2B92E4] hover:text-white"
                                 >
                                     Đăng ký
                                 </button>

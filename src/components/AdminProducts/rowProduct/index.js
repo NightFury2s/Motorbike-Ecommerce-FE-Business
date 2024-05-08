@@ -23,7 +23,9 @@ function RowProduct({ product, onDelete, onSelect, isSelected, changeContent }) 
             </td>
             <td className="border border-gray-300 px-4 py-2">{product && product.quantity}</td>
             <td className="border border-gray-300 px-4 py-2">{product.quantity > 0 ? 'Còn Hàng ' : 'Hết Hàng'}</td>
-            <td className="border border-gray-300 px-4 py-2">{product && product.originalPrice}</td>
+            <td className="border border-gray-300 px-4 py-2">
+                {product && product.originalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+            </td>
             <td className="border border-gray-300 px-4 py-2">{product && product.discount}</td>
             <td className="border border-gray-300 px-4 py-2">{product && product.newPrice}</td>
             <td className="border border-gray-300 px-4 py-2">Honda</td>

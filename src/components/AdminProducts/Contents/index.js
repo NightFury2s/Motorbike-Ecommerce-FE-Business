@@ -14,11 +14,13 @@ const ContentProducts = ({ activeContent, changeContent }) => {
     const [search, setSearch] = useState('');
     const [curr, setCurr] = useState(0);
     const [selectedProduct, setSelectedProduct] = useState(null);
+    const [totalPage, setTotalPage] = useState('');
 
     useEffect(() => {
         getdataAdmin(type, curr).then((e) => {
             setDataProduct(e.productSomeReponseDtos);
             setSelectAll(false);
+            setTotalPage(e.totalPages);
         });
     }, []);
 
@@ -41,56 +43,43 @@ const ContentProducts = ({ activeContent, changeContent }) => {
     };
 
     useEffect(() => {
-        const savedSelectedProducts = JSON.parse(localStorage.getItem('selectedProducts') || '[]');
-        setSelectedProducts(savedSelectedProducts);
-
-        const fetchData = async () => {
-            const e = await getdataAdmin(type, curr);
-            setDataProduct(e.productSomeReponseDtos);
-            setSelectAll(savedSelectedProducts?.length === e.productSomeReponseDtos?.length);
-        };
-        fetchData();
-    }, []);
-
-    useEffect(() => {
-        localStorage.setItem('selectedProducts', JSON.stringify(selectedProducts));
-        if (dataProduct?.length > 0) {
-            setSelectAll(selectedProducts.length === dataProduct.length);
+        if (search.length > 0) {
+            getdataAdminSearch(curr, search).then((e) => {
+                setTotalPage(e.totalPages);
+                setDataProduct(e.productSomeReponseDtos);
+            });
+        } else {
+            getdataAdmin(type, curr).then((e) => {
+                setTotalPage(e.totalPages);
+                setDataProduct(e.productSomeReponseDtos);
+            });
         }
-    }, [selectedProducts, dataProduct]);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            let e;
-            if (search.length > 0) {
-                e = await getdataAdminSearch(curr, search);
-            } else {
-                e = await getdataAdmin(type, curr);
-            }
-            setDataProduct(e.productSomeReponseDtos);
-            setSelectAll(selectedProducts.length === e.productSomeReponseDtos?.length);
-        };
-        fetchData();
     }, [type, curr, search]);
 
-    const handleDeleteSelectedProducts = async () => {
-        if (window.confirm('Bạn có chắc chắn muốn xoá các sản phẩm được chọn?')) {
-            const promises = selectedProducts.map((productId) => deleteProduct(productId));
-            const results = await Promise.allSettled(promises);
+    // useEffect(() => {
+    //     const savedSelectedProducts = JSON.parse(localStorage.getItem('selectedProducts') || '[]');
+    //     setSelectedProducts(savedSelectedProducts);
 
-            const failedDeletes = results.filter((r) => !r.value.success);
-            if (failedDeletes.length > 0) {
-                console.error('Some products could not be deleted:', failedDeletes);
-            } else {
-                setDataProduct((currentProducts) => currentProducts.filter((p) => !selectedProducts.includes(p.id)));
-                setSelectedProducts([]);
-                setSelectAll(false);
-            }
-        }
-    };
+    //     if (search.length > 0) {
+    //         getdataAdminSearch(curr, search)
+    //             .then((e) => {
+    //                 setTotalPage(e.totalPages)
+    //                 setDataProduct(e.productSomeReponseDtos)
+    //             })
+    //     }
+    //     else {
+    //         getdataAdmin(type, curr)
+    //             .then((e) => {
+    //                 setTotalPage(e.totalPages)
+    //                 setDataProduct(e.productSomeReponseDtos)
+    //             })
+    //     }
+    // }, [selectedProducts, dataProduct]);
 
     const incre = () => {
-        setCurr(curr + 1);
+        if (curr + 1 < totalPage) {
+            setCurr(curr + 1);
+        }
     };
 
     const decre = () => {
@@ -146,7 +135,7 @@ const ContentProducts = ({ activeContent, changeContent }) => {
                             <FaPlus className="mr-1" /> Thêm danh mục
                         </button>
                         <button
-                            onClick={handleDeleteSelectedProducts}
+                            // onClick={handleDeleteSelectedProducts}
                             className="mr-4 flex items-center px-3 py-1 rounded-md bg-red-500 text-white hover:bg-red-600"
                         >
                             <FaTrash className="mr-1" /> Xoá tất cả
@@ -176,7 +165,6 @@ const ContentProducts = ({ activeContent, changeContent }) => {
                             onChange={(e) => {
                                 setSearch(e.target.value);
                             }}
-                            type="search"
                             className="pl-4 pr-3 py-2 border rounded-md focus:outline-none italic w-full"
                             placeholder="Tìm kiếm"
                         />
@@ -232,9 +220,23 @@ const ContentProducts = ({ activeContent, changeContent }) => {
                         alignItems: 'center',
                     }}
                 >
-                    <FaAngleLeft onClick={decre} style={{ border: '1px solid black ', padding: '0 4px' }} />
+                    <FaAngleLeft
+                        onClick={decre}
+                        style={{
+                            border: '1px solid black ',
+                            padding: '0 4px',
+                            opacity: `${curr + 1 >= 1 ? '0.3' : '1'}`,
+                        }}
+                    />
                     <span style={{ padding: '0 4px', fontSize: '16px' }}>{curr + 1}</span>
-                    <FaAngleRight onClick={incre} style={{ border: '1px solid black ', padding: '0 4px' }} />
+                    <FaAngleRight
+                        onClick={incre}
+                        style={{
+                            border: '1px solid black ',
+                            padding: '0 4px',
+                            opacity: `${curr + 1 < totalPage ? '1' : '0.3'}`,
+                        }}
+                    />
                 </div>
             </div>
         </div>
