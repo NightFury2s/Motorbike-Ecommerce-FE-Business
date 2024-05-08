@@ -387,3 +387,38 @@ export const findProductsByName = async (page, size, nameProduct) => {
         };
     }
 };
+
+// Handle Get Information User
+export const getUserInfo = async () => {
+    try {
+        const response = await axiosInstance.get('/get-information-user');
+        const data = response.data;
+
+        if (response.status === 200) {
+            return { success: true, data };
+        } else {
+            return { success: false, message: data.message };
+        }
+    } catch (error) {
+        return {
+            success: false,
+            message: error.response ? error.response.data.message : 'Failed to fetch user information.',
+        };
+    }
+};
+
+// Handle Change Password
+export const changePassword = async (data) => {
+    const params = new URLSearchParams({
+        oldPassword: data.oldPassword,
+        newPassword: data.newPassword,
+        enterPassword: data.enterPassword,
+    }).toString();
+
+    try {
+        const response = await axiosInstance.post(`/change-password?${params}`);
+        return response.data;
+    } catch (error) {
+        throw error.response.data;
+    }
+};

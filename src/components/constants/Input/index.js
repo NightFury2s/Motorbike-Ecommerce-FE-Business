@@ -129,8 +129,7 @@ export const InputLoginField = ({ Icon, type = 'text', placeholder, value, onCha
         </div>
     );
 };
-
-export const InputProfileField = ({ label, id, value, isEditable, onChange, toggleEdit }) => {
+export const InputProfileField = ({ label, id, value, isEditable, onChange, toggleEdit, showEditButton = true }) => {
     return (
         <div className="col-span-6 sm:col-span-3">
             {label && (
@@ -149,13 +148,15 @@ export const InputProfileField = ({ label, id, value, isEditable, onChange, togg
                         !isEditable && 'bg-gray-100'
                     }`}
                 />
-                <button
-                    type="button"
-                    onClick={toggleEdit}
-                    className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500"
-                >
-                    <MdEdit />
-                </button>
+                {showEditButton && (
+                    <button
+                        type="button"
+                        onClick={toggleEdit}
+                        className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500"
+                    >
+                        <MdEdit />
+                    </button>
+                )}
             </div>
         </div>
     );

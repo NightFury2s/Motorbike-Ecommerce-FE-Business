@@ -4,6 +4,7 @@ import { AiTwotoneShop } from 'react-icons/ai';
 import { FaCheck } from 'react-icons/fa6';
 import { getCartByUser } from '@/pages/api/api';
 import axiosInstance from '@/pages/api/axios';
+import { FaExclamation } from 'react-icons/fa6';
 
 const CartPage = () => {
     const router = useRouter();
@@ -93,7 +94,7 @@ const CartPage = () => {
                 setCartProducts(deletedCartProducts);
                 updateTotalPrice(deletedCartProducts);
             } else {
-                throw new Error('Có lỗi đã xảy ra:', error);
+                throw new Error('Có lỗi đã xảy ra:');
             }
         } catch (error) {}
     };
@@ -106,13 +107,19 @@ const CartPage = () => {
     };
 
     const handlePhoneNumberChange = (e) => {
-        setPhoneNumber(e.target.value);
-        if (errors.phoneNumber) {
-            setErrors({ ...errors, phoneNumber: '' });
+        const value = e.target.value;
+        if (value === '' || /^[0-9\b]+$/.test(value)) {
+            setPhoneNumber(value);
+            if (errors.phoneNumber) {
+                setErrors({ ...errors, phoneNumber: '' });
+            }
         }
     };
 
     const handleSubmit = () => {
+        if (cartProducts.length === 0) {
+            return;
+        }
         const errors = {};
 
         if (!fullName.trim()) {
@@ -186,7 +193,7 @@ const CartPage = () => {
                                         Số điện thoại <span className="text-red-500">*</span>
                                     </label>
                                     <input
-                                        type="text"
+                                        type="tel"
                                         placeholder="Số điện thoại"
                                         value={phoneNumber}
                                         onChange={handlePhoneNumberChange}
@@ -267,7 +274,7 @@ const CartPage = () => {
                             <h2 className="text-lg font-bold mb-2 uppercase">Sản phẩm đã chọn</h2>
                             <div className="p-4 bg-white rounded-lg max-h-96 overflow-y-auto">
                                 {/* Cart Products */}
-                                {cartProducts &&
+                                {cartProducts.length > 0 ? (
                                     cartProducts.map((product) => (
                                         <div key={product.productSomeReponseDto.id} className="mb-6 relative">
                                             {/* Delete Button */}
@@ -352,7 +359,16 @@ const CartPage = () => {
                                                 </button>
                                             </div>
                                         </div>
-                                    ))}
+                                    ))
+                                ) : (
+                                    <div className="text-center p-4 bg-[#D9D9D9] shadow-lg rounded-lg">
+                                        <div className="flex flex-col items-center justify-center text-[#FF0000]">
+                                            <FaExclamation className=" mb-2" size="24" />
+                                            Giỏ hàng của bạn đang trống. Vui lòng thêm sản phẩm vào giỏ hàng trước khi
+                                            đặt hàng.
+                                        </div>
+                                    </div>
+                                )}
                             </div>
 
                             {/* Total and Order Button */}
