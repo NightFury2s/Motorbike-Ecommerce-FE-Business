@@ -37,7 +37,7 @@ const ProductCard = ({ product, style }) => {
     return (
         <div onClick={handleCardClick} style={style} className="relative flex justify-center m-10">
             <div
-                style={{ width: '100%', margin: '0 3px ' }}
+                style={{ width: '100%', margin: '0 3px ' ,cursor:'pointer'}}
                 className="  w-80 bg-[#f9f9f9] rounded-lg shadow-md relative"
             >
                 {product && product.images && product.images.length > 0 && (

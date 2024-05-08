@@ -3,12 +3,18 @@ import { FaShoppingCart, FaUserCircle } from 'react-icons/fa';
 import { AuthContext } from '@/context/AuthContext';
 import { useContext, useEffect, useState, useRef } from 'react';
 import { FaCaretDown, FaCaretRight, FaSearch } from 'react-icons/fa';
+import { useRouter } from 'next/router';
+
 
 export default function Nav({ setShowLoginModal, setShowRegisterModal }) {
     const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
     const [showDropdown, setShowDropdown] = useState(false);
     const dropdownRef = useRef(null);
     const [userInfo, setUserInfo] = useState(null);
+
+    const router = useRouter();
+    const { typePage } = router.query;
+    console.log('typePage',typePage);
 
     // Close dropdown when click outside
     useEffect(() => {
@@ -79,6 +85,7 @@ export default function Nav({ setShowLoginModal, setShowRegisterModal }) {
                                         <button
                                             className="hidden px-4 py-3 font-sans text-xs font-bold text-center text-white uppercase align-middle transition-all rounded-lg select-none hover:bg-gray-900/10 active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none lg:inline-block"
                                             type="button"
+                                            style={{backgroundColor:`${typePage==1?'#4885bd':''}` }}
                                         >
                                             <span>Xe máy</span>
                                         </button>
@@ -88,6 +95,7 @@ export default function Nav({ setShowLoginModal, setShowRegisterModal }) {
                                         <button
                                             className="hidden px-4 py-3 font-sans text-xs font-bold text-center text-white uppercase align-middle transition-all rounded-lg select-none hover:bg-gray-900/10 active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none lg:inline-block"
                                             type="button"
+                                            style={{backgroundColor:`${typePage==2?'#4885bd':''}` }}
                                         >
                                             <span>Phụ tùng</span>
                                         </button>
