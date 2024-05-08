@@ -52,7 +52,7 @@ const ProductCard = ({ product, style }) => {
                         style={{ color: 'white' }}
                         className="absolute top-0 right-0 bg-[#2B92E4] text-black font-medium px-2 rounded"
                     >
-                        {product.discount}%
+                        - {product.discount}%
                     </div>
                 )}
 
