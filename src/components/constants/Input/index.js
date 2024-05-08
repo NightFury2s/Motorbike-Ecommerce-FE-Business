@@ -1,95 +1,85 @@
-import PropTypes from "prop-types";
-import { IoEyeOff } from "react-icons/io5";
+import PropTypes from 'prop-types';
+import { IoEyeOff } from 'react-icons/io5';
 import { useState, useRef } from 'react';
+import { MdEdit } from 'react-icons/md';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+
 function InputComponent({
-  type,
-  placeholder,
-  icon,
-  textMessage,
-  register,
-  name,
-  errors,
-  pattern,
-  passwordsMatch,
-  minLength,
-  typePassword,
-  severErorEmail,
-  severErorPhone,
-  severErorUser,
-  handleReset,
-  maxLength,
-  ...props
+    type,
+    placeholder,
+    icon,
+    textMessage,
+    register,
+    name,
+    errors,
+    pattern,
+    passwordsMatch,
+    minLength,
+    typePassword,
+    severErorEmail,
+    severErorPhone,
+    severErorUser,
+    handleReset,
+    maxLength,
+    ...props
 }) {
-  const [eye, SetEye] = useState(false);
+    const [eye, SetEye] = useState(false);
 
-  const checkErr=()=>{
-      if(errors[name] || severErorEmail  || severErorUser || severErorUser ||passwordsMatch ){
-        return 'red'
-      }
-      else{
-        return 'transparent'
-      }
-  }
+    const checkErr = () => {
+        if (errors[name] || severErorEmail || severErorUser || severErorUser || passwordsMatch) {
+            return 'red';
+        } else {
+            return 'transparent';
+        }
+    };
 
+    const handleEye = () => {
+        SetEye(!eye);
+    };
 
-  const handleEye = () => {
-    SetEye(!eye);
-  };
-
-  return (
-    <>
-      <div style={{ alignItems: "center" , border:`0.5px solid ${checkErr()}` }} className="bg-gray-100 p-2 flex">
-        {icon}
-        <input
-          id="input"
-          name={name}
-          type={typePassword ? (eye ? "text" : "password") : "text"}
-          placeholder={placeholder}
-          onInput={()=>{handleReset? handleReset():null}}
-          className="w_64 bg_transparent bg-gray-100 outline-none text-sm ml-2 flex-1"
-          {...register(name, { required: textMessage, pattern, minLength , maxLength})}
-          {...props}
-        />
-        {typePassword ? (
-          <span onClick={handleEye}>{eye ? <FaEye /> : <IoEyeOff /> } </span>
-        ) : (
-          ""
-        )}
-      </div>
-      <div
-        style={{
-          textAlign: "start",
-        }}
-      >
-        {errors[name] && (
-          <p style={{ fontSize: "12px", color: "red" }}>
-            {errors[name].message}
-          </p>
-        )}
-        {passwordsMatch && (
-          <p style={{ fontSize: "12px", color: "red" }}>
-            {errors[name] ? null : "Mật khẩu không trùng khớp "}
-          </p>
-        )}
-        {severErorEmail && (
-          <p style={{ fontSize: "12px", color: "red" }}>
-            {errors[name] ? null : `Email đã tồn tại `}
-          </p>
-        )}
-        {severErorPhone && (
-          <p style={{ fontSize: "12px", color: "red" }}>
-            {errors[name] ? null : `Số điện thoại đã tồn tại `}
-          </p>
-        )}
-        {severErorUser && (
-          <p style={{ fontSize: "12px", color: "red" }}>
-            {errors[name] ? null : `User đã tồn tại `}
-          </p>
-        )}
-      </div>
-    </>
-  );
+    return (
+        <>
+            <div style={{ alignItems: 'center', border: `0.5px solid ${checkErr()}` }} className="bg-gray-100 p-2 flex">
+                {icon}
+                <input
+                    id="input"
+                    name={name}
+                    type={typePassword ? (eye ? 'text' : 'password') : 'text'}
+                    placeholder={placeholder}
+                    onInput={() => {
+                        handleReset ? handleReset() : null;
+                    }}
+                    className="w_64 bg_transparent bg-gray-100 outline-none text-sm ml-2 flex-1"
+                    {...register(name, { required: textMessage, pattern, minLength, maxLength })}
+                    {...props}
+                />
+                {typePassword ? <span onClick={handleEye}>{eye ? <FaEye /> : <IoEyeOff />} </span> : ''}
+            </div>
+            <div
+                style={{
+                    textAlign: 'start',
+                }}
+            >
+                {errors[name] && <p style={{ fontSize: '12px', color: 'red' }}>{errors[name].message}</p>}
+                {passwordsMatch && (
+                    <p style={{ fontSize: '12px', color: 'red' }}>
+                        {errors[name] ? null : 'Mật khẩu không trùng khớp '}
+                    </p>
+                )}
+                {severErorEmail && (
+                    <p style={{ fontSize: '12px', color: 'red' }}>{errors[name] ? null : `Email đã tồn tại `}</p>
+                )}
+                {severErorPhone && (
+                    <p style={{ fontSize: '12px', color: 'red' }}>
+                        {errors[name] ? null : `Số điện thoại đã tồn tại `}
+                    </p>
+                )}
+                {severErorUser && (
+                    <p style={{ fontSize: '12px', color: 'red' }}>{errors[name] ? null : `User đã tồn tại `}</p>
+                )}
+            </div>
+        </>
+    );
 }
 
 export default InputComponent;
@@ -140,7 +130,7 @@ export const InputLoginField = ({ Icon, type = 'text', placeholder, value, onCha
     );
 };
 
-export const InpuProfileField = ({ label, id, value, isEditable, onChange, toggleEdit }) => {
+export const InputProfileField = ({ label, id, value, isEditable, onChange, toggleEdit }) => {
     return (
         <div className="col-span-6 sm:col-span-3">
             {label && (
@@ -164,7 +154,7 @@ export const InpuProfileField = ({ label, id, value, isEditable, onChange, toggl
                     onClick={toggleEdit}
                     className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500"
                 >
-                    <FaPencilAlt />
+                    <MdEdit />
                 </button>
             </div>
         </div>

@@ -20,12 +20,34 @@ const AddProducts = ({ activeContent }) => {
     const [category, setCategory] = useState('');
     const [showSuccessModal, setShowSuccessModal] = useState(false);
     const [newProductId, setNewProductId] = useState(null);
+    const [productNameError, setProductNameError] = useState('');
+    const [priceError, setPriceError] = useState('');
+    const [discountError, setDiscountError] = useState('');
+    const [quantityError, setQuantityError] = useState('');
+
     const router = useRouter();
 
-    const handleProductNameChange = (e) => setProductName(e.target.value);
+    const handleProductNameChange = (e) => {
+        const value = e.target.value;
+        if (!value.trim()) {
+            setProductNameError('Tên sản phẩm không được để trống.');
+        } else if (value.length > 50) {
+            setProductNameError('Tên sản phẩm không được dài quá 50 ký tự.');
+        } else {
+            setProductNameError('');
+        }
+        setProductName(value);
+    };
 
     const handlePriceChange = (e) => {
         const value = e.target.value.replace(/\D/g, '');
+        if (!value) {
+            setPriceError('Giá sản phẩm không được để trống.');
+        } else if (parseInt(value, 10) <= 0) {
+            setPriceError('Giá sản phẩm phải lớn hơn 0.');
+        } else {
+            setPriceError('');
+        }
         setPrice(value || '0');
     };
 
@@ -37,6 +59,13 @@ const AddProducts = ({ activeContent }) => {
 
     const handleDiscount = (e) => {
         const value = e.target.value.replace(/\D/g, '');
+        if (!value) {
+            setDiscountError('Phần trăm giảm giá không được để trống.');
+        } else if (parseInt(value, 10) > 100) {
+            setDiscountError('Phần trăm giảm giá không được vượt quá 100%.');
+        } else {
+            setDiscountError('');
+        }
         setDiscountPercentage(value || '0');
     };
 
@@ -46,6 +75,13 @@ const AddProducts = ({ activeContent }) => {
 
     const handleQuantityChange = (e) => {
         const value = e.target.value;
+        if (!value) {
+            setQuantityError('Số lượng không được để trống.');
+        } else if (parseInt(value, 10) < 0) {
+            setQuantityError('Số lượng không được nhỏ hơn 0.');
+        } else {
+            setQuantityError('');
+        }
         setQuantity(value || '0');
     };
 
@@ -85,7 +121,7 @@ const AddProducts = ({ activeContent }) => {
         if (newProductId) {
             router.push({
                 pathname: '/DetailProduct',
-                query: { id: newProductId }, // Pass the product ID as a query parameter
+                query: { id: newProductId },
             });
         }
     };
@@ -108,10 +144,13 @@ const AddProducts = ({ activeContent }) => {
                         <h2 className="mb-3 text-lg">Tên sản phẩm</h2>
                         <input
                             type="text"
-                            className="px-3 py-2 border rounded-md text-base w-64"
+                            className={`px-3 py-2 border rounded-md text-base w-64 ${
+                                productNameError ? 'border-red-500' : ''
+                            }`}
                             value={productName}
                             onChange={handleProductNameChange}
                         />
+                        {productNameError && <p className="text-red-500 text-sm">{productNameError}</p>}
                     </div>
 
                     {/* Category Dropdown */}
@@ -129,6 +168,7 @@ const AddProducts = ({ activeContent }) => {
                             value={`${parseInt(price).toLocaleString('vi-VN')} VNĐ`}
                             onChange={handlePriceChange}
                         />
+                        {priceError && <p className="text-red-500 text-sm">{priceError}</p>}
                     </div>
 
                     {/* Discount Percentage */}
@@ -146,6 +186,7 @@ const AddProducts = ({ activeContent }) => {
                                 }
                             }}
                         />
+                        {discountError && <p className="text-red-500 text-sm">{discountError}</p>}
                     </div>
 
                     {/* Discounted Price */}
@@ -161,7 +202,7 @@ const AddProducts = ({ activeContent }) => {
 
                     {/* Quantity */}
                     <div>
-                        <h2 className="mb-3 text-lg">Số lượng</h2>
+                        <h2 className="mb-3 text-lg">Số lượng nhập kho</h2>
                         <input
                             type="number"
                             className="px-3 py-2 border rounded-md text-base w-64"
@@ -169,6 +210,7 @@ const AddProducts = ({ activeContent }) => {
                             onChange={handleQuantityChange}
                             onFocus={(e) => e.target.value === '0' && setQuantity('')}
                         />
+                        {quantityError && <p className="text-red-500 text-sm">{quantityError}</p>}
                     </div>
                 </div>
 

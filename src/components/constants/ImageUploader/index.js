@@ -4,6 +4,7 @@ import { IoClose } from 'react-icons/io5';
 
 const ImageUploader = ({ onImagesChange }) => {
     const [localImages, setLocalImages] = useState([]);
+    const [imageError, setImageError] = useState('');
     const fileInputRef = useRef(null);
 
     const handleFilesUpload = (files) => {
@@ -23,18 +24,20 @@ const ImageUploader = ({ onImagesChange }) => {
                 const updatedImages = [...localImages, ...newImages];
                 setLocalImages(updatedImages);
                 onImagesChange(updatedImages);
+                setImageError('');
             } else {
-                console.log('Error: Cannot upload more than 4 images');
+                setImageError('Không thể upload hơn 4 ảnh.');
             }
         });
     };
 
     const handleImageChange = (event) => {
-        handleFilesUpload(event.target.files);
-    };
-
-    const uploadImages = () => {
-        fileInputRef.current.click();
+        if (event.target.files.length === 0) {
+            setImageError('Vui lòng chọn ảnh.');
+        } else {
+            setImageError('');
+            handleFilesUpload(event.target.files);
+        }
     };
 
     const handleRemoveImage = (index) => {
@@ -46,6 +49,8 @@ const ImageUploader = ({ onImagesChange }) => {
     return (
         <div className="flex flex-col items-start mb-4">
             <h2 className="mb-3 text-lg">Ảnh</h2>
+
+            {imageError && <p className="text-red-500 text-sm mb-2">{imageError}</p>}
 
             <div className="grid grid-cols-4 gap-4">
                 {localImages.map((image, index) => (
@@ -92,7 +97,7 @@ const ImageUploader = ({ onImagesChange }) => {
 
             <button
                 className="bg-[#2B92E4] hover:bg-[#12419b] text-white font-bold py-2 px-4 rounded flex items-center align-middle mt-4"
-                onClick={uploadImages}
+                onClick={() => fileInputRef.current.click()}
             >
                 <FaUpload />
                 <span className="ml-2">Tải ảnh lên</span>

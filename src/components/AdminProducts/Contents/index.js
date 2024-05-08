@@ -5,10 +5,8 @@ import RowProduct from '../rowProduct';
 import { getdataAdmin, getdataAdminSearch } from '@/pages/api/api';
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa6';
 import { deleteProduct } from '@/pages/api/api';
-import { useRouter } from 'next/router';
 
 const ContentProducts = ({ activeContent, changeContent }) => {
-    const router = useRouter();
     const [dataProduct, setDataProduct] = useState([]);
     const [selectedProducts, setSelectedProducts] = useState([]);
     const [selectAll, setSelectAll] = useState(false);
@@ -16,14 +14,13 @@ const ContentProducts = ({ activeContent, changeContent }) => {
     const [search, setSearch] = useState('');
     const [curr, setCurr] = useState(0);
     const [selectedProduct, setSelectedProduct] = useState(null);
-    const [totalPage, setTotalPage] = useState('')
-
+    const [totalPage, setTotalPage] = useState('');
 
     useEffect(() => {
         getdataAdmin(type, curr).then((e) => {
             setDataProduct(e.productSomeReponseDtos);
             setSelectAll(false);
-            setTotalPage(e.totalPages)
+            setTotalPage(e.totalPages);
         });
     }, []);
 
@@ -47,21 +44,17 @@ const ContentProducts = ({ activeContent, changeContent }) => {
 
     useEffect(() => {
         if (search.length > 0) {
-            getdataAdminSearch(curr, search)
-                .then((e) => {
-                    setTotalPage(e.totalPages)
-                    setDataProduct(e.productSomeReponseDtos)
-                })
+            getdataAdminSearch(curr, search).then((e) => {
+                setTotalPage(e.totalPages);
+                setDataProduct(e.productSomeReponseDtos);
+            });
+        } else {
+            getdataAdmin(type, curr).then((e) => {
+                setTotalPage(e.totalPages);
+                setDataProduct(e.productSomeReponseDtos);
+            });
         }
-
-        else {
-            getdataAdmin(type, curr)
-                .then((e) => {
-                    setTotalPage(e.totalPages)
-                    setDataProduct(e.productSomeReponseDtos)
-                })
-        }
-    }, [type, curr, search])
+    }, [type, curr, search]);
 
     // useEffect(() => {
     //     const savedSelectedProducts = JSON.parse(localStorage.getItem('selectedProducts') || '[]');
@@ -83,12 +76,11 @@ const ContentProducts = ({ activeContent, changeContent }) => {
     //     }
     // }, [selectedProducts, dataProduct]);
 
-       
     const incre = () => {
         if (curr + 1 < totalPage) {
-            setCurr(curr + 1)
+            setCurr(curr + 1);
         }
-    }
+    };
 
     const decre = () => {
         setCurr(curr > 0 ? curr - 1 : 0);
@@ -217,10 +209,34 @@ const ContentProducts = ({ activeContent, changeContent }) => {
                     </tbody>
                 </table>
 
-                <div style={{ display: 'flex', marginTop: '10px', marginLeft: "90%", padding: '5px', border: '1px solid black ', justifyContent: 'space-around', alignItems: "center" }} >
-                    <FaAngleLeft onClick={decre} style={{ border: '1px solid black ', padding: '0 4px', opacity: `${curr + 1 >= 1 ? '0.3' : '1'}` }} />
-                    <span style={{ padding: '0 4px', fontSize: '16px' }} >{curr + 1}</span>
-                    <FaAngleRight onClick={incre} style={{ border: '1px solid black ', padding: '0 4px', opacity: `${curr + 1 < totalPage ? '1' : '0.3'}` }} />
+                <div
+                    style={{
+                        display: 'flex',
+                        marginTop: '10px',
+                        marginLeft: '90%',
+                        padding: '5px',
+                        border: '1px solid black ',
+                        justifyContent: 'space-around',
+                        alignItems: 'center',
+                    }}
+                >
+                    <FaAngleLeft
+                        onClick={decre}
+                        style={{
+                            border: '1px solid black ',
+                            padding: '0 4px',
+                            opacity: `${curr + 1 >= 1 ? '0.3' : '1'}`,
+                        }}
+                    />
+                    <span style={{ padding: '0 4px', fontSize: '16px' }}>{curr + 1}</span>
+                    <FaAngleRight
+                        onClick={incre}
+                        style={{
+                            border: '1px solid black ',
+                            padding: '0 4px',
+                            opacity: `${curr + 1 < totalPage ? '1' : '0.3'}`,
+                        }}
+                    />
                 </div>
             </div>
         </div>

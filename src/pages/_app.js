@@ -12,7 +12,7 @@ import { useRouter } from 'next/router';
 
 function MyApp({ Component, pageProps }) {
     const router = useRouter();
-    const noNavFooter = router.pathname.startsWith('/AdminPage'); // Chắc chắn là tên đường dẫn đúng
+    const noNavFooter = router.pathname.startsWith('/AdminPage');
     const [showLoginModal, setShowLoginModal] = useState(false);
     const [showRegisterModal, setShowRegisterModal] = useState(false);
 

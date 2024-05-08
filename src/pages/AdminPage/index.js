@@ -1,8 +1,9 @@
 import Link from 'next/link';
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { FaUserCircle, FaChevronRight, FaChevronDown } from 'react-icons/fa';
 import ContentProducts from '@/components/AdminProducts/Contents';
 import AddProducts from '@/components/AdminProducts/AddProducts';
+import { AuthContext } from '@/context/AuthContext';
 import UpdateProducts from '@/components/AdminProducts/UpdateProducts';
 import ProtectedRoute from '@/components/ProtectedRoute';
 
@@ -10,6 +11,8 @@ const AdminPage = () => {
     const [showOptions, setShowOptions] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
     const [activeContent, setActiveContent] = useState('default');
+    const [userInfo, setUserInfo] = useState(null);
+    const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
     const [productToEdit, setProductToEdit] = useState(null);
 
     // Handle toggle options
@@ -32,6 +35,14 @@ const AdminPage = () => {
     const changeContent = (content, product = null) => {
         setActiveContent(content);
         setProductToEdit(product);
+    };
+
+    // Handle logout
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('userInfo');
+        setIsAuthenticated(false);
+        setUserInfo(null);
     };
 
     return (
@@ -84,7 +95,14 @@ const AdminPage = () => {
                                     </ul>
                                 )}
                             </li>
-                            <li className="ml-4 text-lg font-semibold cursor-pointer">Đăng xuất</li>
+                            <li
+                                onClick={() => {
+                                    handleLogout();
+                                }}
+                                className="ml-4 text-lg font-semibold cursor-pointer"
+                            >
+                                Đăng xuất
+                            </li>
                         </ul>
                     </div>
 

@@ -22,18 +22,22 @@ function RowProduct({ product, onDelete, onSelect, isSelected, changeContent }) 
                 )}
             </td>
             <td className="border border-gray-300 px-4 py-2">{product && product.quantity}</td>
-            <td className="border border-gray-300 px-4 py-2">{product.quantity > 0 ? "Còn Hàng " : 'Hết Hàng'}</td>
-            <td className="border border-gray-300 px-4 py-2">{product && product.originalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+            <td className="border border-gray-300 px-4 py-2">{product.quantity > 0 ? 'Còn Hàng ' : 'Hết Hàng'}</td>
+            <td className="border border-gray-300 px-4 py-2">
+                {product && product.originalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+            </td>
             <td className="border border-gray-300 px-4 py-2">{product && product.discount}</td>
-            <td className="border border-gray-300 px-4 py-2">{product && product.newPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
-            <td className="border border-gray-300 px-4 py-2">{product && product.detailType}</td>
-            <td  className="px-4 py-2 flex justify-center mt-12">
-                <button className="mr-2">
-                    <FaEdit className="text-[#FFA800] text-[20px]" />
-                </button>
-                <button>
-                    <FaTrash className="text-[#FF0000] text-[20px]" />
-                </button>
+            <td className="border border-gray-300 px-4 py-2">{product && product.newPrice}</td>
+            <td className="border border-gray-300 px-4 py-2">Honda</td>
+            <td className="border border-gray-300 text-center align-middle">
+                <div className="flex justify-center items-center space-x-2">
+                    <button onClick={() => changeContent('updateProduct', product)} className="focus:outline-none">
+                        <FaEdit className="text-[#FFA800] text-lg" />
+                    </button>
+                    <button onClick={() => onDelete(product.id)} className="focus:outline-none">
+                        <FaTrash className="cursor-pointer text-[#FF0000] text-lg" />
+                    </button>
+                </div>
             </td>
         </tr>
     );

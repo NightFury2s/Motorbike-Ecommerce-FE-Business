@@ -3,6 +3,7 @@ import { FaShoppingCart, FaUserCircle } from 'react-icons/fa';
 import { AuthContext } from '@/context/AuthContext';
 import { useContext, useEffect, useState, useRef } from 'react';
 import { FaCaretDown, FaCaretRight, FaSearch } from 'react-icons/fa';
+import SearchBar from '../SearchBar';
 
 export default function Nav({ setShowLoginModal, setShowRegisterModal }) {
     const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
@@ -28,7 +29,6 @@ export default function Nav({ setShowLoginModal, setShowRegisterModal }) {
         const storedUserInfo = localStorage.getItem('userInfo');
         const token = localStorage.getItem('token');
         if ((token, storedUserInfo)) {
-            // If token exists, set isAuthenticated to true
             setIsAuthenticated(true);
             setUserInfo(JSON.parse(storedUserInfo));
         }
@@ -36,10 +36,9 @@ export default function Nav({ setShowLoginModal, setShowRegisterModal }) {
 
     const handleLogout = () => {
         localStorage.removeItem('token');
-        localStorage.removeItem('userInfo'); // Đảm bảo xóa userInfo
+        localStorage.removeItem('userInfo');
         setIsAuthenticated(false);
         setUserInfo(null);
-        window.location.href = '/';
     };
 
     return (
@@ -56,21 +55,7 @@ export default function Nav({ setShowLoginModal, setShowRegisterModal }) {
                             </Link>
 
                             {/* Search bar */}
-                            <div className="relative flex w-full gap-2 md:w-max">
-                                <div className="relative h-10 w-full min-w-[30rem]">
-                                    <input
-                                        type="search"
-                                        className="h-full w-full rounded-[7px] border bg-white px-3 py-3.5 pr-16 font-sans text-sm font-normal placeholder:italic !text-black transition-all focus:outline-none disabled:bg-blue-gray-50"
-                                        placeholder="Tìm kiếm tên sản phẩm"
-                                    />
-                                    <button
-                                        className="absolute right-1 top-1/2 transform -translate-y-1/2 py-2 px-2 text-center align-middle font-sans font-bold uppercase transition-all hover:shadow-lg hover:shadow-blue-gray-500/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                                        type="button"
-                                    >
-                                        <FaSearch className="text-xl text-black" />
-                                    </button>
-                                </div>
-                            </div>
+                            <SearchBar />
 
                             <div className="flex items-center gap-4">
                                 <div className="flex items-center gap-x-5">
