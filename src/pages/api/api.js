@@ -366,11 +366,9 @@ export const payment = async (paymentData) => {
 // Function to search products by name
 export const findProductsByName = async (page, size, nameProduct) => {
     try {
-        // Make the HTTP request using axios instance
         const response = await axiosInstance.get(
             `/product/find-by-name-product/${page}/${size}/${encodeURIComponent(nameProduct)}`,
         );
-        // If the response is successful, return the data
         if (response.status === 200) {
             return {
                 success: true,
