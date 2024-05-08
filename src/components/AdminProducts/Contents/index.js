@@ -5,10 +5,8 @@ import RowProduct from '../rowProduct';
 import { getdataAdmin, getdataAdminSearch } from '@/pages/api/api';
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa6';
 import { deleteProduct } from '@/pages/api/api';
-import { useRouter } from 'next/router';
 
 const ContentProducts = ({ activeContent, changeContent }) => {
-    const router = useRouter();
     const [dataProduct, setDataProduct] = useState([]);
     const [selectedProducts, setSelectedProducts] = useState([]);
     const [selectAll, setSelectAll] = useState(false);
@@ -49,14 +47,14 @@ const ContentProducts = ({ activeContent, changeContent }) => {
         const fetchData = async () => {
             const e = await getdataAdmin(type, curr);
             setDataProduct(e.productSomeReponseDtos);
-            setSelectAll(savedSelectedProducts.length === e.productSomeReponseDtos.length);
+            setSelectAll(savedSelectedProducts?.length === e.productSomeReponseDtos?.length);
         };
         fetchData();
     }, []);
 
     useEffect(() => {
         localStorage.setItem('selectedProducts', JSON.stringify(selectedProducts));
-        if (dataProduct.length > 0) {
+        if (dataProduct?.length > 0) {
             setSelectAll(selectedProducts.length === dataProduct.length);
         }
     }, [selectedProducts, dataProduct]);
@@ -70,7 +68,7 @@ const ContentProducts = ({ activeContent, changeContent }) => {
                 e = await getdataAdmin(type, curr);
             }
             setDataProduct(e.productSomeReponseDtos);
-            setSelectAll(selectedProducts.length === e.productSomeReponseDtos.length);
+            setSelectAll(selectedProducts.length === e.productSomeReponseDtos?.length);
         };
         fetchData();
     }, [type, curr, search]);
@@ -82,7 +80,7 @@ const ContentProducts = ({ activeContent, changeContent }) => {
 
             const failedDeletes = results.filter((r) => !r.value.success);
             if (failedDeletes.length > 0) {
-                alert('Some products could not be deleted.');
+                console.error('Some products could not be deleted:', failedDeletes);
             } else {
                 setDataProduct((currentProducts) => currentProducts.filter((p) => !selectedProducts.includes(p.id)));
                 setSelectedProducts([]);

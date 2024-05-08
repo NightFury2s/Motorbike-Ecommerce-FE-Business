@@ -28,7 +28,7 @@ export const auth_login = async (username, password) => {
 // Handle Register
 export const setRegisterData = async (data) => {
     try {
-        const response = await axios.post('/register', data);
+        const response = await axiosInstance.post('/register', data);
         return response;
     } catch (error) {
         return {
@@ -185,10 +185,17 @@ export const getCartByUser = async () => {
 // send token to server
 export const getByCartUserPayment = async () => {
     try {
-        const response = await axiosInstance.post(
-            'http://192.168.199.241:8080/user/shopping-cart/get-cart-by-user',
-            {},
-        );
+        const response = await axiosInstance.post('/user/shopping-cart/get-cart-by-user', {});
+        return response.data;
+    } catch (error) {
+        return [];
+    }
+};
+
+// send token to server
+export const paymentSuccess = async () => {
+    try {
+        const response = await axiosInstance.post('/user/shopping-cart/get-cart-by-user-paid', {});
         return response.data;
     } catch (error) {
         return [];
@@ -287,5 +294,98 @@ export const getdataAdminSearch = async (curr, valueSearch) => {
         return data || [];
     } catch (error) {
         return [];
+    }
+};
+
+// Update Customer Information
+export const updateUserAccount = async (customerInfo) => {
+    try {
+        const response = await axiosInstance.post('/change-customer-information', customerInfo);
+        if (response.status === 200) {
+            return {
+                success: true,
+                message: 'Thông tin đã được cập nhật thành công!',
+                data: response.data,
+            };
+        } else {
+            return {
+                success: false,
+                message: 'Cập nhật thông tin không thành công!',
+                errorDetails: response.data,
+            };
+        }
+    } catch (error) {
+        return {
+            success: false,
+            message: 'Đã xảy ra lỗi khi cập nhật thông tin!',
+            errorDetails: error.response ? error.response.data : 'Không thể kết nối tới server',
+        };
+    }
+};
+
+// Update Customer Information
+
+export const payment = async (paymentData) => {
+    try {
+        const response = await axiosInstance.post('/user/shopping-cart/payment', paymentData);
+
+        if (response.status === 200) {
+            return {
+                success: true,
+                message: 'Thanh toán thành công!',
+                data: response.data,
+            };
+        } else if (response.status >= 400 && response.status < 500) {
+            return {
+                success: false,
+                message: 'Lỗi từ phía người dùng!',
+                errorDetails: response.data,
+            };
+        } else if (response.status >= 500) {
+            return {
+                success: false,
+                message: 'Lỗi từ phía server!',
+                errorDetails: response.data,
+            };
+        } else {
+            return {
+                success: false,
+                message: 'Thanh toán không thành công!',
+                errorDetails: response.data,
+            };
+        }
+    } catch (error) {
+        return {
+            success: false,
+            message: 'Đã xảy ra lỗi khi cập nhật thông tin!',
+            errorDetails: error.response ? error.response.data : 'Không thể kết nối tới server',
+        };
+    }
+};
+
+// Function to search products by name
+export const findProductsByName = async (page, size, nameProduct) => {
+    try {
+        // Make the HTTP request using axios instance
+        const response = await axiosInstance.get(
+            `/product/find-by-name-product/${page}/${size}/${encodeURIComponent(nameProduct)}`,
+        );
+        // If the response is successful, return the data
+        if (response.status === 200) {
+            return {
+                success: true,
+                data: response.data,
+            };
+        } else {
+            return {
+                success: false,
+                message: 'Request completed, but with a non-success status code.',
+            };
+        }
+    } catch (error) {
+        return {
+            success: false,
+            message: error.response ? error.response.data.message : 'An error occurred while trying to fetch the data.',
+        };
     }
 };

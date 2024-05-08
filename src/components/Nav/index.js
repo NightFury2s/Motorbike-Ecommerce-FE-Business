@@ -28,7 +28,6 @@ export default function Nav({ setShowLoginModal, setShowRegisterModal }) {
         const storedUserInfo = localStorage.getItem('userInfo');
         const token = localStorage.getItem('token');
         if ((token, storedUserInfo)) {
-            // If token exists, set isAuthenticated to true
             setIsAuthenticated(true);
             setUserInfo(JSON.parse(storedUserInfo));
         }
@@ -36,10 +35,9 @@ export default function Nav({ setShowLoginModal, setShowRegisterModal }) {
 
     const handleLogout = () => {
         localStorage.removeItem('token');
-        localStorage.removeItem('userInfo'); // Đảm bảo xóa userInfo
+        localStorage.removeItem('userInfo');
         setIsAuthenticated(false);
         setUserInfo(null);
-        window.location.href = '/';
     };
 
     return (

@@ -2,9 +2,12 @@ import InfomationCard from '@/components/InfomationCard';
 import { FaAddressCard } from 'react-icons/fa';
 import { getByCartUserPayment } from '../api/api';
 import { useEffect, useState } from 'react';
+import { payment } from '../api/api';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 function InfomationOder() {
+    const router = useRouter();
     const [dataProduct, setDataProduct] = useState([]);
     const [user, setUser] = useState({});
     const [totalPrice, setTotalPrice] = useState('');
@@ -21,6 +24,20 @@ function InfomationOder() {
             setTotalPrice(data?.totalPrice);
         });
     }, []);
+
+    const handlePayment = () => {
+        payment()
+            .then((response) => {
+                if (response.success) {
+                    router.push('/oderSucc');
+                } else {
+                    console.error('Payment failed:', response.message);
+                }
+            })
+            .catch((error) => {
+                console.error('Payment error:', error);
+            });
+    };
 
     return (
         <div className="informationOder">
@@ -78,6 +95,7 @@ function InfomationOder() {
                                 backgroundColor: '#2B92E4',
                                 borderRadius: '3px',
                             }}
+                            onClick={handlePayment}
                         >
                             Thanh toán
                         </button>
