@@ -173,7 +173,6 @@ const ContentProducts = ({ activeContent, changeContent }) => {
                             onChange={(e) => {
                                 setSearch(e.target.value);
                             }}
-                            type="search"
                             className="pl-4 pr-3 py-2 border rounded-md focus:outline-none italic w-full"
                             placeholder="Tìm kiếm"
                         />
