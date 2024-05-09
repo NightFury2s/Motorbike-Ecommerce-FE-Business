@@ -205,9 +205,7 @@ export const paymentSuccess = async () => {
 // getdata Admin
 export const getdataAdmin = async (type, curr) => {
     try {
-        const response = await axiosInstance.get(
-            `http://192.168.199.241:8080/product/get-by-id-type/${curr || 0}/12/${type}`,
-        );
+        const response = await axiosInstance.get(`/product/get-by-id-type/${curr || 0}/12/${type}`);
         const data = response.data;
         return data;
     } catch (error) {
@@ -287,9 +285,7 @@ export const updateProduct = async (productId, productData) => {
 //search admin
 export const getdataAdminSearch = async (curr, valueSearch) => {
     try {
-        const response = await axiosInstance.get(
-            `http://192.168.199.241:8080/product/find-by-name-product/${curr}/12/${valueSearch}`,
-        );
+        const response = await axiosInstance.get(`/product/find-by-name-product/${curr}/12/${valueSearch}`);
         const data = response.data;
         return data || [];
     } catch (error) {
