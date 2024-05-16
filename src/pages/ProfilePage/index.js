@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { FaUserCircle } from 'react-icons/fa';
 import { InputProfileField } from '@/components/constants/Input';
-import { updateUserAccount } from '@/pages/api/api';
+import { updateUserAccount, getUserInfo } from '@/pages/api/api';
+import ChangePasswordForm from '@/components/ChangePassword';
 
 const Profile = () => {
+    const [showChangePasswordForm, setShowChangePasswordForm] = useState(false);
+
     const [userData, setUserData] = useState({
         fullName: '',
         phoneNumber: '',
@@ -20,18 +23,17 @@ const Profile = () => {
         password: false,
     });
 
-    // Lấy thông tin người dùng từ local storage khi component mount
     useEffect(() => {
-        const userInfo = JSON.parse(localStorage.getItem('userInfo'));
-        if (userInfo) {
-            setUserData({
-                fullName: userInfo.fullName || '',
-                phoneNumber: userInfo.phoneNumber || '',
-                email: userInfo.email || '',
-                address: userInfo.address || '',
-                password: '',
-            });
-        }
+        const fetchUserInfo = async () => {
+            const response = await getUserInfo();
+            if (response.success) {
+                setUserData(response.data);
+            } else {
+                console.error(response.message);
+            }
+        };
+
+        fetchUserInfo();
     }, []);
 
     const handleEditClick = (field) => {
@@ -44,17 +46,27 @@ const Profile = () => {
 
     const handleUpdateUser = async (e) => {
         e.preventDefault();
-        try {
-            const response = await updateUserAccount(userData);
-            if (response.success) {
-                console.log(response.message);
-            } else {
-                console.error(response.message);
-            }
-        } catch (error) {
-            console.error('Đã xảy ra lỗi:', error);
+        const response = await updateUserAccount(userData);
+        if (response.success) {
+            // Alert user of successful update
+            alert('Cập nhật thông tin thành công!');
+
+            setEditStates({
+                fullName: false,
+                phoneNumber: false,
+                email: false,
+                address: false,
+                password: false,
+            });
+        } else {
+            alert('Có lỗi xảy ra khi cập nhật thông tin!');
         }
     };
+
+    const toggleChangePasswordForm = () => {
+        setShowChangePasswordForm((prev) => !prev);
+    };
+
     return (
         <section className="text-gray-600 body-font">
             <div className="container px-5 py-5 mx-auto flex flex-col">

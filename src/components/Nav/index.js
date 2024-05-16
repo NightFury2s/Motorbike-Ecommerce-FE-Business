@@ -94,7 +94,7 @@ export default function Nav({ setShowLoginModal, setShowRegisterModal }) {
                                                 className="ml-2 font-bold text-white cursor-pointer"
                                                 onClick={() => setShowDropdown(!showDropdown)}
                                             >
-                                                {userInfo?.username}
+                                                {userInfo?.fullName}
                                             </span>
                                             {showDropdown ? (
                                                 <FaCaretDown

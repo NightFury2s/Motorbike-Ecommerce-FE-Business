@@ -135,7 +135,7 @@ const ContentProducts = ({ activeContent, changeContent }) => {
                             <FaPlus className="mr-1" /> Thêm danh mục
                         </button>
                         <button
-                            // onClick={handleDeleteSelectedProducts}
+                            onClick={handleDeleteSelectedProducts}
                             className="mr-4 flex items-center px-3 py-1 rounded-md bg-red-500 text-white hover:bg-red-600"
                         >
                             <FaTrash className="mr-1" /> Xoá tất cả
